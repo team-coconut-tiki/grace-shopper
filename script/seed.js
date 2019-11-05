@@ -1,7 +1,7 @@
 'use strict'
 
 const db = require('../server/db')
-const {User} = require('../server/db/models')
+const {User, Product, Review, Category} = require('../server/db/models')
 
 async function seed() {
   await db.sync({force: true})
@@ -9,10 +9,33 @@ async function seed() {
 
   const users = await Promise.all([
     User.create({email: 'cody@email.com', password: '123'}),
-    User.create({email: 'murphy@email.com', password: '123'})
+    User.create({
+      email: 'coconut@admin.com',
+      password: 'admin',
+      isAdmin: 'true'
+    }),
+    User.create({emial: 'karen@seeamanager.com', password: 'meow'})
+  ])
+
+  const products = await Promise.all([
+    Product.create({title: 'Dwarf Coconut', price: 7}),
+    Product.create({title: 'Golden Malay Coconut', price: 25})
+  ])
+
+  const reviews = await Promise.all([
+    Review.create({description: 'Best coconuts north of Wisconsin', rating: 5}),
+    Review.create({description: 'Rotten Coconuts are no fun!', rating: 1})
+  ])
+
+  const categories = await Promise.all([
+    Category.create({type: 'luau'}),
+    Category.create({type: 'King Coconut'})
   ])
 
   console.log(`seeded ${users.length} users`)
+  console.log(`seeded ${products.length} products`)
+  console.log(`seeded ${reviews.length} reviews`)
+  console.log(`seeded ${categories.length} categories`)
   console.log(`seeded successfully`)
 }
 
