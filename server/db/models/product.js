@@ -10,13 +10,8 @@ const Product = db.define('product', {
     type: Sequelize.TEXT,
     allowNull: false
   },
-  price: {
-    type: Sequelize.FLOAT,
-    allowNull: false
-  },
-  status: {
-    type: Sequelize.ENUM,
-    values: ['outOfStock', 'inStock', 'runningLow'],
+  priceInCents: {
+    type: Sequelize.INTEGER,
     allowNull: false
   },
   quantity: {
@@ -28,7 +23,8 @@ const Product = db.define('product', {
     validate: {
       isURL: true
     },
-    allowNull: false
+    allowNull: false,
+    defaultValue: 'https://robohash.org/coconut'
   },
   createdAt: {
     type: Sequelize.NOW
