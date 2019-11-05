@@ -27,9 +27,9 @@ const Product = db.define('product', {
     defaultValue: 'https://robohash.org/coconut'
   },
   createdAt: {
-    type: Sequelize.NOW
-  },
-  allowNull: false
+    type: Sequelize.DATE,
+    defaultValue: Sequelize.NOW
+  }
 })
 
 module.exports = Product

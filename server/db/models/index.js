@@ -13,7 +13,6 @@ const CartItem = require('./cartItem')
  */
 
 Category.belongsToMany(Product, {through: 'ProductCategory'})
-Product.hasMany(Category)
 
 Product.hasMany(Review)
 Review.belongsTo(Product)
