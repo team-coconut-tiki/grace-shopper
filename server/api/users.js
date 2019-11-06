@@ -27,7 +27,7 @@ router.get('/admin', async (req, res, next) => {
 
 router.get('/:id', async (req, res, next) => {
   try {
-    const user = await User.findByPk(req.query.id)
+    const user = await User.findByPk(req.params.id)
     if (!user) {
       let err = new Error('No user found')
       err.status = 404
@@ -41,13 +41,27 @@ router.get('/:id', async (req, res, next) => {
 
 router.put('/:id', async (req, res, next) => {
   try {
-    const user = await User.findByPk(req.query.id)
+    await User.update(req.body, {where: {id: req.params.id}})
+    const user = await User.findByPk(req.params.id)
     if (!user) {
       let err = new Error('No user found')
       err.status = 404
       throw err
     }
-    user.updateAttributes(res.body)
+    res.json(user)
+  } catch (err) {
+    next(err)
+  }
+})
+
+router.post('/', async (req, res, next) => {
+  try {
+    const user = await User.findByPk(req.params.id)
+    if (user) {
+      throw new Error('User already exists!')
+    }
+    const newUser = await User.create(req.body)
+    res.json(newUser)
   } catch (err) {
     next(err)
   }

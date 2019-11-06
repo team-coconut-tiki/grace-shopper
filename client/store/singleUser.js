@@ -22,15 +22,39 @@ const removeUser = () => ({type: REMOVE_USER})
  * THUNK CREATORS
  */
 
-export const getUserThunk = userId => async dispatch => {
+export const createUserThunk = user => async dispatch => {
   try {
-    const user = await axios.get(`/users/${userId}`)
-    if (!user) {
+    const {data} = await axios.post(`/api/users/${user.id}`, user)
+    if (!data) {
       throw new Error('Unable to get user')
     }
-    dispatch(getUser(user))
+    dispatch(getUser(data))
   } catch (err) {
-    console.error(console.error())
+    console.error(err)
+  }
+}
+
+export const getUserThunk = userId => async dispatch => {
+  try {
+    const {data} = await axios.get(`/api/users/${userId}`)
+    if (!data) {
+      throw new Error('Unable to get user')
+    }
+    dispatch(getUser(data))
+  } catch (err) {
+    console.error(err)
+  }
+}
+
+export const updateUserThunk = user => async dispatch => {
+  try {
+    const {data} = await axios.put(`/api/users/${user.id}`, user)
+    if (!data) {
+      throw new Error('Unable to get user')
+    }
+    dispatch(getUser(data))
+  } catch (err) {
+    console.error(err)
   }
 }
 
@@ -75,6 +99,7 @@ export const logout = () => async dispatch => {
 export default function(state = defaultUser, action) {
   switch (action.type) {
     case GET_USER:
+      console.log(action.user)
       return action.user
     case REMOVE_USER:
       return defaultUser
