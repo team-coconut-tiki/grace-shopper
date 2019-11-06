@@ -117,6 +117,15 @@ async function seed() {
     Category.create({type: 'sports'})
   ])
 
+  const extraCoconut = await Product.create({
+    title: 'extra Coconut',
+    priceInCents: 2500,
+    description: 'like a normal coconut, but extra',
+    quantity: 1200
+  })
+
+  await extraCoconut.addCategory(1)
+
   console.log(`seeded ${users.length} users`)
   console.log(`seeded ${products.length} products`)
   console.log(`seeded ${reviews.length} reviews`)
