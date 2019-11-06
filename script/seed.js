@@ -25,7 +25,8 @@ async function seed() {
       ),
       billingAddress: faker.fake(
         '{{address.streetName}}, {{address.city}}, {{address.state}}, {{address.zipCode}}'
-      )
+      ),
+      creditCard: '4242 4242 4242 4242'
     })
   }
 
