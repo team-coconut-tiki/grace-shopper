@@ -15,3 +15,31 @@ router.get('/', async (req, res, next) => {
     next(err)
   }
 })
+
+router.get('/:id', async (req, res, next) => {
+  try {
+    const user = await User.findByPk(req.query.id)
+    if (!user) {
+      let err = new Error('No user found')
+      err.status = 404
+      throw err
+    }
+    res.json(user)
+  } catch (err) {
+    next(err)
+  }
+})
+
+router.put('/:id', async (req, res, next) => {
+  try {
+    const user = await User.findByPk(req.query.id)
+    if (!user) {
+      let err = new Error('No user found')
+      err.status = 404
+      throw err
+    }
+    user.updateAttributes(res.body)
+  } catch (err) {
+    next(err)
+  }
+})
