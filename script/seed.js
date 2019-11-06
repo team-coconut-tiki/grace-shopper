@@ -107,8 +107,14 @@ async function seed() {
   ])
 
   const categories = await Promise.all([
+    Category.create({type: 'indoor'}),
+    Category.create({type: 'outdoor'}),
+    Category.create({type: 'bar_items'}),
+    Category.create({type: 'coconuts'}),
+    Category.create({type: 'apparel'}),
+    Category.create({type: 'home_goods'}),
     Category.create({type: 'luau'}),
-    Category.create({type: 'outdoor'})
+    Category.create({type: 'sports'})
   ])
 
   console.log(`seeded ${users.length} users`)
