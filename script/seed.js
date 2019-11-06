@@ -124,10 +124,10 @@ async function seed() {
     quantity: 1200
   })
 
-  await extraCoconut.addCategories([1, 2, 3])
+  await extraCoconut.addCategories([1, 2, 3]) //add by ID only, in an array
 
   for (let i = 0; i < products.length; i++) {
-    await products[i].addCategory(4)
+    await products[i].addCategory(4) // add by ID only
   }
 
   console.log(`seeded ${users.length} users`)
