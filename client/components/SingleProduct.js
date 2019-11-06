@@ -5,28 +5,29 @@ import {createUserThunk} from '../store/singleUser'
 
 const SingleProduct = props => {
   const [quantity, setQuantity] = useState(0)
+  // const onChange = event => {
+  //   setQuantity(event.target.value)
+  // }
 
-  const onChange = event => {
-    setQuantity(event.target.value)
-  }
-
-  const handleSubmit = event => {
-    event.preventDefault()
-    const thisUser = useSelector(state => state.singleUser)
-    thisUser
-      ? addToCartThunk(thisUser.id, props.id, +quantity, props.price)
-      : createUserThunk({})
-    addToCartThunk(thisUser.id, props.id, +quantity, props.price)
-  }
-
+  // const handleSubmit = event => {
+  //   event.preventDefault()
+  //   const thisUser = useSelector(state => state.singleUser)
+  //   thisUser
+  //     ? addToCartThunk(thisUser.id, props.id, +quantity, props.price)
+  //     : createUserThunk({})
+  //   addToCartThunk(thisUser.id, props.id, +quantity, props.price)
+  // }
+  console.log('props', props.location.pathname) // === '/products/12'
+  // props.location.pathname.split('/')[2]
+  // dispatch(getProductById(^that thing))
   return (
     <div id="single-product">
       <div>Breadcrumb placeholder</div>
       <div>product tile placeholder</div>
 
-      <form onSubmit={handleSubmit}>
-        <select value={quantity} onChange={onChange}>
-          <option selectedValue="1">1</option>
+      <form>
+        <select defaultValue="1">
+          <option value="1">1</option>
           <option value="2">2</option>
           <option value="3">3</option>
           <option value="4">4</option>
@@ -34,13 +35,9 @@ const SingleProduct = props => {
         <button type="button">Add to cart</button>
       </form>
 
-      <div>{props.description}</div>
+      <div>Description</div>
 
-      <div>
-        {props.reviews.map(review => {
-          return <li key="review.id">{review}</li>
-        })}}
-      </div>
+      <div>reviews!</div>
     </div>
   )
 }
