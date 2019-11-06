@@ -1,5 +1,6 @@
 'use strict'
 
+const faker = require('faker')
 const db = require('../server/db')
 const {
   User,
@@ -14,15 +15,17 @@ async function seed() {
   await db.sync({force: true})
   console.log('db synced!')
 
-  const users = await Promise.all([
-    User.create({email: 'cody@email.com', password: '123'}),
-    User.create({
-      email: 'coconut@admin.com',
-      password: 'admin',
-      isAdmin: 'true'
-    }),
-    User.create({emial: 'karen@seeamanager.com', password: 'meow'})
-  ])
+  for (let i = 0; i < 10; i++) {
+    await User.create({
+      email: faker.internet.email(),
+      password: faker.internet.password(),
+      fullName: faker.name.findName(),
+      shippingAddress: faker.fake(
+        '{{address.streetName}}, {{address.city}}, {{address.state}}, {{address.zipCode}}'
+      ), //faker.address.streetAddress(),
+      billingAddress: '523 cody lane'
+    })
+  }
 
   const products = await Promise.all([
     Product.create({
@@ -49,7 +52,7 @@ async function seed() {
     Category.create({type: 'outdoor'})
   ])
 
-  console.log(`seeded ${users.length} users`)
+  //console.log(`seeded ${users.length} users`)
   console.log(`seeded ${products.length} products`)
   console.log(`seeded ${reviews.length} reviews`)
   console.log(`seeded ${categories.length} categories`)
