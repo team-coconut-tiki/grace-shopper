@@ -23,7 +23,7 @@ const UserProfile = props => {
           <p>{user.shippingAddress}</p>
         </div>
         <div className="user-credit-card-short">
-          <p>{user.creditCard.slice(-4)}</p>
+          <p>{user.creditCard}</p>
         </div>
       </div>
     )

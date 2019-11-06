@@ -24,18 +24,18 @@ const removeUser = () => ({type: REMOVE_USER})
 
 export const getUserThunk = userId => async dispatch => {
   try {
-    const user = await axios.get(`/users/${userId}`).data
-    console.log('USER', user)
-    if (!user) {
+    const {data} = await axios.get(`/users/${userId}`)
+    console.log('USER', data)
+    if (!data) {
       throw new Error('Unable to get user')
     }
-    dispatch(getUser(user))
+    dispatch(getUser(data))
   } catch (err) {
-    console.error(console.error())
+    console.error(err)
   }
 }
 
-export const authUser = () => async dispatch => {
+export const me = () => async dispatch => {
   try {
     const res = await axios.get('/auth/me')
     dispatch(getUser(res.data || defaultUser))
