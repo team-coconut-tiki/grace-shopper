@@ -22,9 +22,33 @@ const removeUser = () => ({type: REMOVE_USER})
  * THUNK CREATORS
  */
 
+export const createUserThunk = user => async dispatch => {
+  try {
+    const {data} = await axios.post(`/api/users/${user.id}`, user)
+    if (!data) {
+      throw new Error('Unable to get user')
+    }
+    dispatch(getUser(data))
+  } catch (err) {
+    console.error(err)
+  }
+}
+
 export const getUserThunk = userId => async dispatch => {
   try {
     const {data} = await axios.get(`/api/users/${userId}`)
+    if (!data) {
+      throw new Error('Unable to get user')
+    }
+    dispatch(getUser(data))
+  } catch (err) {
+    console.error(err)
+  }
+}
+
+export const updateUserThunk = user => async dispatch => {
+  try {
+    const {data} = await axios.put(`/api/users/${user.id}`, user)
     if (!data) {
       throw new Error('Unable to get user')
     }
