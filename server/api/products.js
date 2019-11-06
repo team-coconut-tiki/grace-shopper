@@ -17,7 +17,17 @@ router.get('/', async (req, res, next) => {
         'imageUrl'
       ]
     })
+    console.log('got to router')
     res.json(products)
+  } catch (err) {
+    next(err)
+  }
+})
+
+router.get('/:productId', async (req, res, next) => {
+  try {
+    const product = await Product.findByPk(req.params.productId)
+    res.json(product)
   } catch (err) {
     next(err)
   }
