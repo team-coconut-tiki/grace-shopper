@@ -9,10 +9,10 @@ const UserProfile = props => {
     //   userId = userId[userId.length - 1]
     //   props.getUserThunk(userId)
     props.getUserThunk(1)
-  })
+  }, [])
 
   const user = props.singleUser
-  console.log('USER', user)
+  console.log('USEREMAIL', user)
   if (user) {
     return (
       <div className="user-profile-container">
