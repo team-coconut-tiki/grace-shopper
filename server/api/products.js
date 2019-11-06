@@ -1,5 +1,5 @@
 const router = require('express').Router()
-const {Product} = require('../db/models')
+const {Product, Category} = require('../db/models')
 module.exports = router
 
 router.get('/', async (req, res, next) => {
@@ -8,7 +8,14 @@ router.get('/', async (req, res, next) => {
       // explicitly select only the id and email fields - even though
       // users' passwords are encrypted, it won't help if we just
       // send everything to anyone who asks!
-      attributes: ['id', 'email'] //need to change this
+      include: [{model: Category}],
+      attributes: [
+        'title',
+        'description',
+        'priceInCents',
+        'quantity',
+        'imageUrl'
+      ]
     })
     res.json(products)
   } catch (err) {
