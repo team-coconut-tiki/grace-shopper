@@ -15,13 +15,17 @@ async function seed() {
   console.log('db synced!')
 
   const users = await Promise.all([
-    User.create({email: 'cody@email.com', password: '123'}),
+    User.create({
+      email: 'cody@email.com',
+      password: '123',
+      creditCard: '1234567890123456'
+    }),
     User.create({
       email: 'coconut@admin.com',
       password: 'admin',
       isAdmin: 'true'
     }),
-    User.create({emial: 'karen@seeamanager.com', password: 'meow'})
+    User.create({email: 'karen@seeamanager.com', password: 'meow'})
   ])
 
   const products = await Promise.all([
