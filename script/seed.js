@@ -32,6 +32,68 @@ async function seed() {
       quantity: 3
     }),
     Product.create({
+      title: 'Tall Coconut',
+      priceInCents: 7200,
+      description: 'it is soooo tall. How is the weather up there?',
+      quantity: 100
+    }),
+    Product.create({
+      title: 'Hybrid Coconut',
+      priceInCents: 12700,
+      description: 'This coconut runs on gas AND electricity!',
+      quantity: 3
+    }),
+    Product.create({
+      title: 'Malayan Yellow Dwarf Coconut',
+      priceInCents: 500,
+      description:
+        'extremely high yielding, and best grown in tropical locations',
+      quantity: 30
+    }),
+    Product.create({
+      title: 'Dwarf Orange Coconut',
+      priceInCents: 700,
+      description: 'Ever wondered what a coconut that is orange tastes like?',
+      quantity: 13
+    }),
+    Product.create({
+      title: 'Maypan Coconut',
+      priceInCents: 9000,
+      description:
+        'This coconut is from Jamaica and is also known as a "sturdy coconut".',
+      quantity: 24
+    }),
+    Product.create({
+      title: 'King Coconut',
+      priceInCents: 70000,
+      description: 'King of all coconut!',
+      quantity: 1
+    }),
+    Product.create({
+      title: 'Fiji Dwarf Coconut',
+      priceInCents: 100,
+      description: 'So smol, this coconut',
+      quantity: 90
+    }),
+    Product.create({
+      title: 'Macapuno Coconut',
+      priceInCents: 7600,
+      description: 'aka kopyor coconut, is a dwarf mutant tree. AHH!',
+      quantity: 300
+    }),
+    Product.create({
+      title: 'East Coast Tall Coconut',
+      priceInCents: 1000,
+      description: "Hey, I'm coconut, 'ere!",
+      quantity: 30
+    }),
+    Product.create({
+      title: 'West Coast Tall Coconut',
+      priceInCents: 1000,
+      description: 'dude... where is my coconut??',
+      quantity: 30
+    }),
+    Product.create({
       title: 'Golden Malay Coconut',
       priceInCents: 2500,
       description: 'like a normal coconut, but golden',
