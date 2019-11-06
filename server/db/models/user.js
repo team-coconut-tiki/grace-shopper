@@ -44,10 +44,10 @@ const User = db.define('user', {
     type: Sequelize.STRING
   },
   creditCard: {
-    type: Sequelize.STRING
-  },
-  validate: {
-    isCreditCard: true
+    type: Sequelize.NUMBER,
+    validate: {
+      isCreditCard: true
+    }
   }
 })
 
