@@ -120,11 +120,15 @@ async function seed() {
   const extraCoconut = await Product.create({
     title: 'extra Coconut',
     priceInCents: 2500,
-    description: 'like a normal coconut, but extra',
+    description: 'like a normal coconut, but extra (like, with categories)',
     quantity: 1200
   })
 
-  await extraCoconut.addCategory(1)
+  await extraCoconut.addCategories([1, 2, 3])
+
+  for (let i = 0; i < products.length; i++) {
+    await products[i].addCategory(4)
+  }
 
   console.log(`seeded ${users.length} users`)
   console.log(`seeded ${products.length} products`)
