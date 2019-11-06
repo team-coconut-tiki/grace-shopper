@@ -15,7 +15,7 @@ const initialState = {
 /**
  * ACTION CREATORS
  */
-const getProducts = products => ({type: GET_ALL_PRODUCTS, products})
+const getProducts = products => ({type: GET_ALL_PRODUCTS, products: products})
 
 /**
  * THUNK CREATORS
@@ -23,7 +23,7 @@ const getProducts = products => ({type: GET_ALL_PRODUCTS, products})
 export const getAllProducts = () => async dispatch => {
   try {
     const res = await axios.get('/api/products')
-    dispatch(getProducts(res.data || initialState))
+    dispatch(getProducts(res.data))
   } catch (err) {
     console.error(err)
   }
