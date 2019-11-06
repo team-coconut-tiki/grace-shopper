@@ -32,8 +32,8 @@ router.get('/:id', async (req, res, next) => {
 
 router.put('/:id', async (req, res, next) => {
   try {
+    await User.update(req.body, {where: {"id": req.params.id}} )
     const user = await User.findByPk(req.params.id)
-    await user.update(res.body)
     if (!user) {
       let err = new Error('No user found')
       err.status = 404
