@@ -6,7 +6,7 @@ import AllProducts from './components/AllProducts'
 
 const App = () => {
   return (
-    <div>
+    <div className="container">
       <Navbar />
       <Routes />
     </div>
