@@ -22,8 +22,10 @@ async function seed() {
       fullName: faker.name.findName(),
       shippingAddress: faker.fake(
         '{{address.streetName}}, {{address.city}}, {{address.state}}, {{address.zipCode}}'
-      ), //faker.address.streetAddress(),
-      billingAddress: '523 cody lane'
+      ),
+      billingAddress: faker.fake(
+        '{{address.streetName}}, {{address.city}}, {{address.state}}, {{address.zipCode}}'
+      )
     })
   }
 
