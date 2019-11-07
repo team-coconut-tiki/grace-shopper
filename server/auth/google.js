@@ -17,7 +17,6 @@ module.exports = router
  * process.env.GOOGLE_CLIENT_SECRET = 'your google client secret'
  * process.env.GOOGLE_CALLBACK = '/your/google/callback'
  */
-
 if (!process.env.GOOGLE_CLIENT_ID || !process.env.GOOGLE_CLIENT_SECRET) {
   console.log('Google client ID / secret not found. Skipping Google OAuth.')
 } else {
@@ -32,10 +31,10 @@ if (!process.env.GOOGLE_CLIENT_ID || !process.env.GOOGLE_CLIENT_SECRET) {
     (token, refreshToken, profile, done) => {
       const googleId = profile.id
       const email = profile.emails[0].value
-      const imgUrl = profile.photos[0].value
-      const firstName = profile.name.givenName
-      const lastName = profile.name.familyName
-      const fullName = profile.displayName
+      // const imgUrl = profile.photos[0].value
+      // const firstName = profile.name.givenName
+      // const lastName = profile.name.familyName
+      // const fullName = profile.displayName
 
       User.findOrCreate({
         where: {googleId},
@@ -48,15 +47,23 @@ if (!process.env.GOOGLE_CLIENT_ID || !process.env.GOOGLE_CLIENT_SECRET) {
 
   passport.use(strategy)
 
-  router.get(
-    '/',
-    passport.authenticate('google', {scope: ['email', 'profile']})
-  )
+  router.get('/', passport.authenticate('google', {scope: ['email']}))
+
+  passport.serializeUser((user, done) => {
+    done(null, user.id)
+  })
+
+  passport.deserializeUser((id, done) => {
+    console.log('SERIALIZED USER')
+    User.findByPk(id)
+      .then(user => done(null, user))
+      .catch(err => done(err))
+  })
 
   router.get(
     '/callback',
     passport.authenticate('google', {
-      successRedirect: '/home',
+      successRedirect: '/',
       failureRedirect: '/login'
     })
   )
