@@ -3,6 +3,7 @@ const {Product, Category} = require('../db/models')
 module.exports = router
 
 router.get('/', async (req, res, next) => {
+  console.log(req.user)
   try {
     const products = await Product.findAll({
       // explicitly select only the id and email fields - even though
