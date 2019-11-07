@@ -66,3 +66,20 @@ router.post('/', async (req, res, next) => {
     next(err)
   }
 })
+
+router.delete('/:id', async (req, res, user) => {
+  try {
+    const user = await User.findByPk(req.params.id)
+    if (!user) {
+      let err = new Error('No user found')
+      err.status = 404
+      throw err
+    }
+    await user.destroy()
+    if (user) {
+      throw new Error()
+    }
+  } catch (err) {
+    next(err)
+  }
+})

@@ -1,6 +1,6 @@
 import React, {useEffect} from 'react'
 import {connect} from 'react-redux'
-import {getUserThunk} from '../store/'
+import {getUserThunk, deleteUserThunk} from '../store/'
 import EditUserButton from './EditUserButton'
 import axios from 'axios'
 
@@ -13,6 +13,8 @@ const SingleUser = props => {
     }
   }, [])
 
+  console.log(props.history)
+
   const user = props.user ? props.user : props.singleUser
   console.log('USEREMAIL', props)
   if (user) {
@@ -24,10 +26,10 @@ const SingleUser = props => {
               <button
                 type="button"
                 className="delete-user-button"
-                onClick={async () => {
+                onClick={() => {
                   try {
-                    console.log(user);
-                    await axios.delete(`/api/users/${user.id}`)
+                    props.deleteUserThunk(user.id)
+                    props.history.push('/')
                   } catch (err) {
                     console.error(err)
                   }
@@ -66,6 +68,7 @@ const SingleUser = props => {
     return <React.Fragment />
   }
 }
-export default connect(({singleUser}) => ({singleUser}), {getUserThunk})(
-  SingleUser
-)
+export default connect(({singleUser}) => ({singleUser}), {
+  getUserThunk,
+  deleteUserThunk
+})(SingleUser)

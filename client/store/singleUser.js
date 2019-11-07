@@ -57,14 +57,15 @@ export const updateUserThunk = user => async dispatch => {
     console.error(err)
   }
 }
-// export const deleteUserThunk = userId => async dispatch => {
-//   try {
-//     await axios.delete(`/api/users/${userId}`)
-//     dispatch(getUser())
-//   } catch (err) {
-//     console.error(err)
-//   }
-// }
+
+export const deleteUserThunk = userId => async dispatch => {
+  try {
+    await axios.delete(`/api/users/${userId}`)
+    dispatch(getUser())
+  } catch (err) {
+    console.error(err)
+  }
+}
 
 export const me = () => async dispatch => {
   try {
