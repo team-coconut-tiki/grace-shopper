@@ -3,11 +3,11 @@ import {connect} from 'react-redux'
 import {updateUserThunk} from '../store/'
 
 const EditUserButton = props => {
-  const [renderForm, setRenderForm] = useState(false)
+  const [renderForm, setRenderForm] = useState()
   const [formState, setFormState] = useState(props.singleUser[props.source])
 
   const handleChange = e => {
-    setFormState({})
+    setFormState(e.target.value)
   }
 
   const handleSubmit = async evt => {
@@ -24,13 +24,38 @@ const EditUserButton = props => {
   return (
     <div className="edit-button">
       {renderForm ? (
-        <button className="edit-button" onClick={() => setRenderForm(false)}>
-          Emoji needed
-        </button>
+        <>
+          <button
+            type="button"
+            className="edit-button"
+            onClick={() => setRenderForm(false)}
+          >
+            Emoji needed
+          </button>
+          <div className="user-edit-form-container">
+            <form onSubmit={handleSubmit}>
+              <input
+                name="form"
+                className="user-edit-form"
+                onChange={handleChange}
+                value={formState}
+              />
+              <button type="submit" onClick={handleSubmit}>
+                Submit
+              </button>
+            </form>
+          </div>
+        </>
       ) : (
-        <button className="edit-button" onClick={() => setRenderForm(true)}>
-          Emoji needed
-        </button>
+        <>
+          <button
+            type="button"
+            className="edit-button"
+            onClick={() => setRenderForm(true)}
+          >
+            Emoji needed
+          </button>
+        </>
       )}
     </div>
   )

@@ -5,49 +5,34 @@ import {Link, withRouter} from 'react-router-dom'
 import EditUserButton from './EditUserButton'
 
 const UserProfile = props => {
-  const [editingEmail, setEditingEmail] = useState(false)
-  const [editingShippingAddress, setEditingShippingAddress] = useState(false)
-  const [editingBillingAddress, setEditingBillingAddress] = useState(false)
-  const [editingCreditCard, setCreditCard] = useState(false)
-
   useEffect(() => {
-    // let userId = props.history.location.split();
-    // userId = userId[userId.length - 1]
-    // props.getUserThunk(userId)
-
-    // I am useing this dummy data undil I set up history routing
-    props.getUserThunk(1)
+    const userId = props.location.pathname.split('/')[2]
+    console.log('USERID', userId)
+    props.getUserThunk(userId)
   }, [])
 
-  //   <EditUserButton source="email" rendered={editingShippingAddress}></EditUserButton>
-  //
-  //   <EditUserButton source="shippingAddress" rendered={editingShippingAddress}></EditUserButton>
-  //
-  //   <EditUserButton source="billingAddress" rendered={editingBillingAddress}></EditUserButton>
-  //
-  // <EditUserButton source="creditCard" rendered={editingCreditCard} >
   //
   // </EditUserButton>
 
   const user = props.singleUser
-  console.log('USEREMAIL', user)
+  console.log('USEREMAIL', props)
   if (user) {
     return (
       <div className="user-profile-container">
         <div className="email">
           <h4>User email: </h4>
           <p>{user.email}</p>
-          <EditUserButton />
+          <EditUserButton source="email" />
         </div>
         <div className="user-shipping-address">
           <h4>Current address:</h4>
           <p>{user.shippingAddress}</p>
-          <EditUserButton />
+          <EditUserButton source="shippingAddress" />
         </div>
         <div className="user-billing-address">
           <h4>Current address:</h4>
           <p>{user.billingAddress}</p>
-          <EditUserButton />
+          <EditUserButton source="billingAddress" />
         </div>
         <div className="user-credit-card-short">
           <h4>Current credit card:</h4>
@@ -56,7 +41,7 @@ const UserProfile = props => {
               ? user.creditCard.slice(-4)
               : 'No Credit associated with this'}
           </p>
-          <EditUserButton />
+          <EditUserButton source="creditCard" />
         </div>
       </div>
     )
