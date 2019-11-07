@@ -26,7 +26,8 @@ async function seed() {
       billingAddress: faker.fake(
         '{{address.streetName}}, {{address.city}}, {{address.state}}, {{address.zipCode}}'
       ),
-      creditCard: '4242 4242 4242 4242'
+      creditCard: '4242 4242 4242 4242',
+      isAdmin: faker.random.boolean()
     })
   }
 
@@ -107,6 +108,21 @@ async function seed() {
     })
   ])
 
+  for (let i = 0; i < 15; i++) {
+    await User.create({
+      email: faker.internet.email(),
+      password: faker.internet.password(),
+      fullName: faker.name.findName(),
+      shippingAddress: faker.fake(
+        '{{address.streetName}}, {{address.city}}, {{address.state}}, {{address.zipCode}}'
+      ),
+      billingAddress: faker.fake(
+        '{{address.streetName}}, {{address.city}}, {{address.state}}, {{address.zipCode}}'
+      ),
+      creditCard: '4242 4242 4242 4242'
+    })
+  }
+
   const reviews = await Promise.all([
     Review.create({description: 'Best coconuts north of Wisconsin', rating: 5}),
     Review.create({description: 'Rotten Coconuts are no fun!', rating: 1})
@@ -136,10 +152,137 @@ async function seed() {
     await products[i].addCategory(4) // add by ID only
   }
 
+  // carts: looks like there are two methods to get this to happen in production without throwing an error:
+  // 1: get product by product id, productid, and userid. straight up CartItem.create() the row with this information.
+  // I'm using this method because I couldn't get method 2 to work
+  //
+  // 2: user.addProduct({productId});
+  // const newCart CartItem.find({where: {
+  //   productId, userId
+  // }})
+  // newCart.update({
+  //quantity, price pulled from product
+  // })
+  const extraUser = await User.create({
+    email: faker.internet.email(),
+    password: faker.internet.password(),
+    fullName: faker.name.findName(),
+    shippingAddress: faker.fake(
+      '{{address.streetName}}, {{address.city}}, {{address.state}}, {{address.zipCode}}'
+    ),
+    billingAddress: faker.fake(
+      '{{address.streetName}}, {{address.city}}, {{address.state}}, {{address.zipCode}}'
+    ),
+    creditCard: '4242 4242 4242 4242'
+  })
+  // await extraUser.addProduct(1)
+  // const thisCart = await CartItem.findAll({
+  //   where: {
+  //     productId: 1,
+  //     userId: extraUser.id
+  //   }
+  // })
+  // thisCart.update({
+  //   quantity: 5,
+  //   priceInCents: 500
+  // })
+
+  await CartItem.create({
+    productId: 1,
+    userId: 1,
+    quantity: 100,
+    priceInCents: 100 //prices won't be accurate, because... they were on sale! ...or marked up
+  })
+  await CartItem.create({
+    productId: 2,
+    userId: 4,
+    quantity: 3,
+    priceInCents: 4000
+  })
+  await CartItem.create({
+    productId: 3,
+    userId: 1,
+    quantity: 12,
+    priceInCents: 300
+  })
+  await CartItem.create({
+    productId: 7,
+    userId: 11,
+    quantity: 1,
+    priceInCents: 1499
+  })
+  await CartItem.create({
+    productId: 11,
+    userId: 8,
+    quantity: 3,
+    priceInCents: 699
+  })
+
+  //get order for user 1
+  const activeCarts = await CartItem.findAll({
+    where: {
+      userId: 1,
+      orderId: null
+    }
+  })
+  let subtotal = 0
+  for (let i = 0; i < activeCarts.length; i++) {
+    subtotal += activeCarts[i].priceInCents * activeCarts[i].quantity
+  }
+  const newOrder = await Order.create({
+    subtotalInCents: subtotal,
+    status: 'open',
+    userId: 1
+  })
+
+  for (let i = 0; i < activeCarts.length; i++) {
+    await activeCarts[i].update({orderId: newOrder.id})
+  }
+  //get order for user 8
+  const activeCartsJr = await CartItem.findAll({
+    where: {
+      userId: 8,
+      orderId: null
+    }
+  })
+  let subtotalJr = 0
+  for (let i = 0; i < activeCartsJr.length; i++) {
+    subtotalJr += activeCartsJr[i].priceInCents * activeCartsJr[i].quantity
+  }
+  const newOrderJr = await Order.create({
+    subtotalInCents: subtotalJr,
+    status: 'paid',
+    userId: 8
+  })
+
+  for (let i = 0; i < activeCartsJr.length; i++) {
+    await activeCartsJr[i].update({orderId: newOrderJr.id})
+  }
+  //get order for user 11
+  const activeCartsSr = await CartItem.findAll({
+    where: {
+      userId: 11,
+      orderId: null
+    }
+  })
+  let subtotalSr = 0
+  for (let i = 0; i < activeCartsSr.length; i++) {
+    subtotalSr += activeCartsSr[i].priceInCents * activeCartsSr[i].quantity
+  }
+  const newOrderSr = await Order.create({
+    subtotalInCents: subtotalSr,
+    status: 'shipped',
+    userId: 11
+  })
+
+  for (let i = 0; i < activeCartsSr.length; i++) {
+    await activeCartsSr[i].update({orderId: newOrderSr.id})
+  }
+
   //console.log(`seeded ${users.length} users`)
-  console.log(`seeded ${products.length} products`)
-  console.log(`seeded ${reviews.length} reviews`)
-  console.log(`seeded ${categories.length} categories`)
+  // console.log(`seeded ${products.length} products`)
+  // console.log(`seeded ${reviews.length} reviews`)
+  // console.log(`seeded ${categories.length} categories`)
   console.log(`seeded successfully`)
 }
 
