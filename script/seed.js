@@ -11,6 +11,21 @@ const {
   CartItem
 } = require('../server/db/models')
 
+async function createUsers() {
+  await User.create({
+    email: faker.internet.email(),
+    password: faker.internet.password(),
+    fullName: faker.name.findName(),
+    shippingAddress: faker.fake(
+      '{{address.streetName}}, {{address.city}}, {{address.state}}, {{address.zipCode}}'
+    ),
+    billingAddress: faker.fake(
+      '{{address.streetName}}, {{address.city}}, {{address.state}}, {{address.zipCode}}'
+    ),
+    creditCard: '4242 4242 4242 4242'
+  })
+}
+
 async function seed() {
   await db.sync({force: true})
   console.log('db synced!')
@@ -26,7 +41,8 @@ async function seed() {
       billingAddress: faker.fake(
         '{{address.streetName}}, {{address.city}}, {{address.state}}, {{address.zipCode}}'
       ),
-      creditCard: '4242 4242 4242 4242'
+      creditCard: '4242 4242 4242 4242',
+      isAdmin: faker.random.boolean()
     })
   }
 

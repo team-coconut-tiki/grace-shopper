@@ -8,7 +8,6 @@ const App = () => {
   return (
     <div className="container">
       <Navbar />
-      {/* <SingleProduct /> */}
       <Routes />
     </div>
   )

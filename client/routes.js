@@ -9,7 +9,7 @@ import {
   AllProducts,
   AllUsersAdmin,
   SingleProduct,
-  UserProfile
+  SingleUser
 } from './components'
 import {me} from './store'
 
@@ -32,7 +32,7 @@ class Routes extends Component {
         <Route path="/products/:id" component={SingleProduct} />
         <Route path="/products" component={AllProducts} />
         {/* CHANGE TO /products/:id */}
-        <Route path="/users/:id" component={UserProfile} />
+        <Route path="/users/:id" component={SingleUser} />
         {/* CHANGE TO /user/:id */}
         <Route path="/users" component={AllUsersAdmin} />
         {isLoggedIn && (
