@@ -20,7 +20,7 @@ const SingleProduct = props => {
   // }
 
   function addToCart() {
-    // setQuantity(prevQuantity => prevQuantity + 1)
+    // eventually: check who is logged in, and change 10 to userId
     dispatch(addToCartThunk(10, thisProduct.id, 1, thisProduct.priceInCents))
   }
 

@@ -1,5 +1,5 @@
 const router = require('express').Router()
-const {CartItem, User} = require('../db/models')
+const {CartItem, User, Product} = require('../db/models')
 
 //find all user's active cart items
 router.get('/:userId', async (req, res, next) => {
@@ -8,7 +8,8 @@ router.get('/:userId', async (req, res, next) => {
       where: {
         userId: req.params.userId,
         orderId: null
-      }
+      },
+      include: [{model: Product}]
     })
     res.json(userCarts)
   } catch (err) {
@@ -40,13 +41,26 @@ router.post('/:userId/:productId', async (req, res, next) => {
     // })
     // const newCart = await thisUser.addProduct(req.params.productId)
     // await newCart.update(req.body)
-    const newCart = await CartItem.create({
-      userId: req.params.userId,
-      productId: req.params.productId,
-      quantity: req.body.quantity,
-      priceInCents: req.body.priceInCents
+    const existingCart = await CartItem.findOne({
+      where: {
+        userId: req.params.userId,
+        productId: req.params.productId
+      }
     })
-    res.json(newCart)
+    if (existingCart) {
+      await existingCart.update({
+        quantity: existingCart.quantity + req.body.quantity
+      })
+      res.json(existingCart)
+    } else {
+      const newCart = await CartItem.findOrCreate({
+        userId: req.params.userId,
+        productId: req.params.productId,
+        quantity: req.body.quantity,
+        priceInCents: req.body.priceInCents
+      })
+      res.json(newCart)
+    }
   } catch (err) {
     next(err)
   }
