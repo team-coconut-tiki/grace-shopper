@@ -6,7 +6,10 @@ const userId = 10 //change this once we figure out login
 
 const Cart = () => {
   const dispatch = useDispatch()
+  //state.singleUser = {id: 1, email: ???, isLoggedIn: true}
   const cartItems = useSelector(state => state.carts.currentCarts)
+  const user = useSelector(state => state.singleUser)
+  console.log(user)
   const [quantity, setQuantity] = useState(0)
 
   useEffect(() => {
@@ -15,6 +18,8 @@ const Cart = () => {
 
   // state.allProducts.products
   // cartItems.productId
+
+  //user: get Products!!!!!
 
   // let product1 = dispatch(fetchProduct(item.productId))
   const subtotal = cartItems.reduce((acc, cur) => {
