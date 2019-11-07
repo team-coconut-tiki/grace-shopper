@@ -52,7 +52,7 @@ router.post('/:userId/:productId', async (req, res, next) => {
 //delete cart item
 router.delete('/:userId/:productId', async (req, res, next) => {
   try {
-    const thisCart = await CartItem.findAll({
+    const thisCart = await CartItem.findOne({
       where: {
         userId: req.params.userId,
         productId: req.params.productId,
@@ -61,6 +61,23 @@ router.delete('/:userId/:productId', async (req, res, next) => {
     })
     await thisCart.destroy()
     res.sendStatus(202)
+  } catch (err) {
+    next(err)
+  }
+})
+
+//update cart item
+router.put('/:userId/:productId', async (req, res, next) => {
+  try {
+    const thisCart = await CartItem.findOne({
+      where: {
+        userId: req.params.userId,
+        productId: req.params.productId,
+        orderId: null //delete only item in active cart
+      }
+    })
+    await thisCart.update(req.body)
+    res.json(thisCart)
   } catch (err) {
     next(err)
   }
