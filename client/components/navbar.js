@@ -5,11 +5,32 @@ import {Link} from 'react-router-dom'
 import {logout} from '../store'
 
 const Navbar = ({handleClick, isLoggedIn}) => (
-  <section className="hero is-primary">
+  <section className="hero">
     <div className="hero-body">
       <div className="level">
         <div className="level-left">
-          <h1 className="title">Coconuts!</h1>
+          <Link className="button is-white is-large" to="/">
+            <figure className="image is-128x128">
+              <img src="/coconut.png" />
+            </figure>
+            <h1 className="title">Coconuts!</h1>
+          </Link>
+        </div>
+        <div className="level-item has-text-centered">
+          <p>DEV ONLY :::</p>
+          <Link className="button is-white" to="/products">
+            Products
+          </Link>
+          <Link className="button is-white" to="/products/1">
+            SingleProduct
+          </Link>
+          <Link className="button is-white" to="/users">
+            Users
+          </Link>
+          <Link className="button is-white" to="/users/1">
+            Single User
+          </Link>
+          <p>::: DEV ONLY</p>
         </div>
         <div className="level-right">
           <nav>
