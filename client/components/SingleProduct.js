@@ -1,7 +1,6 @@
 import React, {useState, useEffect} from 'react'
-import {addToCartThunk, fetchProduct} from '../store/singleProduct'
+import {addToCartThunk, fetchProduct, createUserThunk} from '../store'
 import {useSelector, useDispatch} from 'react-redux'
-import {createUserThunk} from '../store/singleUser'
 
 const SingleProduct = props => {
   const [quantity, setQuantity] = useState(0)
@@ -14,17 +13,16 @@ const SingleProduct = props => {
     dispatch(fetchProduct(thisProductId))
   }, []) //same as componentDidMount()
 
-  function incrementCart() {
-    setQuantity(prevQuantity => prevQuantity + 1)
-    dispatch(
-      addToCartThunk(1, thisProduct.id, quantity, thisProduct.priceInCents)
-    )
-  }
-
   // function addToCart(){
-  //check if there is a user
-  //createUser thunk
+  // // check if there is a user
+  // // createUser thunk
+
   // }
+
+  function addToCart() {
+    // setQuantity(prevQuantity => prevQuantity + 1)
+    dispatch(addToCartThunk(10, thisProduct.id, 1, thisProduct.priceInCents))
+  }
 
   return (
     <div id="single-product">
@@ -33,8 +31,8 @@ const SingleProduct = props => {
       <div>product tile placeholder</div>
       <div>Price: ${thisProduct.priceInCents / 100}</div>
 
-      <h1>Number in Cart: {quantity}</h1>
-      <button type="button" onClick={incrementCart}>
+      {/* <h1>Number in Cart: {quantity}</h1> */}
+      <button type="button" onClick={addToCart}>
         Add to cart
       </button>
 

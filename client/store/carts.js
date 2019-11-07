@@ -39,6 +39,7 @@ export const addToCartThunk = (
   price
 ) => async dispatch => {
   try {
+    console.log('in the thunk')
     const {data} = await axios.post(`/api/carts/${userId}/${productId}`, {
       quantity: quantity,
       priceInCents: price
@@ -56,7 +57,7 @@ export default function(state = initialState, action) {
     case GET_ALL_CARTS:
       return {...state, list: action.carts}
     case ADD_TO_CART:
-      return {...state, currentCarts: [...action.item]}
+      return {...state, currentCarts: [...state.currentCarts, action.item]}
     default:
       return state
   }
