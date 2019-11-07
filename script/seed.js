@@ -15,6 +15,22 @@ async function seed() {
   await db.sync({force: true})
   console.log('db synced!')
 
+  for (let i = 0; i < 10; i++) {
+    await User.create({
+      email: faker.internet.email(),
+      password: faker.internet.password(),
+      fullName: faker.name.findName(),
+      shippingAddress: faker.fake(
+        '{{address.streetName}}, {{address.city}}, {{address.state}}, {{address.zipCode}}'
+      ),
+      billingAddress: faker.fake(
+        '{{address.streetName}}, {{address.city}}, {{address.state}}, {{address.zipCode}}'
+      ),
+      creditCard: '4242 4242 4242 4242',
+      isAdmin: faker.random.boolean()
+    })
+  }
+
   const products = await Promise.all([
     Product.create({
       title: 'Dwarf Coconut',

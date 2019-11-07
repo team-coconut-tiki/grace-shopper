@@ -1,25 +1,44 @@
-import React, {useEffect, useState} from 'react'
+import React, {useEffect} from 'react'
 import {connect} from 'react-redux'
-import {getUserThunk} from '../store/'
-import {Link, withRouter} from 'react-router-dom'
+import {getUserThunk, deleteUserThunk} from '../store/'
 import EditUserButton from './EditUserButton'
+import axios from 'axios'
 
-const UserProfile = props => {
+const SingleUser = props => {
   useEffect(() => {
-    const userId = props.location.pathname.split('/')[2]
-    console.log('USERID', userId)
-    props.getUserThunk(userId)
+    if (!props.user) {
+      const userId = props.location.pathname.split('/')[2]
+      console.log('USERID', userId)
+      props.getUserThunk(userId) // TODO check after auth
+    }
   }, [])
 
-  //
-  // </EditUserButton>
+  console.log(props.history)
 
-  const user = props.singleUser
+  const user = props.user ? props.user : props.singleUser
   console.log('USEREMAIL', props)
   if (user) {
     return (
       <div className="user-profile-container">
         <div className="email">
+          {props.singleUser.isAdmin && (
+            <div className="delete-user-button">
+              <button
+                type="button"
+                className="delete-user-button"
+                onClick={() => {
+                  try {
+                    props.deleteUserThunk(user.id)
+                    props.history.push('/')
+                  } catch (err) {
+                    console.error(err)
+                  }
+                }}
+              >
+                Delete this user
+              </button>
+            </div>
+          )}
           <h4>User email: </h4>
           <p>{user.email}</p>
           <EditUserButton source="email" />
@@ -49,6 +68,7 @@ const UserProfile = props => {
     return <React.Fragment />
   }
 }
-export default connect(({singleUser}) => ({singleUser}), {getUserThunk})(
-  UserProfile
-)
+export default connect(({singleUser}) => ({singleUser}), {
+  getUserThunk,
+  deleteUserThunk
+})(SingleUser)
