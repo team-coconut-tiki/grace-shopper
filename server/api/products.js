@@ -10,6 +10,7 @@ router.get('/', async (req, res, next) => {
       // send everything to anyone who asks!
       include: [{model: Category}],
       attributes: [
+        'id',
         'title',
         'description',
         'priceInCents',
