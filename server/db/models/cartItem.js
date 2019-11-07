@@ -3,12 +3,10 @@ const Sequelize = require('sequelize')
 
 const CartItem = db.define('cart_item', {
   priceInCents: {
-    type: Sequelize.INTEGER,
-    allowNull: false
+    type: Sequelize.INTEGER
   },
   quantity: {
-    type: Sequelize.INTEGER,
-    allowNull: false
+    type: Sequelize.INTEGER
   }
 })
 
