@@ -54,7 +54,6 @@ if (!process.env.GOOGLE_CLIENT_ID || !process.env.GOOGLE_CLIENT_SECRET) {
   })
 
   passport.deserializeUser((id, done) => {
-    console.log('SERIALIZED USER')
     User.findByPk(id)
       .then(user => done(null, user))
       .catch(err => done(err))

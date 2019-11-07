@@ -279,10 +279,6 @@ async function seed() {
     await activeCartsSr[i].update({orderId: newOrderSr.id})
   }
 
-  //console.log(`seeded ${users.length} users`)
-  // console.log(`seeded ${products.length} products`)
-  // console.log(`seeded ${reviews.length} reviews`)
-  // console.log(`seeded ${categories.length} categories`)
   console.log(`seeded successfully`)
 }
 

@@ -8,15 +8,11 @@ const SingleUser = props => {
   useEffect(() => {
     if (!props.user) {
       const userId = props.location.pathname.split('/')[2]
-      console.log('USERID', userId)
       props.getUserThunk(userId) // TODO check after auth
     }
   }, [])
 
-  console.log(props.history)
-
   const user = props.user ? props.user : props.singleUser
-  console.log('USEREMAIL', props)
   if (user) {
     return (
       <div className="user-profile-container">
