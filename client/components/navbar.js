@@ -5,33 +5,64 @@ import {Link} from 'react-router-dom'
 import {logout} from '../store'
 
 const Navbar = ({handleClick, isLoggedIn}) => (
-  <section className="hero is-primary">
+  <section className="hero">
     <div className="hero-body">
       <div className="level">
         <div className="level-left">
-          <h1 className="title">Coconuts!</h1>
+          <Link className="button is-white is-large" to="/">
+            <figure className="image is-128x128">
+              <img src="/coconut.png" />
+            </figure>
+            <h1 className="title">Coconuts!</h1>
+          </Link>
+        </div>
+        <div className="level-item has-text-centered">
+          <p>DEV ONLY :::</p>
+          <Link className="button is-white" to="/products">
+            Products
+          </Link>
+          <Link className="button is-white" to="/products/1">
+            SingleProduct
+          </Link>
+          <Link className="button is-white" to="/users">
+            Users
+          </Link>
+          <Link className="button is-white" to="/users/1">
+            Single User
+          </Link>
+          <p>::: DEV ONLY</p>
         </div>
         <div className="level-right">
           <nav>
             {isLoggedIn ? (
               <div>
                 {/* The navbar will show these links after you log in */}
-                <Link to="/home">Home</Link>
-                <span className="icon">
-                  <i className="fas fa-shopping-cart" />
-                </span>
-                <a href="#" onClick={handleClick}>
+                <Link className="button" to="/home">
+                  Home
+                </Link>
+                <Link className="button is-white" to="/cart">
+                  <span className="icon">
+                    <i className="fas fa-shopping-cart" />
+                  </span>
+                </Link>
+                <a href="#" className="button" onClick={handleClick}>
                   Logout
                 </a>
               </div>
             ) : (
               <div>
                 {/* The navbar will show these links before you log in */}
-                <Link to="/login">Login</Link>
-                <span className="icon">
-                  <i className="fas fa-shopping-cart" />
-                </span>
-                <Link to="/signup">Sign Up</Link>
+                <Link className="button" to="/login">
+                  Login
+                </Link>
+                <Link className="button is-white" to="/cart">
+                  <span className="icon">
+                    <i className="fas fa-shopping-cart" />
+                  </span>
+                </Link>
+                <Link className="button" to="/signup">
+                  Sign Up
+                </Link>
               </div>
             )}
           </nav>
