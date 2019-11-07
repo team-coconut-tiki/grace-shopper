@@ -1,5 +1,5 @@
 const router = require('express').Router()
-const {User} = require('../db/models')
+const {User, Order} = require('../db/models')
 module.exports = router
 
 router.get('/', async (req, res, next) => {
@@ -18,7 +18,10 @@ router.get('/', async (req, res, next) => {
 
 router.get('/admin', async (req, res, next) => {
   try {
-    const users = await User.findAll()
+    const users = await User.findAll({
+      include: [{model: Order}]
+      //attributes: ['status']
+    })
     res.json(users)
   } catch (err) {
     next(err)
@@ -67,8 +70,10 @@ router.post('/', async (req, res, next) => {
   }
 })
 
-router.delete('/:id', async (req, res, user) => {
+//works kind of
+router.delete('/:id', async (req, res, next) => {
   try {
+    console.log('got to express')
     const user = await User.findByPk(req.params.id)
     if (!user) {
       let err = new Error('No user found')
@@ -79,6 +84,8 @@ router.delete('/:id', async (req, res, user) => {
     if (user) {
       throw new Error()
     }
+    console.log('got to express')
+    res.sendStatus(204)
   } catch (err) {
     next(err)
   }
