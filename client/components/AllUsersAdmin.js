@@ -36,7 +36,7 @@ const AllUsersAdmin = props => {
                   admin status: {user.isAdmin ? ' Admin ' : ' no '}
                   <i className="fas fa-user-tie" />
                 </span>
-                <span>
+                <span className="column">
                   delete user
                   <a
                     onClick={() => {
