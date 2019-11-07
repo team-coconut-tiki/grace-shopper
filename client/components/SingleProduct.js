@@ -30,15 +30,12 @@ const SingleProduct = props => {
       <div>Name: {thisProduct.title}</div>
       {/* <div>product tile placeholder</div> */}
       <div>Price: ${thisProduct.priceInCents / 100}</div>
-
       {/* <h1>Number in Cart: {quantity}</h1> */}
       <button type="button" onClick={addToCart}>
         Add to cart
       </button>
-
       <p>Description: {thisProduct.description}</p>
-
-      <img src={thisProduct.imageUrl} />
+      <img src="/coconut.png" />
       <div>reviews to come!</div>
     </div>
   )

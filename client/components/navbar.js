@@ -58,6 +58,7 @@ const Navbar = ({handleClick, isLoggedIn}) => (
                 <Link className="button is-white" to="/cart">
                   <span className="icon">
                     <i className="fas fa-shopping-cart" />
+                    <p id="item-count">1 item(s)</p>
                   </span>
                 </Link>
                 <Link className="button" to="/signup">
