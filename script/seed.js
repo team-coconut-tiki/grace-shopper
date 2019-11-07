@@ -179,7 +179,7 @@ async function seed() {
   })
   await CartItem.create({
     productId: 2,
-    userId: 1,
+    userId: 4,
     quantity: 3,
     priceInCents: 4000
   })
@@ -202,10 +202,71 @@ async function seed() {
     priceInCents: 699
   })
 
+  //get order for user 1
+  const activeCarts = await CartItem.findAll({
+    where: {
+      userId: 1,
+      orderId: null
+    }
+  })
+  let subtotal = 0
+  for (let i = 0; i < activeCarts.length; i++) {
+    subtotal += activeCarts[i].priceInCents * activeCarts[i].quantity
+  }
+  const newOrder = await Order.create({
+    subtotalInCents: subtotal,
+    status: 'open',
+    userId: 1
+  })
+
+  for (let i = 0; i < activeCarts.length; i++) {
+    await activeCarts[i].update({orderId: newOrder.id})
+  }
+  //get order for user 8
+  const activeCartsJr = await CartItem.findAll({
+    where: {
+      userId: 8,
+      orderId: null
+    }
+  })
+  let subtotalJr = 0
+  for (let i = 0; i < activeCartsJr.length; i++) {
+    subtotalJr += activeCartsJr[i].priceInCents * activeCartsJr[i].quantity
+  }
+  const newOrderJr = await Order.create({
+    subtotalInCents: subtotalJr,
+    status: 'open',
+    userId: 8
+  })
+
+  for (let i = 0; i < activeCartsJr.length; i++) {
+    await activeCartsJr[i].update({orderId: newOrderJr.id})
+  }
+  //get order for user 11
+  const activeCartsSr = await CartItem.findAll({
+    where: {
+      userId: 11,
+      orderId: null
+    }
+  })
+  let subtotalSr = 0
+  for (let i = 0; i < activeCartsSr.length; i++) {
+    subtotalSr += activeCartsSr[i].priceInCents * activeCartsSr[i].quantity
+  }
+  const newOrderSr = await Order.create({
+    subtotalInCents: subtotalSr,
+    status: 'open',
+    userId: 11
+  })
+
+  for (let i = 0; i < activeCartsSr.length; i++) {
+    await activeCartsSr[i].update({orderId: newOrderSr.id})
+  }
+
   //console.log(`seeded ${users.length} users`)
-  console.log(`seeded ${products.length} products`)
-  console.log(`seeded ${reviews.length} reviews`)
-  console.log(`seeded ${categories.length} categories`)
+  // console.log(`seeded ${products.length} products`)
+  // console.log(`seeded ${reviews.length} reviews`)
+  // console.log(`seeded ${categories.length} categories`)
   console.log(`seeded successfully`)
 }
 
