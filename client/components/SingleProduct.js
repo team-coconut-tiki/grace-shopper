@@ -1,97 +1,49 @@
-import React, {useState} from 'react'
-import {addToCartThunk} from '../store/singleProduct'
-import {useSelector} from 'react-redux'
+import React, {useState, useEffect} from 'react'
+import {addToCartThunk, fetchProduct} from '../store/singleProduct'
+import {useSelector, useDispatch} from 'react-redux'
 import {createUserThunk} from '../store/singleUser'
 
 const SingleProduct = props => {
   const [quantity, setQuantity] = useState(0)
-  // const onChange = event => {
-  //   setQuantity(event.target.value)
+  const dispatch = useDispatch()
+  const thisProduct = useSelector(state => state.singleProduct.selectedProduct)
+
+  const thisProductId = props.location.pathname.split('/')[2]
+
+  useEffect(() => {
+    dispatch(fetchProduct(thisProductId))
+  }, []) //same as componentDidMount()
+
+  function incrementCart() {
+    setQuantity(prevQuantity => prevQuantity + 1)
+    dispatch(
+      addToCartThunk(1, thisProduct.id, quantity, thisProduct.priceInCents)
+    )
+  }
+
+  // function addToCart(){
+  //check if there is a user
+  //createUser thunk
   // }
 
-  // const handleSubmit = event => {
-  //   event.preventDefault()
-  //   const thisUser = useSelector(state => state.singleUser)
-  //   thisUser
-  //     ? addToCartThunk(thisUser.id, props.id, +quantity, props.price)
-  //     : createUserThunk({})
-  //   addToCartThunk(thisUser.id, props.id, +quantity, props.price)
-  // }
-  console.log('props', props.location.pathname) // === '/products/12'
-  // props.location.pathname.split('/')[2]
-  // dispatch(getProductById(^that thing))
   return (
     <div id="single-product">
       <div>Breadcrumb placeholder</div>
+      <div>{thisProduct.title}</div>
       <div>product tile placeholder</div>
+      <div>Price: ${thisProduct.priceInCents / 100}</div>
 
-      <form>
-        <select defaultValue="1">
-          <option value="1">1</option>
-          <option value="2">2</option>
-          <option value="3">3</option>
-          <option value="4">4</option>
-        </select>
-        <button type="button">Add to cart</button>
-      </form>
+      <h1>Number in Cart: {quantity}</h1>
+      <button type="button" onClick={incrementCart}>
+        Add to cart
+      </button>
 
-      <div>Description</div>
+      <p>Description: {thisProduct.description}</p>
 
+      <img src={thisProduct.imageUrl} />
       <div>reviews!</div>
     </div>
   )
 }
 
-// class SingleProduct extends React.Component {
-//   constructor(props) {
-//     super(props)
-//     this.state = {quantity: 0}
-//   }
-
-//   handleChange(event) {
-//     this.setState({quantity: event.target.value})
-//   }
-
-//   handleSubmit(event) {
-//     event.preventDefault()
-//     const thisUser = useSelector(state => state.singleUser)
-//     addToCartThunk(
-//       thisUser.id,
-//       this.props.id,
-//       +this.state.quantity,
-//       this.props.price
-//     )
-//   }
-
-//   render() {
-//     return (
-//       <div id="single-product">
-//         <div>Breadcrumb placeholder</div>
-//         <div>product tile placeholder</div>
-
-//         <form onSubmit={this.handleSubmit}>
-//           <select>
-//             <option selectedValue="1">1</option>
-//             <option value="2">2</option>
-//             <option value="3">3</option>
-//             <option value="4">4</option>
-//           </select>
-//           <button type="button">Add to cart</button>
-//         </form>
-
-//         <div>{this.props.description}</div>
-
-//         <div>
-//           {this.props.reviews.map(review => {
-//             return <li key="review.id">{review}</li>
-//           })}}
-//         </div>
-//       </div>
-//     )
-//   }
-// }
-
 export default SingleProduct
-
-//check if user is logged in (through thunk in the single user)
-//return a user or return a new user

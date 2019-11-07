@@ -1,14 +1,20 @@
 import axios from 'axios'
 
-//action type
+//action types
 const GET_PRODUCT = 'GET_PRODUCT'
 const SET_REVIEWS = 'GET_REVIEWS'
-const ADD_CART = 'ADD_TO_CART'
+const ADD_TO_CART = 'ADD_TO_CART'
+
+//initialState
+const initialState = {
+  selectedProduct: {},
+  reviews: []
+}
 
 //action creator
 export const getProduct = product => ({type: GET_PRODUCT, product})
 export const setReviews = reviews => ({type: SET_REVIEWS, reviews})
-export const addToCart = item => ({type: NEW_CART, item})
+export const addToCart = item => ({type: ADD_TO_CART, item})
 
 //thunk creator
 export const fetchProduct = productId => async dispatch => {
@@ -48,14 +54,13 @@ export const addToCartThunk = (
 }
 
 //reducer
-const initialState = {}
 
 export default (state = initialState, action) => {
   switch (action.type) {
     case GET_PRODUCT:
-      return action.product
+      return {...state, selectedProduct: action.product}
     case SET_REVIEWS:
-      return action.reviews
+      return {...state, reviews: action.reviews}
     default:
       return state
   }
