@@ -11,21 +11,6 @@ const {
   CartItem
 } = require('../server/db/models')
 
-async function createUsers() {
-  await User.create({
-    email: faker.internet.email(),
-    password: faker.internet.password(),
-    fullName: faker.name.findName(),
-    shippingAddress: faker.fake(
-      '{{address.streetName}}, {{address.city}}, {{address.state}}, {{address.zipCode}}'
-    ),
-    billingAddress: faker.fake(
-      '{{address.streetName}}, {{address.city}}, {{address.state}}, {{address.zipCode}}'
-    ),
-    creditCard: '4242 4242 4242 4242'
-  })
-}
-
 async function seed() {
   await db.sync({force: true})
   console.log('db synced!')
@@ -123,6 +108,21 @@ async function seed() {
     })
   ])
 
+  for (let i = 0; i < 15; i++) {
+    await User.create({
+      email: faker.internet.email(),
+      password: faker.internet.password(),
+      fullName: faker.name.findName(),
+      shippingAddress: faker.fake(
+        '{{address.streetName}}, {{address.city}}, {{address.state}}, {{address.zipCode}}'
+      ),
+      billingAddress: faker.fake(
+        '{{address.streetName}}, {{address.city}}, {{address.state}}, {{address.zipCode}}'
+      ),
+      creditCard: '4242 4242 4242 4242'
+    })
+  }
+
   const reviews = await Promise.all([
     Review.create({description: 'Best coconuts north of Wisconsin', rating: 5}),
     Review.create({description: 'Rotten Coconuts are no fun!', rating: 1})
@@ -151,6 +151,72 @@ async function seed() {
   for (let i = 0; i < products.length; i++) {
     await products[i].addCategory(4) // add by ID only
   }
+
+  // carts: looks like there are two methods to get this to happen in production without throwing an error:
+  // 1: get product by product id, productid, and userid. straight up CartItem.create() the row with this information.
+  // I'm using this method because I couldn't get method 2 to work
+  //
+  // 2: user.addProduct({productId});
+  // const newCart CartItem.find({where: {
+  //   productId, userId
+  // }})
+  // newCart.update({
+  //quantity, price pulled from product
+  // })
+  const extraUser = await User.create({
+    email: faker.internet.email(),
+    password: faker.internet.password(),
+    fullName: faker.name.findName(),
+    shippingAddress: faker.fake(
+      '{{address.streetName}}, {{address.city}}, {{address.state}}, {{address.zipCode}}'
+    ),
+    billingAddress: faker.fake(
+      '{{address.streetName}}, {{address.city}}, {{address.state}}, {{address.zipCode}}'
+    ),
+    creditCard: '4242 4242 4242 4242'
+  })
+  // await extraUser.addProduct(1)
+  // const thisCart = await CartItem.findAll({
+  //   where: {
+  //     productId: 1,
+  //     userId: extraUser.id
+  //   }
+  // })
+  // thisCart.update({
+  //   quantity: 5,
+  //   priceInCents: 500
+  // })
+
+  await CartItem.create({
+    productId: 1,
+    userId: 1,
+    quantity: 100,
+    priceInCents: 100 //prices won't be accurate, because... they were on sale! ...or marked up
+  })
+  await CartItem.create({
+    productId: 2,
+    userId: 1,
+    quantity: 3,
+    priceInCents: 4000
+  })
+  await CartItem.create({
+    productId: 3,
+    userId: 1,
+    quantity: 12,
+    priceInCents: 300
+  })
+  await CartItem.create({
+    productId: 7,
+    userId: 11,
+    quantity: 1,
+    priceInCents: 1499
+  })
+  await CartItem.create({
+    productId: 11,
+    userId: 8,
+    quantity: 3,
+    priceInCents: 699
+  })
 
   //console.log(`seeded ${users.length} users`)
   console.log(`seeded ${products.length} products`)
