@@ -50,3 +50,18 @@ router.post('/:userId/:productId', async (req, res, next) => {
 })
 
 //delete cart item
+router.delete('/:userId/:productId', async (req, res, next) => {
+  try {
+    const thisCart = await CartItem.findAll({
+      where: {
+        userId: req.params.userId,
+        productId: req.params.productId,
+        orderId: null //delete only item in active cart
+      }
+    })
+    await thisCart.destroy()
+    res.sendStatus(202)
+  } catch (err) {
+    next(err)
+  }
+})
