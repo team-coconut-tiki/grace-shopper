@@ -1,6 +1,6 @@
 import React, {useState} from 'react'
 import {connect} from 'react-redux'
-import {updateUserThunk} from '../store/'
+import {updateUserThunk, deleteUserThunk} from '../store/'
 
 const EditUserButton = props => {
   const [renderForm, setRenderForm] = useState()
@@ -22,12 +22,12 @@ const EditUserButton = props => {
   }
 
   return (
-    <div className="edit-button">
+    <div className="edit-user-button">
       {renderForm ? (
         <>
           <button
             type="button"
-            className="edit-button"
+            className="edit-user-button"
             onClick={() => setRenderForm(false)}
           >
             Emoji needed
@@ -50,7 +50,7 @@ const EditUserButton = props => {
         <>
           <button
             type="button"
-            className="edit-button"
+            className="edit-user-button"
             onClick={() => setRenderForm(true)}
           >
             Emoji needed
@@ -61,6 +61,7 @@ const EditUserButton = props => {
   )
 }
 
-export default connect(({singleUser}) => ({singleUser}), {updateUserThunk})(
-  EditUserButton
-)
+export default connect(({singleUser}) => ({singleUser}), {
+  updateUserThunk,
+  deleteUserThunk
+})(EditUserButton)
