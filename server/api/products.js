@@ -10,6 +10,7 @@ router.get('/', async (req, res, next) => {
       // send everything to anyone who asks!
       include: [{model: Category}],
       attributes: [
+        'id',
         'title',
         'description',
         'priceInCents',
@@ -17,7 +18,6 @@ router.get('/', async (req, res, next) => {
         'imageUrl'
       ]
     })
-    console.log('got to router')
     res.json(products)
   } catch (err) {
     next(err)

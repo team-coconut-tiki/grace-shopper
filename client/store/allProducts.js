@@ -15,7 +15,7 @@ const initialState = {
 /**
  * ACTION CREATORS
  */
-const getProducts = products => ({type: GET_ALL_PRODUCTS, products: products})
+const getProducts = products => ({type: GET_ALL_PRODUCTS, products})
 
 /**
  * THUNK CREATORS

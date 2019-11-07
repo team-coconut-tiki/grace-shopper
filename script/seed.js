@@ -113,14 +113,14 @@ async function seed() {
   ])
 
   const categories = await Promise.all([
-    Category.create({type: 'indoor'}),
-    Category.create({type: 'outdoor'}),
-    Category.create({type: 'bar_items'}),
-    Category.create({type: 'coconuts'}),
-    Category.create({type: 'apparel'}),
-    Category.create({type: 'home_goods'}),
-    Category.create({type: 'luau'}),
-    Category.create({type: 'sports'})
+    Category.create({type: 'Indoor'}),
+    Category.create({type: 'Outdoor'}),
+    Category.create({type: 'Bar Items'}),
+    Category.create({type: 'Coconuts'}),
+    Category.create({type: 'Apparel'}),
+    Category.create({type: 'Home Goods'}),
+    Category.create({type: 'Luau'}),
+    Category.create({type: 'Sports'})
   ])
 
   const extraCoconut = await Product.create({
