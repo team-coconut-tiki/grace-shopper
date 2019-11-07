@@ -9,7 +9,8 @@ const getUsers = users => ({type: GET_ALL_USERS, users})
 //thunk creators
 export const getUsersThunk = () => async dispatch => {
   try {
-    const {data} = await axios.get('/users/admin')
+    const {data} = await axios.get('api/users/admin')
+    //console.log(data)
     dispatch(getUsers(data))
   } catch (err) {
     console.error('error getting all users for admin', err)
@@ -23,7 +24,7 @@ const allUsers = []
 export default function(state = allUsers, action) {
   switch (action.type) {
     case GET_ALL_USERS:
-      return action.allUsers
+      return {...state, allUsers: action.users}
     default:
       return state
   }
