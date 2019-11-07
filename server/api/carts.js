@@ -8,8 +8,7 @@ router.get('/:userId', async (req, res, next) => {
       where: {
         userId: req.params.userId,
         orderId: null
-      },
-      include: [{model: Product}]
+      }
     })
     res.json(userCarts)
   } catch (err) {
