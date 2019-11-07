@@ -235,7 +235,7 @@ async function seed() {
   }
   const newOrderJr = await Order.create({
     subtotalInCents: subtotalJr,
-    status: 'open',
+    status: 'paid',
     userId: 8
   })
 
@@ -255,7 +255,7 @@ async function seed() {
   }
   const newOrderSr = await Order.create({
     subtotalInCents: subtotalSr,
-    status: 'open',
+    status: 'shipped',
     userId: 11
   })
 
