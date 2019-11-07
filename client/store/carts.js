@@ -55,6 +55,7 @@ export const addToCartThunk = (
       quantity: quantity,
       priceInCents: price
     })
+    console.log('axios completed')
     dispatch(addToCart(data))
   } catch (err) {
     console.error(err)

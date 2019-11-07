@@ -52,7 +52,7 @@ router.post('/:userId/:productId', async (req, res, next) => {
       })
       res.json(existingCart)
     } else {
-      const newCart = await CartItem.findOrCreate({
+      const newCart = await CartItem.create({
         userId: req.params.userId,
         productId: req.params.productId,
         quantity: req.body.quantity,

@@ -26,9 +26,9 @@ const SingleProduct = props => {
 
   return (
     <div id="single-product">
-      <div>Breadcrumb placeholder</div>
-      <div>{thisProduct.title}</div>
-      <div>product tile placeholder</div>
+      {/* <div>Breadcrumb placeholder</div> */}
+      <div>Name: {thisProduct.title}</div>
+      {/* <div>product tile placeholder</div> */}
       <div>Price: ${thisProduct.priceInCents / 100}</div>
 
       {/* <h1>Number in Cart: {quantity}</h1> */}
@@ -39,7 +39,7 @@ const SingleProduct = props => {
       <p>Description: {thisProduct.description}</p>
 
       <img src={thisProduct.imageUrl} />
-      <div>reviews!</div>
+      <div>reviews to come!</div>
     </div>
   )
 }
