@@ -77,7 +77,7 @@ const Cart = () => {
         <div className="level-right">
           <Link to="/checkout">
             <button
-              type="submit"
+              type="button"
               onClick={evt => evt.preventDefault()}
               className="button is-large"
             >

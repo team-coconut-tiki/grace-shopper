@@ -46,14 +46,14 @@ const Navbar = ({handleClick, isLoggedIn}) => {
                     <span className="icon">
                       <i className="fas fa-shopping-cart" />
                     </span>
-                    {/* <p>
+                    <p>
                       {' '}
                       {cartItems.reduce(
                         (acc, cur) => (acc += cur.cart_item.quantity),
                         0
                       )}{' '}
                       Items
-                    </p> */}
+                    </p>
                   </Link>
                   <a href="#" className="button" onClick={handleClick}>
                     Logout
@@ -69,7 +69,7 @@ const Navbar = ({handleClick, isLoggedIn}) => {
                     <span className="icon">
                       <i className="fas fa-shopping-cart" />
                     </span>
-                    {/* <p> {totalItems(cartItems, 'quantity')} Items</p> */}
+                    <p> {totalItems(cartItems, 'quantity')} Items</p>
                   </Link>
                   <Link className="button" to="/signup">
                     Sign Up
