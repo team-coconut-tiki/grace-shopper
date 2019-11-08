@@ -5,20 +5,12 @@ import {getUserThunk, adminDeleteUser} from '../store/'
 import EditUserButton from './EditUserButton'
 
 const SingleUser = props => {
-  // useEffect(() => {
-  //   if (!props.user) {
-  //     const userId = props.match.params.id
-  //     props.getUserThunk(userId)
-  //   }
-  // }, [])
-
   const user = props.singleUser
   if (user) {
     return (
       <div className="user-profile-container">
-        {user.id !== props.match.params.id && (
-          <Redirect to={`/users/${user.id}`} />
-        )}
+        {user.id !== props.match.params.id &&
+          !user.isAdmin && <Redirect to={`/users/${user.id}`} />}
         <div className="email">
           {props.singleUser.isAdmin && (
             <div className="delete-user-button">

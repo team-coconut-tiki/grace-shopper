@@ -18,7 +18,7 @@ async function seed() {
   for (let i = 0; i < 10; i++) {
     await User.create({
       email: faker.internet.email(),
-      password: faker.internet.password(),
+      password: '12345',
       fullName: faker.name.findName(),
       shippingAddress: faker.fake(
         '{{address.streetName}}, {{address.city}}, {{address.state}}, {{address.zipCode}}'
