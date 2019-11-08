@@ -16,6 +16,18 @@ router.get('/', async (req, res, next) => {
   }
 })
 
+router.get('/admin', async (req, res, next) => {
+  try {
+    const users = await User.findAll({
+      include: [{model: Order}]
+      //attributes: ['status']
+    })
+    res.json(users)
+  } catch (err) {
+    next(err)
+  }
+})
+
 //find all active carts
 router.get('/:id/cart', async (req, res, next) => {
   try {
@@ -42,18 +54,6 @@ router.get('/:id', async (req, res, next) => {
       throw err
     }
     res.json(user)
-  } catch (err) {
-    next(err)
-  }
-})
-
-router.get('/admin', async (req, res, next) => {
-  try {
-    const users = await User.findAll({
-      include: [{model: Order}]
-      //attributes: ['status']
-    })
-    res.json(users)
   } catch (err) {
     next(err)
   }
