@@ -9,16 +9,12 @@ import {
 
 const AllUsersAdmin = props => {
   const allUsers = useSelector(state => state.allUsersAdmin.allUsers)
-  //const toggle = useSelector(state => state.allUsersAdmin.toggle)
   const dispatch = useDispatch()
 
   useEffect(() => {
     dispatch(getUsersThunk())
   }, [])
 
-  useEffect(() => {})
-
-  console.log(allUsers)
   return (
     <ul>
       {!allUsers
@@ -36,21 +32,23 @@ const AllUsersAdmin = props => {
                   reset password<i className="fas fa-key" />
                 </span>
                 <span className="column">
-                  orders:{user.orders.length}
+                  orders:{user.orders ? user.orders.length : 0}
                   <i className="fas fa-truck" />
                 </span>
                 <span className="column">
                   admin status:
                   <a
                     onClick={() => {
-                      dispatch(switchAdminStatus(user.id, user.isAdmin))
+                      dispatch(switchAdminStatus(user.id))
                     }}
                   >
-                    {user.isAdmin ? (
-                      <i className="fas fa-user-tie" />
-                    ) : (
-                      <i className=" fas fa-times-circle " />
-                    )}
+                    {/* <i
+                      className={
+                        user.isAdmin ? 'fas fa-user-tie' : 'fas fa-times-circle'
+                      }
+                    /> */}
+                    {user.isAdmin ? 'ADMIN' : 'NO'}
+                    {/* {user.isAdmin ? 'im an admin fam' : 'not an admin, sadface'} */}
                   </a>
                 </span>
                 <span className="column">

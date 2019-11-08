@@ -8,7 +8,7 @@ const ADMIN_STATUS = 'ADMIN_STATUS'
 //action creators
 const getUsers = users => ({type: GET_ALL_USERS, users})
 const deleteUser = id => ({type: DELETE_USER, id})
-const adminStatus = (id, toggle) => ({type: ADMIN_STATUS, id, toggle})
+const adminStatus = user => ({type: ADMIN_STATUS, user})
 
 //thunk creators
 export const getUsersThunk = () => async dispatch => {
@@ -32,10 +32,9 @@ export const adminDeleteUser = userId => async dispatch => {
 export const switchAdminStatus = userId => async dispatch => {
   try {
     const {data} = await axios.get(`/api/users/${userId}`)
-    const opposite = !data.isAdmin
-    await axios.put(`/api/users/${userId}`, {isAdmin: opposite})
-    console.log(data)
-
+    console.log('THUNK DATA', data)
+    data.isAdmin = !data.isAdmin
+    await axios.put(`/api/users/${userId}`, {isAdmin: data.isAdmin})
     dispatch(adminStatus(data))
   } catch (error) {
     console.error(error)
@@ -44,8 +43,7 @@ export const switchAdminStatus = userId => async dispatch => {
 
 //initial state
 const initialState = {
-  allUsers: [],
-  toggle: true
+  allUsers: []
 }
 
 //reducer
@@ -59,8 +57,16 @@ export default function(state = initialState, action) {
         allUsers: state.allUsers.filter(user => action.id !== user.id)
       }
     case ADMIN_STATUS:
-      console.log('ACTION.ID', action.id)
-      return {...state, toggle: !state.toggle}
+      return {
+        ...state,
+        allUsers: state.allUsers.map(user => {
+          if (user.id === action.user.id) {
+            return action.user
+          } else {
+            return user
+          }
+        })
+      }
     default:
       return state
   }
