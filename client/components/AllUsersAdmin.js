@@ -1,15 +1,22 @@
 import React, {useEffect} from 'react'
 import {Link} from 'react-router-dom'
 import {useSelector, useDispatch} from 'react-redux'
-import {getUsersThunk, adminDeleteUser} from '../store/allUsersAdmin'
+import {
+  getUsersThunk,
+  adminDeleteUser,
+  switchAdminStatus
+} from '../store/allUsersAdmin'
 
 const AllUsersAdmin = props => {
   const allUsers = useSelector(state => state.allUsersAdmin.allUsers)
+  //const toggle = useSelector(state => state.allUsersAdmin.toggle)
   const dispatch = useDispatch()
 
   useEffect(() => {
     dispatch(getUsersThunk())
   }, [])
+
+  useEffect(() => {})
 
   console.log(allUsers)
   return (
@@ -33,8 +40,18 @@ const AllUsersAdmin = props => {
                   <i className="fas fa-truck" />
                 </span>
                 <span className="column">
-                  admin status: {user.isAdmin ? ' Admin ' : ' no '}
-                  <i className="fas fa-user-tie" />
+                  admin status:
+                  <a
+                    onClick={() => {
+                      dispatch(switchAdminStatus(user.id, user.isAdmin))
+                    }}
+                  >
+                    {user.isAdmin ? (
+                      <i className="fas fa-user-tie" />
+                    ) : (
+                      <i className=" fas fa-times-circle " />
+                    )}
+                  </a>
                 </span>
                 <span className="column">
                   delete user
