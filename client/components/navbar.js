@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import {connect, useSelector} from 'react-redux'
 import {Link} from 'react-router-dom'
-import {logout} from '../store'
+import {logout, clearCart} from '../store'
 import {totalItems} from '../../Utilities'
 
 const Navbar = ({handleClick, isLoggedIn}) => {
@@ -94,6 +94,7 @@ const mapState = state => {
 const mapDispatch = dispatch => {
   return {
     handleClick() {
+      dispatch(clearCart())
       dispatch(logout())
     }
   }

@@ -6,6 +6,7 @@ import axios from 'axios'
 const GET_ALL_CARTS = 'GET_ALL_CARTS' //admin
 const GET_USER_CART = 'GET_USER_CART'
 const ADD_TO_CART = 'ADD_TO_CART'
+const CLEAR_CART = 'CLEAR_CART'
 
 /**
  * INITIAL STATE
@@ -21,6 +22,7 @@ const initialState = {
 export const getCarts = carts => ({type: GET_ALL_CARTS, carts})
 export const getUserCart = products => ({type: GET_USER_CART, products})
 export const addToCart = item => ({type: ADD_TO_CART, item})
+export const clearCart = () => ({type: CLEAR_CART})
 
 /**
  * THUNK CREATORS
@@ -69,6 +71,8 @@ export default function(state = initialState, action) {
       }
     case ADD_TO_CART:
       return {...state, currentCarts: action.item}
+    case CLEAR_CART:
+      return {...state, currentCarts: []}
     default:
       return state
   }
