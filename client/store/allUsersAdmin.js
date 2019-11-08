@@ -30,16 +30,19 @@ export const adminDeleteUser = userId => async dispatch => {
 }
 
 //initial state
-const allUsers = []
+const initialState = {
+  allUsers: []
+}
 
 //reducer
-export default function(state = allUsers, action) {
+export default function(state = initialState, action) {
   switch (action.type) {
     case GET_ALL_USERS:
       return {...state, allUsers: action.users}
     case DELETE_USER:
       return {
-        allUsers: allUsers.filter(user => action.id !== user.id)
+        ...state,
+        allUsers: state.allUsers.filter(user => action.id !== user.id)
       }
     default:
       return state
