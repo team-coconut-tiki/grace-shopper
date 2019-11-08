@@ -46,7 +46,7 @@ export const fetchUserCart = userId => async dispatch => {
 //where do we check if someone has logged in?
 export const addToCartThunk = (userId, productId, price) => async dispatch => {
   try {
-    const {data} = await axios.post(`/api/carts/${userId}/${productId}`, {
+    await axios.post(`/api/carts/${userId}/${productId}`, {
       priceInCents: price
     })
     const cart = await axios.get(`/api/users/${userId}/cart`)

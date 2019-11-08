@@ -16,7 +16,7 @@ const Cart = () => {
   )
 
   const subtotal = cartItems.reduce((acc, cur) => {
-    acc += cur.priceInCents * cur.quantity
+    acc += cur.cart_item.priceInCents * cur.cart_item.quantity
     return acc
   }, 0)
 
