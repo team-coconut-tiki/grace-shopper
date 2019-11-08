@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import {connect, useSelector} from 'react-redux'
 import {Link} from 'react-router-dom'
-import {logout} from '../store'
+import {logout, clearCart} from '../store'
 import {totalItems} from '../../Utilities'
 
 const Navbar = ({handleClick, isLoggedIn}) => {
@@ -46,14 +46,14 @@ const Navbar = ({handleClick, isLoggedIn}) => {
                     <span className="icon">
                       <i className="fas fa-shopping-cart" />
                     </span>
-                    <p>
+                    {/* <p>
                       {' '}
                       {cartItems.reduce(
                         (acc, cur) => (acc += cur.cart_item.quantity),
                         0
                       )}{' '}
                       Items
-                    </p>
+                    </p> */}
                   </Link>
                   <a href="#" className="button" onClick={handleClick}>
                     Logout
@@ -69,7 +69,7 @@ const Navbar = ({handleClick, isLoggedIn}) => {
                     <span className="icon">
                       <i className="fas fa-shopping-cart" />
                     </span>
-                    <p> {totalItems(cartItems, 'quantity')} Items</p>
+                    {/* <p> {totalItems(cartItems, 'quantity')} Items</p> */}
                   </Link>
                   <Link className="button" to="/signup">
                     Sign Up
@@ -97,6 +97,7 @@ const mapState = state => {
 const mapDispatch = dispatch => {
   return {
     handleClick() {
+      dispatch(clearCart())
       dispatch(logout())
     }
   }
