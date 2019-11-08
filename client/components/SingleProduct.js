@@ -6,6 +6,7 @@ const SingleProduct = props => {
   const dispatch = useDispatch()
   const thisProduct = useSelector(state => state.singleProduct.selectedProduct)
   const user = useSelector(state => state.singleUser)
+  const cartItems = useSelector(state => state.carts.currentCarts)
 
   const thisProductId = props.location.pathname.split('/')[2]
 
@@ -20,6 +21,7 @@ const SingleProduct = props => {
 
   function addToCart() {
     dispatch(addToCartThunk(user.id, thisProduct.id, thisProduct.priceInCents))
+    console.log('added to cart!', cartItems)
   }
 
   return (

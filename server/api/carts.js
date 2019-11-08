@@ -18,13 +18,6 @@ router.get('/:userId', async (req, res, next) => {
 //creates a new cart item
 router.post('/:userId/:productId', async (req, res, next) => {
   try {
-    // const thisUser = User.findAll({
-    //   where: {
-    //     id: req.params.userId
-    //   }
-    // })
-    // const newCart = await thisUser.addProduct(req.params.productId)
-    // await newCart.update(req.body)
     const existingCart = await CartItem.findOne({
       where: {
         userId: req.params.userId,
@@ -34,7 +27,7 @@ router.post('/:userId/:productId', async (req, res, next) => {
     })
     if (existingCart) {
       await existingCart.update({
-        quantity: existingCart.quantity++
+        quantity: existingCart.quantity + 1
       })
       res.json(existingCart)
     } else {
@@ -50,12 +43,6 @@ router.post('/:userId/:productId', async (req, res, next) => {
       })
       newCart.update({quantity: 1, priceInCents: req.body.priceInCents})
 
-      // const newCart = await CartItem.create({
-      //   userId: req.params.userId,
-      //   productId: req.params.productId,
-      //   quantity: 1,
-      //   priceInCents: req.body.priceInCents
-      // })
       res.json(newCart)
     }
   } catch (err) {

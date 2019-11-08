@@ -8,13 +8,9 @@ const Cart = () => {
   const user = useSelector(state => state.singleUser)
   const cartItems = useSelector(state => state.carts.currentCarts)
 
-  console.log('cart items', cartItems)
-
   useEffect(
     () => {
-      console.log('this user is', user)
       dispatch(fetchUserCart(user.id))
-      console.log('mounted', cartItems)
     },
     [user]
   )
@@ -23,7 +19,7 @@ const Cart = () => {
     acc += cur.priceInCents * cur.quantity
     return acc
   }, 0)
-  // console.log(cartItems)
+
   return (
     <div>
       <h2>Your Cart</h2>
