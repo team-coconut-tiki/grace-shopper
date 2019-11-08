@@ -4,7 +4,8 @@ import {
   fetchUserCart,
   fetchProduct,
   addToCartThunk,
-  removeFromCartThunk
+  removeFromCartThunk,
+  updateCartThunk
 } from '../store'
 import {dollarsInDollars} from '../../Utilities'
 
@@ -12,7 +13,8 @@ const Cart = () => {
   const dispatch = useDispatch()
   const user = useSelector(state => state.singleUser)
   const cartItems = useSelector(state => state.carts.currentCarts)
-
+  // const [quantity]
+  console.log('cartItems', cartItems)
   useEffect(
     () => {
       dispatch(fetchUserCart(user.id))
@@ -21,6 +23,7 @@ const Cart = () => {
   )
 
   const subtotal = cartItems.reduce((acc, cur) => {
+    console.log('in subtotal reduce', cur)
     acc += cur.cart_item.priceInCents * cur.cart_item.quantity
     return acc
   }, 0)
@@ -45,6 +48,11 @@ const Cart = () => {
                   type="number"
                   className="input is-rounded"
                   value={item.cart_item.quantity}
+                  onChange={evt => {
+                    dispatch(
+                      updateCartThunk(user.id, item.id, +evt.target.value)
+                    )
+                  }}
                 />
               </p>
               <p className="level-item">

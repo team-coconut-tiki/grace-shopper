@@ -8,6 +8,7 @@ const GET_USER_CART = 'GET_USER_CART'
 const ADD_TO_CART = 'ADD_TO_CART'
 const CLEAR_CART = 'CLEAR_CART'
 const REMOVE_FROM_CART = 'REMOVE_FROM_CART'
+const UPDATE_CART = 'UPDATE_CART'
 
 /**
  * INITIAL STATE
@@ -27,6 +28,10 @@ export const clearCart = () => ({type: CLEAR_CART})
 export const removeFromCart = productId => ({
   type: REMOVE_FROM_CART,
   productId
+})
+export const updateCart = cart => ({
+  type: UPDATE_CART,
+  cart
 })
 
 /**
@@ -71,6 +76,21 @@ export const removeFromCartThunk = (userId, productId) => async dispatch => {
   }
 }
 
+export const updateCartThunk = (
+  userId,
+  productId,
+  newQty
+) => async dispatch => {
+  try {
+    const {data} = await axios.put(`/api/carts/${userId}/${productId}`, {
+      quantity: newQty
+    })
+    dispatch(updateCart(data))
+  } catch (error) {
+    console.error(error)
+  }
+}
+
 /**
  * REDUCER
  */
@@ -93,6 +113,22 @@ export default function(state = initialState, action) {
         currentCarts: state.currentCarts.filter(cartRow => {
           return cartRow.id !== action.productId
         })
+      }
+    case UPDATE_CART:
+      const newCartArr = []
+      state.currentCarts.forEach(cartRow => {
+        if (cartRow.id === action.cart.productId) {
+          const newProduct = cartRow
+          newProduct.cart_item.quantity = action.cart.quantity
+          newCartArr.push(newProduct)
+          // cartRow.cart_item.quantity = action.cart.quantity
+        } else {
+          newCartArr.push(cartRow)
+        }
+      })
+      return {
+        ...state,
+        currentCarts: newCartArr
       }
     default:
       return state
