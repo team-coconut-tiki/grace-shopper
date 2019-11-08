@@ -41,8 +41,8 @@ const Navbar = ({handleClick, isLoggedIn}) => {
                   <Link className="button is-white" to="/cart">
                     <span className="icon">
                       <i className="fas fa-shopping-cart" />
-                      <p> {cartItems.length} item(s)</p>
                     </span>
+                    <p> {cartItems.length} item(s)</p>
                   </Link>
                   <a href="#" className="button" onClick={handleClick}>
                     Logout
@@ -57,8 +57,8 @@ const Navbar = ({handleClick, isLoggedIn}) => {
                   <Link className="button is-white" to="/cart">
                     <span className="icon">
                       <i className="fas fa-shopping-cart" />
-                      <p> {cartItems.length} item(s)</p>
                     </span>
+                    <p> {cartItems.length} item(s)</p>
                   </Link>
                   <Link className="button" to="/signup">
                     Sign Up

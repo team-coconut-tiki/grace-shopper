@@ -2,6 +2,7 @@ const passport = require('passport')
 const router = require('express').Router()
 const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy
 const {User} = require('../db/models')
+console.log('RUN RUNR UN')
 module.exports = router
 
 /**
@@ -31,38 +32,35 @@ if (!process.env.GOOGLE_CLIENT_ID || !process.env.GOOGLE_CLIENT_SECRET) {
     (token, refreshToken, profile, done) => {
       const googleId = profile.id
       const email = profile.emails[0].value
-      // const imgUrl = profile.photos[0].value
-      // const firstName = profile.name.givenName
-      // const lastName = profile.name.familyName
-      // const fullName = profile.displayName
+      const imgUrl = profile.photos[0].value
+      const firstName = profile.name.givenName
+      const lastName = profile.name.familyName
+      const fullName = profile.displayName
 
-      User.findOrCreate({
-        where: {googleId},
-        defaults: {email, imgUrl, firstName, lastName, fullName}
-      })
-        .then(([user]) => done(null, user))
-        .catch(done)
+      console.log(
+        User.findOrCreate({
+          where: {googleId},
+          defaults: {email, imgUrl, firstName, lastName, fullName}
+        })
+          .then(([user]) => done(null, user))
+          .catch(done)
+      )
     }
   )
 
+  console.log('This should run')
   passport.use(strategy)
+  console.log('DID THIS RUN?')
 
-  router.get('/', passport.authenticate('google', {scope: ['email']}))
-
-  passport.serializeUser((user, done) => {
-    done(null, user.id)
-  })
-
-  passport.deserializeUser((id, done) => {
-    User.findByPk(id)
-      .then(user => done(null, user))
-      .catch(err => done(err))
-  })
+  router.get(
+    '/',
+    passport.authenticate('google', {scope: ['email', 'profile']})
+  )
 
   router.get(
     '/callback',
     passport.authenticate('google', {
-      successRedirect: '/',
+      successRedirect: '/home',
       failureRedirect: '/login'
     })
   )
