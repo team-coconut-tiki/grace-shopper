@@ -19,7 +19,6 @@ const SingleProduct = props => {
   //same as componentDidMount()
 
   function addToCart() {
-    console.log('user exists', user)
     dispatch(addToCartThunk(user.id, thisProduct.id, thisProduct.priceInCents))
   }
 

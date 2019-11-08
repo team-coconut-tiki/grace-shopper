@@ -1,5 +1,5 @@
 const router = require('express').Router()
-const {CartItem} = require('../db/models')
+const {CartItem, User, Product} = require('../db/models')
 
 router.get('/:userId', async (req, res, next) => {
   try {
@@ -38,12 +38,24 @@ router.post('/:userId/:productId', async (req, res, next) => {
       })
       res.json(existingCart)
     } else {
-      const newCart = await CartItem.create({
-        userId: req.params.userId,
-        productId: req.params.productId,
-        quantity: 1,
-        priceInCents: req.body.priceInCents
+      const thisUser = await User.findByPk(req.params.userId)
+      const thisProduct = await Product.findByPk(req.params.productId)
+      await thisUser.addProduct(thisProduct)
+      const newCart = await CartItem.findOne({
+        where: {
+          userId: req.params.userId,
+          productId: req.params.productId,
+          orderId: null
+        }
       })
+      newCart.update({quantity: 1, priceInCents: req.body.priceInCents})
+
+      // const newCart = await CartItem.create({
+      //   userId: req.params.userId,
+      //   productId: req.params.productId,
+      //   quantity: 1,
+      //   priceInCents: req.body.priceInCents
+      // })
       res.json(newCart)
     }
   } catch (err) {

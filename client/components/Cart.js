@@ -8,14 +8,13 @@ const Cart = () => {
   const user = useSelector(state => state.singleUser)
   const cartItems = useSelector(state => state.carts.currentCarts)
 
-  // console.log('user', user)
-  console.log('cart', cartItems)
-  // const [quantity, setQuantity] = useState(0)
+  console.log('cart items', cartItems)
 
   useEffect(
     () => {
-      //call getuser thing
+      console.log('this user is', user)
       dispatch(fetchUserCart(user.id))
+      console.log('mounted', cartItems)
     },
     [user]
   )
@@ -30,7 +29,6 @@ const Cart = () => {
       <h2>Your Cart</h2>
 
       {cartItems.map(item => {
-        console.log('item', item)
         return (
           <li className="level" key={item.id}>
             <div className="level-left">
