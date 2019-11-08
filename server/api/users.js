@@ -47,7 +47,9 @@ router.get('/:id/cart', async (req, res, next) => {
 
 router.get('/:id', async (req, res, next) => {
   try {
-    const user = await User.findByPk(req.params.id)
+    const user = await User.findByPk(req.params.id, {
+      include: [{model: Order}]
+    })
     if (!user) {
       let err = new Error('No user found')
       err.status = 404
@@ -76,18 +78,21 @@ router.put('/:id', async (req, res, next) => {
 
 router.post('/', async (req, res, next) => {
   try {
-    const user = await User.findByPk(req.params.id)
-    if (user) {
-      throw new Error('User already exists!')
-    }
+    // const user = await User.findByPk(req.params.id)
+    // if (user) {
+    //   throw new Error('User already exists!')
+    // }
+
+    //body should be {}
+    console.log('in post route')
     const newUser = await User.create(req.body)
+    console.log('after creating new user')
     res.json(newUser)
   } catch (err) {
     next(err)
   }
 })
 
-//works kind of
 router.delete('/:id', async (req, res, next) => {
   try {
     const user = await User.findByPk(req.params.id)

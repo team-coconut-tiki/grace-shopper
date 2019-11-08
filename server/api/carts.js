@@ -1,5 +1,5 @@
 const router = require('express').Router()
-const {CartItem} = require('../db/models')
+const {CartItem, User, Product} = require('../db/models')
 
 router.get('/:userId', async (req, res, next) => {
   try {
@@ -18,13 +18,6 @@ router.get('/:userId', async (req, res, next) => {
 //creates a new cart item
 router.post('/:userId/:productId', async (req, res, next) => {
   try {
-    // const thisUser = User.findAll({
-    //   where: {
-    //     id: req.params.userId
-    //   }
-    // })
-    // const newCart = await thisUser.addProduct(req.params.productId)
-    // await newCart.update(req.body)
     const existingCart = await CartItem.findOne({
       where: {
         userId: req.params.userId,
@@ -34,16 +27,22 @@ router.post('/:userId/:productId', async (req, res, next) => {
     })
     if (existingCart) {
       await existingCart.update({
-        quantity: existingCart.quantity + req.body.quantity
+        quantity: existingCart.quantity + 1
       })
       res.json(existingCart)
     } else {
-      const newCart = await CartItem.create({
-        userId: req.params.userId,
-        productId: req.params.productId,
-        quantity: req.body.quantity,
-        priceInCents: req.body.priceInCents
+      const thisUser = await User.findByPk(req.params.userId)
+      const thisProduct = await Product.findByPk(req.params.productId)
+      await thisUser.addProduct(thisProduct)
+      const newCart = await CartItem.findOne({
+        where: {
+          userId: req.params.userId,
+          productId: req.params.productId,
+          orderId: null
+        }
       })
+      newCart.update({quantity: 1, priceInCents: req.body.priceInCents})
+
       res.json(newCart)
     }
   } catch (err) {
@@ -62,7 +61,7 @@ router.delete('/:userId/:productId', async (req, res, next) => {
       }
     })
     await thisCart.destroy()
-    res.sendStatus(202)
+    res.status(202).end()
   } catch (err) {
     next(err)
   }

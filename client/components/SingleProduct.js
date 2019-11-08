@@ -1,28 +1,27 @@
 import React, {useEffect} from 'react'
-import {addToCartThunk, fetchProduct} from '../store'
+import {addToCartThunk, fetchProduct, createUserThunk} from '../store'
 import {useSelector, useDispatch} from 'react-redux'
 
 const SingleProduct = props => {
   const dispatch = useDispatch()
   const thisProduct = useSelector(state => state.singleProduct.selectedProduct)
   const user = useSelector(state => state.currentUser)
+  const cartItems = useSelector(state => state.carts.currentCarts)
 
   const thisProductId = props.location.pathname.split('/')[2]
 
   useEffect(() => {
+    if (!user.id) {
+      dispatch(createUserThunk({}))
+    }
+
     dispatch(fetchProduct(thisProductId))
-  }, []) //same as componentDidMount()
-
-  // function addToCart(){
-  // // check if there is a user
-  // // createUser thunk
-
-  // }
+  }, [])
+  //same as componentDidMount()
 
   function addToCart() {
-    dispatch(
-      addToCartThunk(user.id, thisProduct.id, 1, thisProduct.priceInCents)
-    )
+    dispatch(addToCartThunk(user.id, thisProduct.id, thisProduct.priceInCents))
+    console.log('added to cart!', cartItems)
   }
 
   return (
