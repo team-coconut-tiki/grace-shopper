@@ -3,8 +3,9 @@ import {connect} from 'react-redux'
 import {updateUserThunk, deleteUserThunk} from '../store/'
 
 const EditUserButton = props => {
+  const user = props.isSameUser ? props.currentUser : props.otherUser
   const [renderForm, setRenderForm] = useState()
-  const [formState, setFormState] = useState(props.singleUser[props.source])
+  const [formState, setFormState] = useState(user[props.source])
 
   const handleChange = e => {
     setFormState(e.target.value)
@@ -13,8 +14,8 @@ const EditUserButton = props => {
   const handleSubmit = async evt => {
     evt.preventDefault()
     try {
-      props.singleUser[props.source] = formState
-      await props.updateUserThunk(props.singleUser)
+      user[props.source] = formState
+      await props.updateUserThunk(user)
       setRenderForm(false)
     } catch (err) {
       console.error(err)
@@ -61,7 +62,10 @@ const EditUserButton = props => {
   )
 }
 
-export default connect(({singleUser}) => ({singleUser}), {
-  updateUserThunk,
-  deleteUserThunk
-})(EditUserButton)
+export default connect(
+  ({currentUser, otherUser}) => ({currentUser, otherUser}),
+  {
+    updateUserThunk,
+    deleteUserThunk
+  }
+)(EditUserButton)
