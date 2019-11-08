@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import {connect, useSelector} from 'react-redux'
 import {Link} from 'react-router-dom'
 import {logout} from '../store'
+import {totalItems} from '../../Utilities'
 
 const Navbar = ({handleClick, isLoggedIn}) => {
   const cartItems = useSelector(state => state.carts.currentCarts)
@@ -36,7 +37,14 @@ const Navbar = ({handleClick, isLoggedIn}) => {
                     <span className="icon">
                       <i className="fas fa-shopping-cart" />
                     </span>
-                    <p> {cartItems.length} item(s)</p>
+                    <p>
+                      {' '}
+                      {cartItems.reduce(
+                        (acc, cur) => (acc += cur.cart_item.quantity),
+                        0
+                      )}{' '}
+                      Items
+                    </p>
                   </Link>
                   <a href="#" className="button" onClick={handleClick}>
                     Logout
@@ -52,7 +60,7 @@ const Navbar = ({handleClick, isLoggedIn}) => {
                     <span className="icon">
                       <i className="fas fa-shopping-cart" />
                     </span>
-                    <p> {cartItems.length} item(s)</p>
+                    <p> {totalItems(cartItems, 'quantity')} Items</p>
                   </Link>
                   <Link className="button" to="/signup">
                     Sign Up
