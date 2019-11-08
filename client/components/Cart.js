@@ -1,30 +1,26 @@
-import React, {useEffect, useState} from 'react'
+import React, {useEffect} from 'react'
 import {useSelector, useDispatch} from 'react-redux'
-import {fetchUserCart, fetchProduct, addToCartThunk} from '../store'
+import {fetchUserCart, removeFromCartThunk, updateCartThunk} from '../store'
 import {dollarsInDollars} from '../../Utilities'
+import {Link} from 'react-router-dom'
 
 const Cart = () => {
   const dispatch = useDispatch()
   const user = useSelector(state => state.singleUser)
   const cartItems = useSelector(state => state.carts.currentCarts)
 
-  console.log('user', user)
-  console.log('cart', cartItems)
-  // const [quantity, setQuantity] = useState(0)
-
   useEffect(
     () => {
-      //call getuser thing
       dispatch(fetchUserCart(user.id))
     },
     [user]
   )
 
   const subtotal = cartItems.reduce((acc, cur) => {
-    acc += cur.priceInCents * cur.quantity
+    acc += cur.cart_item.priceInCents * cur.cart_item.quantity
     return acc
   }, 0)
-  // console.log(cartItems)
+
   return (
     <div>
       <h2>Your Cart</h2>
@@ -45,11 +41,22 @@ const Cart = () => {
                   type="number"
                   className="input is-rounded"
                   value={item.cart_item.quantity}
+                  onChange={evt => {
+                    dispatch(
+                      updateCartThunk(user.id, item.id, +evt.target.value)
+                    )
+                  }}
                 />
               </p>
               <p className="level-item">
                 ${dollarsInDollars(item.cart_item.priceInCents)}
               </p>
+              <span
+                className="icon button"
+                onClick={() => dispatch(removeFromCartThunk(user.id, item.id))}
+              >
+                <i className="fas fa-trash" />
+              </span>
             </div>
           </li>
         )
@@ -68,13 +75,18 @@ const Cart = () => {
         <div className="level-left" />
         <div className="level-center" />
         <div className="level-right">
-          <button
-            type="submit"
-            onClick={evt => evt.preventDefault()}
-            className="button is-large"
-          >
-            Complete Order
-          </button>
+          <Link to="/checkout">
+            <button
+              type="button"
+              onClick={evt => evt.preventDefault()}
+              className="button is-large"
+            >
+              <span className="icon">
+                <i className="fas fa-shopping-bag" />
+              </span>
+              <p>Complete Order</p>
+            </button>
+          </Link>
         </div>
       </div>
     </div>
@@ -82,33 +94,3 @@ const Cart = () => {
 }
 
 export default Cart
-
-// {/* {cartProducts.map((item, i) => {
-//           return (
-//             <li className="level" key={item.id}>
-//               <div className="level-left">
-//                 <figure className="image is-64x64 level-item">
-//                   <img src={item.imageUrl} />
-//                 </figure>
-//                 <strong className="level-item">{item.title}</strong>
-//               </div>
-//               <div className="level-right">
-//                 <p className="level-item">
-//                   x{'  '}
-//                   <input
-//                     type="number"
-//                     className="input is-rounded"
-//                     value={cartItems[i].quantity}
-//                   />
-//                 </p>
-//                 <p className="level-item">
-//                   ${Math.floor(cartItems[i].priceInCents / 100)}.{cartItems[
-//                     i
-//                   ].priceInCents
-//                     .toString()
-//                     .slice(-2)}
-//                 </p>
-//               </div>
-//             </li>
-//           )
-//         })} */}

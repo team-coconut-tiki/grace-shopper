@@ -1,7 +1,11 @@
 import React, {useEffect} from 'react'
 import {Link} from 'react-router-dom'
 import {useSelector, useDispatch} from 'react-redux'
-import {getUsersThunk, adminDeleteUser} from '../store/allUsersAdmin'
+import {
+  getUsersThunk,
+  adminDeleteUser,
+  switchAdminStatus
+} from '../store/allUsersAdmin'
 
 const AllUsersAdmin = props => {
   const allUsers = useSelector(state => state.allUsersAdmin.allUsers)
@@ -11,7 +15,6 @@ const AllUsersAdmin = props => {
     dispatch(getUsersThunk())
   }, [])
 
-  console.log(allUsers)
   return (
     <ul>
       {!allUsers
@@ -21,7 +24,7 @@ const AllUsersAdmin = props => {
               <li key={user.id} className="columns">
                 <span className="column">
                   ID: {user.id} {user.email}
-                  <Link to={`/users/${user.id}`}>
+                  <Link to={`/users/${user.id}?isAdmin=true`}>
                     <i className="fas fa-user-edit" />
                   </Link>
                 </span>
@@ -29,12 +32,24 @@ const AllUsersAdmin = props => {
                   reset password<i className="fas fa-key" />
                 </span>
                 <span className="column">
-                  orders:{user.orders.length}
+                  orders:{user.orders ? user.orders.length : 0}
                   <i className="fas fa-truck" />
                 </span>
                 <span className="column">
-                  admin status: {user.isAdmin ? ' Admin ' : ' no '}
-                  <i className="fas fa-user-tie" />
+                  admin status:
+                  <a
+                    onClick={() => {
+                      dispatch(switchAdminStatus(user.id))
+                    }}
+                  >
+                    {/* <i
+                      className={
+                        user.isAdmin ? 'fas fa-user-tie' : 'fas fa-times-circle'
+                      }
+                    /> */}
+                    {user.isAdmin ? 'ADMIN' : 'NO'}
+                    {/* {user.isAdmin ? 'im an admin fam' : 'not an admin, sadface'} */}
+                  </a>
                 </span>
                 <span className="column">
                   delete user
