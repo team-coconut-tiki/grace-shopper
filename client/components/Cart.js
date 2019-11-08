@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react'
 import {useSelector, useDispatch} from 'react-redux'
 import {getAllUserCarts, fetchProduct, addToCartThunk} from '../store'
+import {dollarsInDollars} from '../../Utilities'
 
 const userId = 10 //change this once we figure out login
 
@@ -42,15 +43,11 @@ const Cart = () => {
                 }
               />
             </span> */}{' '}
-            of: ${Math.floor(item.priceInCents / 100)}.{item.priceInCents
-              .toString()
-              .slice(-2)}
+            of: ${dollarsInDollars(item.priceInCents)}
           </li>
         )
       })}
-      <p>
-        Subtotal: ${Math.floor(subtotal / 100)}.{subtotal.toString().slice(-2)}
-      </p>
+      <p>Subtotal: ${dollarsInDollars(subtotal)}</p>
       <button
         type="submit"
         onClick={evt => evt.preventDefault()}
