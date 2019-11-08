@@ -1,6 +1,11 @@
 import React, {useEffect, useState} from 'react'
 import {useSelector, useDispatch} from 'react-redux'
-import {fetchUserCart, fetchProduct, addToCartThunk} from '../store'
+import {
+  fetchUserCart,
+  fetchProduct,
+  addToCartThunk,
+  removeFromCartThunk
+} from '../store'
 import {dollarsInDollars} from '../../Utilities'
 
 const Cart = () => {
@@ -45,6 +50,12 @@ const Cart = () => {
               <p className="level-item">
                 ${dollarsInDollars(item.cart_item.priceInCents)}
               </p>
+              <span
+                className="icon button"
+                onClick={() => dispatch(removeFromCartThunk(user.id, item.id))}
+              >
+                <i className="fas fa-trash" />
+              </span>
             </div>
           </li>
         )
@@ -68,7 +79,10 @@ const Cart = () => {
             onClick={evt => evt.preventDefault()}
             className="button is-large"
           >
-            Complete Order
+            <span className="icon">
+              <i className="fas fa-shopping-bag" />
+            </span>
+            <p>Complete Order</p>
           </button>
         </div>
       </div>
