@@ -1,20 +1,14 @@
-import React, {useEffect, useState} from 'react'
+import React, {useEffect} from 'react'
 import {useSelector, useDispatch} from 'react-redux'
-import {
-  fetchUserCart,
-  fetchProduct,
-  addToCartThunk,
-  removeFromCartThunk,
-  updateCartThunk
-} from '../store'
+import {fetchUserCart, removeFromCartThunk, updateCartThunk} from '../store'
 import {dollarsInDollars} from '../../Utilities'
+import {Link} from 'react-router-dom'
 
 const Cart = () => {
   const dispatch = useDispatch()
   const user = useSelector(state => state.singleUser)
   const cartItems = useSelector(state => state.carts.currentCarts)
-  // const [quantity]
-  console.log('cartItems', cartItems)
+
   useEffect(
     () => {
       dispatch(fetchUserCart(user.id))
@@ -23,7 +17,6 @@ const Cart = () => {
   )
 
   const subtotal = cartItems.reduce((acc, cur) => {
-    console.log('in subtotal reduce', cur)
     acc += cur.cart_item.priceInCents * cur.cart_item.quantity
     return acc
   }, 0)
@@ -82,16 +75,18 @@ const Cart = () => {
         <div className="level-left" />
         <div className="level-center" />
         <div className="level-right">
-          <button
-            type="submit"
-            onClick={evt => evt.preventDefault()}
-            className="button is-large"
-          >
-            <span className="icon">
-              <i className="fas fa-shopping-bag" />
-            </span>
-            <p>Complete Order</p>
-          </button>
+          <Link to="/checkout">
+            <button
+              type="submit"
+              onClick={evt => evt.preventDefault()}
+              className="button is-large"
+            >
+              <span className="icon">
+                <i className="fas fa-shopping-bag" />
+              </span>
+              <p>Complete Order</p>
+            </button>
+          </Link>
         </div>
       </div>
     </div>
