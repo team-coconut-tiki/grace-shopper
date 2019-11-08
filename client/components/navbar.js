@@ -6,6 +6,7 @@ import {logout} from '../store'
 
 const Navbar = ({handleClick, isLoggedIn}) => {
   const cartItems = useSelector(state => state.carts.currentCarts)
+  const user = useSelector(state => state.singleUser)
   return (
     <section className="hero">
       <div className="hero-body">
@@ -19,15 +20,8 @@ const Navbar = ({handleClick, isLoggedIn}) => {
             </Link>
           </div>
           <div className="level-item has-text-centered">
-            <p>DEV ONLY :::</p>
-            <Link className="button is-white" to="/products">
-              Products
-            </Link>
             <Link className="button is-white" to="/users">
               Users
-            </Link>
-            <Link className="button is-white" to="/users/1">
-              Single User
             </Link>
           </div>
           <div className="level-right">
@@ -35,8 +29,8 @@ const Navbar = ({handleClick, isLoggedIn}) => {
               {isLoggedIn ? (
                 <div>
                   {/* The navbar will show these links after you log in */}
-                  <Link className="button" to="/home">
-                    Home
+                  <Link className="button" to={`/users/${user.id}`}>
+                    My Account
                   </Link>
                   <Link className="button is-white" to="/cart">
                     <span className="icon">

@@ -1,21 +1,24 @@
 import React, {useEffect} from 'react'
 import {connect} from 'react-redux'
-import {getUserThunk, deleteUserThunk} from '../store/'
+import {Redirect} from 'react-router'
+import {getUserThunk, adminDeleteUser} from '../store/'
 import EditUserButton from './EditUserButton'
 
 const SingleUser = props => {
-  console.log(props.match)
-  useEffect(() => {
-    if (!props.user) {
-      const userId = props.match.params.id
-      props.getUserThunk(userId)
-    }
-  }, [])
+  // useEffect(() => {
+  //   if (!props.user) {
+  //     const userId = props.match.params.id
+  //     props.getUserThunk(userId)
+  //   }
+  // }, [])
 
-  const user = props.user ? props.user : props.singleUser
+  const user = props.singleUser
   if (user) {
     return (
       <div className="user-profile-container">
+        {user.id !== props.match.params.id && (
+          <Redirect to={`/users/${user.id}`} />
+        )}
         <div className="email">
           {props.singleUser.isAdmin && (
             <div className="delete-user-button">
@@ -24,7 +27,7 @@ const SingleUser = props => {
                 className="delete-user-button"
                 onClick={() => {
                   try {
-                    props.deleteUserThunk(user.id)
+                    props.adminDeleteUser(user.id)
                     props.history.push('/')
                   } catch (err) {
                     console.error(err)
@@ -66,5 +69,5 @@ const SingleUser = props => {
 }
 export default connect(({singleUser}) => ({singleUser}), {
   getUserThunk,
-  deleteUserThunk
+  adminDeleteUser
 })(SingleUser)
