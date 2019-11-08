@@ -89,7 +89,6 @@ router.post('/', async (req, res, next) => {
 //works kind of
 router.delete('/:id', async (req, res, next) => {
   try {
-    console.log('got to express')
     const user = await User.findByPk(req.params.id)
     if (!user) {
       let err = new Error('No user found')
@@ -97,11 +96,7 @@ router.delete('/:id', async (req, res, next) => {
       throw err
     }
     await user.destroy()
-    if (user) {
-      throw new Error()
-    }
-    console.log('got to express')
-    res.sendStatus(204)
+    res.status(204).end()
   } catch (err) {
     next(err)
   }
