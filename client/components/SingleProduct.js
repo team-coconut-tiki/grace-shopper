@@ -7,11 +7,20 @@ const SingleProduct = props => {
   const dispatch = useDispatch()
   const thisProduct = useSelector(state => state.singleProduct.selectedProduct)
 
+  // REVIEW: how can we get the param as a value?
   const thisProductId = props.location.pathname.split('/')[2]
 
+  //  const [seconds, setCount] = useState(0)
+  //  useEffect(() => {
+  //    setTimeout(() =>{
+  //      setCount(seconds + 1)
+  //    }, 1000)
+  //  }, [seconds])
+  //
   useEffect(() => {
     dispatch(fetchProduct(thisProductId))
-  }, []) //same as componentDidMount()
+    // what if thisProductId changes?
+  }, [thisProductId]) //same as componentDidMount()
 
   // function addToCart(){
   // // check if there is a user

@@ -37,6 +37,7 @@ export const fetchReviews = () => async dispatch => {
 
 export default (state = initialState, action) => {
   switch (action.type) {
+    // REVIEW: GET vs SET
     case GET_PRODUCT:
       return {...state, selectedProduct: action.product}
     case SET_REVIEWS:

@@ -3,6 +3,10 @@ const {CartItem, User, Product} = require('../db/models')
 
 //find all user's active cart items
 router.get('/:userId', async (req, res, next) => {
+  // REVIEW: WHO IS ALOWED to do this? (req.user)
+  // req.user.getCartItems
+  // can admins view this route?
+  // if (req.user) <== somebody is loggedin
   try {
     const userCarts = await CartItem.findAll({
       where: {
@@ -32,6 +36,9 @@ router.get('/:userId/all', async (req, res, next) => {
 
 //creates a new cart item
 router.post('/:userId/:productId', async (req, res, next) => {
+  // REVIEW: req.user
+  // if (req.params.userId === req.user.id) good
+  // else bad!
   try {
     // const thisUser = User.findAll({
     //   where: {

@@ -13,6 +13,7 @@ router.get('/', async (req, res, next) => {
 
 router.post('/', async (req, res, next) => {
   try {
+    // REVIEW: danger zone (req.body)
     const newCategory = await Category.create(req.body)
     res.json(newCategory)
   } catch (err) {
