@@ -7,7 +7,7 @@ import axios from 'axios'
 const SingleUser = props => {
   useEffect(() => {
     if (!props.user) {
-      const userId = props.location.pathname.split('/')[2]
+      const userId = props.match.params.id
       props.getUserThunk(userId) // TODO check after auth
     }
   }, [])
