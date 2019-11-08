@@ -24,7 +24,7 @@ const Product = db.define('product', {
       isURL: true
     },
     allowNull: false,
-    defaultValue: 'https://robohash.org/coconut'
+    defaultValue: 'https://images.theteafarm.com/coconut_flavor.jpg'
   },
   createdAt: {
     type: Sequelize.DATE,

@@ -1,13 +1,11 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {connect} from 'react-redux'
+import {connect, useSelector} from 'react-redux'
 import {Link} from 'react-router-dom'
 import {logout} from '../store'
-import {useSelector} from 'react-redux'
 
 const Navbar = ({handleClick, isLoggedIn}) => {
   const cartItems = useSelector(state => state.carts.currentCarts)
-
   return (
     <section className="hero">
       <div className="hero-body">
@@ -25,16 +23,12 @@ const Navbar = ({handleClick, isLoggedIn}) => {
             <Link className="button is-white" to="/products">
               Products
             </Link>
-            <Link className="button is-white" to="/products/1">
-              SingleProduct
-            </Link>
             <Link className="button is-white" to="/users">
               Users
             </Link>
             <Link className="button is-white" to="/users/1">
               Single User
             </Link>
-            <p>::: DEV ONLY</p>
           </div>
           <div className="level-right">
             <nav>
@@ -47,8 +41,8 @@ const Navbar = ({handleClick, isLoggedIn}) => {
                   <Link className="button is-white" to="/cart">
                     <span className="icon">
                       <i className="fas fa-shopping-cart" />
-                      <p>{cartItems.length} item(s)</p>
                     </span>
+                    <p> {cartItems.length} item(s)</p>
                   </Link>
                   <a href="#" className="button" onClick={handleClick}>
                     Logout
@@ -63,8 +57,8 @@ const Navbar = ({handleClick, isLoggedIn}) => {
                   <Link className="button is-white" to="/cart">
                     <span className="icon">
                       <i className="fas fa-shopping-cart" />
-                      <p>{cartItems.length} item(s)</p>
                     </span>
+                    <p> {cartItems.length} item(s)</p>
                   </Link>
                   <Link className="button" to="/signup">
                     Sign Up
