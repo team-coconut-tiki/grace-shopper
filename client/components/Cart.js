@@ -1,11 +1,12 @@
-import React, {useEffect, useState} from 'react'
+import React, {useEffect} from 'react'
 import {useSelector, useDispatch} from 'react-redux'
-import {fetchUserCart, fetchProduct, addToCartThunk} from '../store'
+import {fetchUserCart, removeFromCartThunk, updateCartThunk} from '../store'
 import {dollarsInDollars} from '../../Utilities'
+import {Link} from 'react-router-dom'
 
 const Cart = () => {
   const dispatch = useDispatch()
-  const user = useSelector(state => state.singleUser)
+  const user = useSelector(state => state.currentUser)
   const cartItems = useSelector(state => state.carts.currentCarts)
 
   useEffect(
@@ -40,11 +41,22 @@ const Cart = () => {
                   type="number"
                   className="input is-rounded"
                   value={item.cart_item.quantity}
+                  onChange={evt => {
+                    dispatch(
+                      updateCartThunk(user.id, item.id, +evt.target.value)
+                    )
+                  }}
                 />
               </p>
               <p className="level-item">
                 ${dollarsInDollars(item.cart_item.priceInCents)}
               </p>
+              <span
+                className="icon button"
+                onClick={() => dispatch(removeFromCartThunk(user.id, item.id))}
+              >
+                <i className="fas fa-trash" />
+              </span>
             </div>
           </li>
         )
@@ -63,13 +75,18 @@ const Cart = () => {
         <div className="level-left" />
         <div className="level-center" />
         <div className="level-right">
-          <button
-            type="submit"
-            onClick={evt => evt.preventDefault()}
-            className="button is-large"
-          >
-            Complete Order
-          </button>
+          <Link to="/checkout">
+            <button
+              type="button"
+              onClick={evt => evt.preventDefault()}
+              className="button is-large"
+            >
+              <span className="icon">
+                <i className="fas fa-shopping-bag" />
+              </span>
+              <p>Complete Order</p>
+            </button>
+          </Link>
         </div>
       </div>
     </div>

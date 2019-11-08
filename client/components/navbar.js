@@ -2,12 +2,12 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import {connect, useSelector} from 'react-redux'
 import {Link} from 'react-router-dom'
-import {logout} from '../store'
+import {logout, clearCart} from '../store'
 import {totalItems} from '../../Utilities'
 
 const Navbar = ({handleClick, isLoggedIn}) => {
   const cartItems = useSelector(state => state.carts.currentCarts)
-  const user = useSelector(state => state.singleUser)
+  const user = useSelector(state => state.currentUser)
   return (
     <section className="hero">
       <div className="hero-body">
@@ -23,6 +23,9 @@ const Navbar = ({handleClick, isLoggedIn}) => {
           <div className="level-item has-text-centered">
             <Link className="button is-white" to="/users">
               Users
+            </Link>
+            <Link className="button is-white" to="/orders">
+              All Orders
             </Link>
           </div>
           <div className="level-right">
@@ -81,13 +84,14 @@ const Navbar = ({handleClick, isLoggedIn}) => {
  */
 const mapState = state => {
   return {
-    isLoggedIn: !!state.singleUser.id
+    isLoggedIn: !!state.currentUser.id
   }
 }
 
 const mapDispatch = dispatch => {
   return {
     handleClick() {
+      dispatch(clearCart())
       dispatch(logout())
     }
   }

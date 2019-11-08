@@ -61,7 +61,7 @@ router.delete('/:userId/:productId', async (req, res, next) => {
       }
     })
     await thisCart.destroy()
-    res.sendStatus(202)
+    res.status(202).end()
   } catch (err) {
     next(err)
   }

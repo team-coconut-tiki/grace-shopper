@@ -20,7 +20,7 @@ export const UserHome = props => {
  */
 const mapState = state => {
   return {
-    email: state.singleUser.email
+    email: state.currentUser.email
   }
 }
 
