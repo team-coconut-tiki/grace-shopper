@@ -1,62 +1,114 @@
 import React, {useEffect, useState} from 'react'
 import {useSelector, useDispatch} from 'react-redux'
-import {getAllUserCarts, fetchProduct, addToCartThunk} from '../store'
+import {fetchUserCart, fetchProduct, addToCartThunk} from '../store'
 import {dollarsInDollars} from '../../Utilities'
-
-const userId = 10 //change this once we figure out login
 
 const Cart = () => {
   const dispatch = useDispatch()
-  //state.singleUser = {id: 1, email: ???, isLoggedIn: true}
-  const cartItems = useSelector(state => state.carts.currentCarts)
   const user = useSelector(state => state.singleUser)
-  console.log(user)
-  const [quantity, setQuantity] = useState(0)
+  const cartItems = useSelector(state => state.carts.currentCarts)
 
-  useEffect(() => {
-    dispatch(getAllUserCarts(userId))
-  }, [])
+  console.log('user', user)
+  console.log('cart', cartItems)
+  // const [quantity, setQuantity] = useState(0)
 
-  // state.allProducts.products
-  // cartItems.productId
+  useEffect(
+    () => {
+      //call getuser thing
+      dispatch(fetchUserCart(user.id))
+    },
+    [user]
+  )
 
-  //user: get Products!!!!!
-
-  // let product1 = dispatch(fetchProduct(item.productId))
   const subtotal = cartItems.reduce((acc, cur) => {
-    acc += cur.priceInCents
+    acc += cur.priceInCents * cur.quantity
     return acc
   }, 0)
   // console.log(cartItems)
   return (
     <div>
       <h2>Your Cart</h2>
+
       {cartItems.map(item => {
         return (
-          <li key={item.createdAt}>
-            This is the price of the coconut you wanted to buy {item.quantity}
-            {/* <span className="icon">
-              <i
-                className="fas fa-sort-up"
-                onClick={() =>
-                  addToCartThunk(userId, item.productId, 1, item.priceInCents)
-                }
-              />
-            </span> */}{' '}
-            of: ${dollarsInDollars(item.priceInCents)}
+          <li className="level" key={item.id}>
+            <div className="level-left">
+              <figure className="image is-64x64 level-item">
+                <img src={item.imageUrl} />
+              </figure>
+              <strong className="level-item">{item.title}</strong>
+            </div>
+            <div className="level-right">
+              <p className="level-item">
+                x{'  '}
+                <input
+                  type="number"
+                  className="input is-rounded"
+                  value={item.cart_item.quantity}
+                />
+              </p>
+              <p className="level-item">
+                ${dollarsInDollars(item.cart_item.priceInCents)}
+              </p>
+            </div>
           </li>
         )
       })}
-      <p>Subtotal: ${dollarsInDollars(subtotal)}</p>
-      <button
-        type="submit"
-        onClick={evt => evt.preventDefault()}
-        className="button"
-      >
-        Complete Order
-      </button>
+      <div className="level">
+        <div className="level-left" />
+        <div className="level-center" />
+        <div className="level-right">
+          <p className="level-item">
+            <strong>Subtotal:</strong>
+          </p>
+          <p className="level-item">${dollarsInDollars(subtotal)}</p>
+        </div>
+      </div>
+      <div className="level">
+        <div className="level-left" />
+        <div className="level-center" />
+        <div className="level-right">
+          <button
+            type="submit"
+            onClick={evt => evt.preventDefault()}
+            className="button is-large"
+          >
+            Complete Order
+          </button>
+        </div>
+      </div>
     </div>
   )
 }
 
 export default Cart
+
+// {/* {cartProducts.map((item, i) => {
+//           return (
+//             <li className="level" key={item.id}>
+//               <div className="level-left">
+//                 <figure className="image is-64x64 level-item">
+//                   <img src={item.imageUrl} />
+//                 </figure>
+//                 <strong className="level-item">{item.title}</strong>
+//               </div>
+//               <div className="level-right">
+//                 <p className="level-item">
+//                   x{'  '}
+//                   <input
+//                     type="number"
+//                     className="input is-rounded"
+//                     value={cartItems[i].quantity}
+//                   />
+//                 </p>
+//                 <p className="level-item">
+//                   ${Math.floor(cartItems[i].priceInCents / 100)}.{cartItems[
+//                     i
+//                   ].priceInCents
+//                     .toString()
+//                     .slice(-2)}
+//                 </p>
+//               </div>
+//             </li>
+//           )
+//         })} */}

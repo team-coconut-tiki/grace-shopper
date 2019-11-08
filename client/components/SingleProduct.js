@@ -1,11 +1,11 @@
-import React, {useState, useEffect} from 'react'
-import {addToCartThunk, fetchProduct, createUserThunk} from '../store'
+import React, {useEffect} from 'react'
+import {addToCartThunk, fetchProduct} from '../store'
 import {useSelector, useDispatch} from 'react-redux'
 
 const SingleProduct = props => {
-  const [quantity, setQuantity] = useState(0)
   const dispatch = useDispatch()
   const thisProduct = useSelector(state => state.singleProduct.selectedProduct)
+  const user = useSelector(state => state.singleUser)
 
   const thisProductId = props.location.pathname.split('/')[2]
 
@@ -20,8 +20,9 @@ const SingleProduct = props => {
   // }
 
   function addToCart() {
-    // eventually: check who is logged in, and change 10 to userId
-    dispatch(addToCartThunk(10, thisProduct.id, 1, thisProduct.priceInCents))
+    dispatch(
+      addToCartThunk(user.id, thisProduct.id, 1, thisProduct.priceInCents)
+    )
   }
 
   return (
@@ -35,7 +36,7 @@ const SingleProduct = props => {
         Add to cart
       </button>
       <p>Description: {thisProduct.description}</p>
-      <img src="/coconut.png" />
+      <img src={thisProduct.imageUrl} />
       <div>reviews to come!</div>
     </div>
   )

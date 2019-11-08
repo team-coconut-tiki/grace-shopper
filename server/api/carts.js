@@ -1,30 +1,15 @@
 const router = require('express').Router()
-const {CartItem, User, Product} = require('../db/models')
+const {CartItem} = require('../db/models')
 
-//find all user's active cart items
 router.get('/:userId', async (req, res, next) => {
   try {
-    const userCarts = await CartItem.findAll({
+    const userCart = await CartItem.findAll({
       where: {
-        userId: req.params.userId,
+        userId: req.user.id,
         orderId: null
       }
     })
-    res.json(userCarts)
-  } catch (err) {
-    next(err)
-  }
-})
-
-//find all user's cart items, including previous orders
-router.get('/:userId/all', async (req, res, next) => {
-  try {
-    const userCarts = await CartItem.findAll({
-      where: {
-        userId: req.params.userId
-      }
-    })
-    res.json(userCarts)
+    res.json(userCart)
   } catch (err) {
     next(err)
   }
@@ -43,7 +28,8 @@ router.post('/:userId/:productId', async (req, res, next) => {
     const existingCart = await CartItem.findOne({
       where: {
         userId: req.params.userId,
-        productId: req.params.productId
+        productId: req.params.productId,
+        orderId: null
       }
     })
     if (existingCart) {
