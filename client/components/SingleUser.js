@@ -3,7 +3,6 @@ import {connect} from 'react-redux'
 import {Redirect} from 'react-router'
 import {getUserThunk, adminDeleteUser} from '../store/'
 import EditUserButton from './EditUserButton'
-import axios from 'axios'
 
 const SingleUser = props => {
   const route = props.match.params.id
