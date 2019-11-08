@@ -2,6 +2,7 @@ const passport = require('passport')
 const router = require('express').Router()
 const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy
 const {User} = require('../db/models')
+console.log('RUN RUNR UN')
 module.exports = router
 
 /**
@@ -17,7 +18,6 @@ module.exports = router
  * process.env.GOOGLE_CLIENT_SECRET = 'your google client secret'
  * process.env.GOOGLE_CALLBACK = '/your/google/callback'
  */
-
 if (!process.env.GOOGLE_CLIENT_ID || !process.env.GOOGLE_CLIENT_SECRET) {
   console.log('Google client ID / secret not found. Skipping Google OAuth.')
 } else {
@@ -37,16 +37,20 @@ if (!process.env.GOOGLE_CLIENT_ID || !process.env.GOOGLE_CLIENT_SECRET) {
       const lastName = profile.name.familyName
       const fullName = profile.displayName
 
-      User.findOrCreate({
-        where: {googleId},
-        defaults: {email, imgUrl, firstName, lastName, fullName}
-      })
-        .then(([user]) => done(null, user))
-        .catch(done)
+      console.log(
+        User.findOrCreate({
+          where: {googleId},
+          defaults: {email, imgUrl, firstName, lastName, fullName}
+        })
+          .then(([user]) => done(null, user))
+          .catch(done)
+      )
     }
   )
 
+  console.log('This should run')
   passport.use(strategy)
+  console.log('DID THIS RUN?')
 
   router.get(
     '/',
