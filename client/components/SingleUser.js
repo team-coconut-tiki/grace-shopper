@@ -2,13 +2,13 @@ import React, {useEffect} from 'react'
 import {connect} from 'react-redux'
 import {getUserThunk, deleteUserThunk} from '../store/'
 import EditUserButton from './EditUserButton'
-import axios from 'axios'
 
 const SingleUser = props => {
+  console.log(props.match)
   useEffect(() => {
     if (!props.user) {
-      const userId = props.location.pathname.split('/')[2]
-      props.getUserThunk(userId) // TODO check after auth
+      const userId = props.match.params.id
+      props.getUserThunk(userId)
     }
   }, [])
 
