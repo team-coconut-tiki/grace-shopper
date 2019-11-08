@@ -1,5 +1,9 @@
 export const dollarsInDollars = priceInCents => {
-  return `${Math.floor(priceInCents / 100)}.${priceInCents
-    .toString()
-    .slice(-2)}`
+  return `${priceInCents / 100}`
+}
+
+export const totalItems = (arr, key) => {
+  return arr.reduce((acc, cur) => {
+    acc += cur.cart_items[key]
+  }, 0)
 }
