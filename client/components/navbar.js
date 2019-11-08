@@ -30,6 +30,9 @@ const Navbar = ({handleClick, isLoggedIn}) => {
             <Link className="button is-white" to="/users/1">
               Single User
             </Link>
+            <Link className="button is-white" to="/orders">
+              All Orders
+            </Link>
           </div>
           <div className="level-right">
             <nav>
