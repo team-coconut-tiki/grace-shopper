@@ -16,13 +16,19 @@ router.get('/', async (req, res, next) => {
   }
 })
 
-router.get('/admin', async (req, res, next) => {
+//find all active carts
+router.get('/:id/cart', async (req, res, next) => {
   try {
-    const users = await User.findAll({
-      include: [{model: Order}]
-      //attributes: ['status']
+    const user = await User.findByPk(req.params.id, {
+      include: [{model: Product}] //give us the cart as 'products', including past orders
     })
-    res.json(users)
+    console.log('express user', user)
+    if (!user) {
+      let err = new Error('No user found')
+      err.status = 404
+      throw err
+    }
+    res.json(user)
   } catch (err) {
     next(err)
   }
@@ -42,17 +48,13 @@ router.get('/:id', async (req, res, next) => {
   }
 })
 
-router.get('/:id/cart', async (req, res, next) => {
+router.get('/admin', async (req, res, next) => {
   try {
-    const user = await User.findByPk(req.params.id, {
-      include: [{model: Product}] //give us the cart as 'products'
+    const users = await User.findAll({
+      include: [{model: Order}]
+      //attributes: ['status']
     })
-    if (!user) {
-      let err = new Error('No user found')
-      err.status = 404
-      throw err
-    }
-    res.json(user)
+    res.json(users)
   } catch (err) {
     next(err)
   }

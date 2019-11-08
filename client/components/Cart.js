@@ -1,63 +1,93 @@
 import React, {useEffect, useState} from 'react'
 import {useSelector, useDispatch} from 'react-redux'
-import {getAllUserCarts, fetchProduct, addToCartThunk} from '../store'
-
-const userId = 10 //change this once we figure out login
+import {
+  getAllUserCarts,
+  getCartProducts,
+  fetchProduct,
+  addToCartThunk
+} from '../store'
 
 const Cart = () => {
   const dispatch = useDispatch()
-  //state.singleUser = {id: 1, email: ???, isLoggedIn: true}
-  const cartItems = useSelector(state => state.carts.currentCarts)
   const user = useSelector(state => state.singleUser)
-  console.log(user)
-  const [quantity, setQuantity] = useState(0)
+  const cartProducts = useSelector(state => state.carts.cartProducts)
+  const cartItems = useSelector(state => state.carts.currentCarts)
 
-  useEffect(() => {
-    dispatch(getAllUserCarts(userId))
-  }, [])
+  console.log('cart', cartProducts)
+  // const [quantity, setQuantity] = useState(0)
 
-  // state.allProducts.products
-  // cartItems.productId
+  useEffect(
+    () => {
+      //call getuser thing
+      dispatch(getAllUserCarts(user.id))
+      dispatch(getCartProducts(user.id))
+    },
+    [user]
+  )
 
-  //user: get Products!!!!!
-
-  // let product1 = dispatch(fetchProduct(item.productId))
   const subtotal = cartItems.reduce((acc, cur) => {
-    acc += cur.priceInCents
+    acc += cur.priceInCents * cur.quantity
     return acc
   }, 0)
   // console.log(cartItems)
   return (
     <div>
       <h2>Your Cart</h2>
-      {cartItems.map(item => {
-        return (
-          <li key={item.createdAt}>
-            This is the price of the coconut you wanted to buy {item.quantity}
-            {/* <span className="icon">
-              <i
-                className="fas fa-sort-up"
-                onClick={() =>
-                  addToCartThunk(userId, item.productId, 1, item.priceInCents)
-                }
-              />
-            </span> */}{' '}
-            of: ${Math.floor(item.priceInCents / 100)}.{item.priceInCents
-              .toString()
-              .slice(-2)}
-          </li>
-        )
-      })}
-      <p>
-        Subtotal: ${Math.floor(subtotal / 100)}.{subtotal.toString().slice(-2)}
-      </p>
-      <button
-        type="submit"
-        onClick={evt => evt.preventDefault()}
-        className="button"
-      >
-        Complete Order
-      </button>
+      {Array.isArray(cartProducts) &&
+        cartProducts.map((item, i) => {
+          return (
+            <li className="level" key={item.id}>
+              <div className="level-left">
+                <figure className="image is-64x64 level-item">
+                  <img src={item.imageUrl} />
+                </figure>
+                <strong className="level-item">{item.title}</strong>
+              </div>
+              <div className="level-right">
+                <p className="level-item">
+                  x{'  '}
+                  <input
+                    type="number"
+                    className="input is-rounded"
+                    value={cartItem[i].quantity}
+                  />
+                </p>
+                <p className="level-item">
+                  ${Math.floor(cartItem[i].priceInCents / 100)}.{cartItem[
+                    i
+                  ].priceInCents
+                    .toString()
+                    .slice(-2)}
+                </p>
+              </div>
+            </li>
+          )
+        })}
+      <div className="level">
+        <div className="level-left" />
+        <div className="level-center" />
+        <div className="level-right">
+          <p className="level-item">
+            <strong>Subtotal:</strong>
+          </p>
+          <p className="level-item">
+            ${Math.floor(subtotal / 100)}.{subtotal.toString().slice(-2)}
+          </p>
+        </div>
+      </div>
+      <div className="level">
+        <div className="level-left" />
+        <div className="level-center" />
+        <div className="level-right">
+          <button
+            type="submit"
+            onClick={evt => evt.preventDefault()}
+            className="button is-large"
+          >
+            Complete Order
+          </button>
+        </div>
+      </div>
     </div>
   )
 }
