@@ -5,7 +5,7 @@ import {useSelector, useDispatch} from 'react-redux'
 const SingleProduct = props => {
   const dispatch = useDispatch()
   const thisProduct = useSelector(state => state.singleProduct.selectedProduct)
-  const user = useSelector(state => state.singleUser)
+  const user = useSelector(state => state.currentUser)
 
   const thisProductId = props.location.pathname.split('/')[2]
 

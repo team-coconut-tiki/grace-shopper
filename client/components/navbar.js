@@ -6,7 +6,7 @@ import {logout} from '../store'
 
 const Navbar = ({handleClick, isLoggedIn}) => {
   const cartItems = useSelector(state => state.carts.currentCarts)
-  const user = useSelector(state => state.singleUser)
+  const user = useSelector(state => state.currentUser)
   return (
     <section className="hero">
       <div className="hero-body">
@@ -73,7 +73,7 @@ const Navbar = ({handleClick, isLoggedIn}) => {
  */
 const mapState = state => {
   return {
-    isLoggedIn: !!state.singleUser.id
+    isLoggedIn: !!state.currentUser.id
   }
 }
 
