@@ -49,21 +49,16 @@ export const getAllCarts = () => async dispatch => {
 export const fetchUserCart = userId => async dispatch => {
   try {
     const res = await axios.get(`/api/users/${userId}/cart`)
+    console.log('in thunk', res.data)
     dispatch(getUserCart(res.data.products)) //in each arr elem, 'cart_items' is cart row info
   } catch (err) {
     console.error(err)
   }
 }
 //where do we check if someone has logged in?
-export const addToCartThunk = (
-  userId,
-  productId,
-  quantity,
-  price
-) => async dispatch => {
+export const addToCartThunk = (userId, productId, price) => async dispatch => {
   try {
     const {data} = await axios.post(`/api/carts/${userId}/${productId}`, {
-      quantity: quantity,
       priceInCents: price
     })
     dispatch(addToCart(data))

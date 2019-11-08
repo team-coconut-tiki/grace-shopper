@@ -24,7 +24,7 @@ const removeUser = () => ({type: REMOVE_USER})
 
 export const createUserThunk = user => async dispatch => {
   try {
-    const {data} = await axios.post(`/api/users/${user.id}`, user)
+    const {data} = await axios.post(`/api/users`, user)
     if (!data) {
       throw new Error('Unable to create user')
     }

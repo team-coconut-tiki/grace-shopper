@@ -34,14 +34,14 @@ router.post('/:userId/:productId', async (req, res, next) => {
     })
     if (existingCart) {
       await existingCart.update({
-        quantity: existingCart.quantity + req.body.quantity
+        quantity: existingCart.quantity++
       })
       res.json(existingCart)
     } else {
       const newCart = await CartItem.create({
         userId: req.params.userId,
         productId: req.params.productId,
-        quantity: req.body.quantity,
+        quantity: 1,
         priceInCents: req.body.priceInCents
       })
       res.json(newCart)

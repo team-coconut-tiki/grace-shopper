@@ -8,7 +8,7 @@ const Cart = () => {
   const user = useSelector(state => state.singleUser)
   const cartItems = useSelector(state => state.carts.currentCarts)
 
-  console.log('user', user)
+  // console.log('user', user)
   console.log('cart', cartItems)
   // const [quantity, setQuantity] = useState(0)
 
@@ -30,6 +30,7 @@ const Cart = () => {
       <h2>Your Cart</h2>
 
       {cartItems.map(item => {
+        console.log('item', item)
         return (
           <li className="level" key={item.id}>
             <div className="level-left">
@@ -82,33 +83,3 @@ const Cart = () => {
 }
 
 export default Cart
-
-// {/* {cartProducts.map((item, i) => {
-//           return (
-//             <li className="level" key={item.id}>
-//               <div className="level-left">
-//                 <figure className="image is-64x64 level-item">
-//                   <img src={item.imageUrl} />
-//                 </figure>
-//                 <strong className="level-item">{item.title}</strong>
-//               </div>
-//               <div className="level-right">
-//                 <p className="level-item">
-//                   x{'  '}
-//                   <input
-//                     type="number"
-//                     className="input is-rounded"
-//                     value={cartItems[i].quantity}
-//                   />
-//                 </p>
-//                 <p className="level-item">
-//                   ${Math.floor(cartItems[i].priceInCents / 100)}.{cartItems[
-//                     i
-//                   ].priceInCents
-//                     .toString()
-//                     .slice(-2)}
-//                 </p>
-//               </div>
-//             </li>
-//           )
-//         })} */}
