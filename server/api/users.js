@@ -47,7 +47,9 @@ router.get('/:id/cart', async (req, res, next) => {
 
 router.get('/:id', async (req, res, next) => {
   try {
-    const user = await User.findByPk(req.params.id)
+    const user = await User.findByPk(req.params.id, {
+      include: [{model: Order}]
+    })
     if (!user) {
       let err = new Error('No user found')
       err.status = 404
@@ -91,7 +93,6 @@ router.post('/', async (req, res, next) => {
   }
 })
 
-//works kind of
 router.delete('/:id', async (req, res, next) => {
   try {
     const user = await User.findByPk(req.params.id)
