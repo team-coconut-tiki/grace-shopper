@@ -16,7 +16,6 @@ const SingleUser = props => {
     },
     [user.id]
   )
-  console.log(isSameUser, 'IS currentUser', user)
   const isAdmin = props.location.search.includes('isAdmin=true')
   return (
     <div className="user-profile-container">
@@ -46,17 +45,17 @@ const SingleUser = props => {
         )}
         <h4>User email: </h4>
         <p>{user.email}</p>
-        <EditUserButton user={user} source="email" />
+        <EditUserButton isSameUser={isSameUser} source="email" />
       </div>
       <div className="user-shipping-address">
         <h4>Current address:</h4>
         <p>{user.shippingAddress}</p>
-        <EditUserButton user={user} source="shippingAddress" />
+        <EditUserButton isSameUser={isSameUser} source="shippingAddress" />
       </div>
       <div className="user-billing-address">
         <h4>Current address:</h4>
         <p>{user.billingAddress}</p>
-        <EditUserButton user={user} source="billingAddress" />
+        <EditUserButton isSameUser={isSameUser} source="billingAddress" />
       </div>
       <div className="user-credit-card-short">
         <h4>Current credit card:</h4>
@@ -65,7 +64,7 @@ const SingleUser = props => {
             ? user.creditCard.slice(-4)
             : 'No Credit associated with this'}
         </p>
-        <EditUserButton user={user} source="creditCard" />
+        <EditUserButton isSameUser={isSameUser} source="creditCard" />
       </div>
     </div>
   )
