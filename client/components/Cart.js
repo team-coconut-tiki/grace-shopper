@@ -2,37 +2,41 @@ import React, {useEffect} from 'react'
 import {useSelector, useDispatch} from 'react-redux'
 import {fetchUserCart, removeFromCartThunk, updateCartThunk} from '../store'
 import {dollarsInDollars} from '../../Utilities'
-import {Link} from 'react-router-dom'
-import Stripe from 'stripe'
 var stripe = Stripe('pk_test_pReitL4ywW7aWvUlEbjYeiFO00sZCjLWB7')
-// const sessionId = session id
 
 const Cart = () => {
   const dispatch = useDispatch()
   const user = useSelector(state => state.currentUser)
   const cartItems = useSelector(state => state.carts.currentCarts)
+  const sessionId = useSelector(state => state.stripe.sessionId)
 
   useEffect(
     () => {
       dispatch(fetchUserCart(user.id))
+      console.log('cart items', cartItems)
     },
     [user]
   )
 
+  //CHANGE
+
   //stripe checkout
   function completeOrder(event) {
     event.preventDefault()
+    console.log('sessionId', sessionId)
+
     stripe
       .redirectToCheckout({
-        // Make the id field from the Checkout Session creation API response
-        // available to this file, so you can provide it as parameter here
-        // instead of the {{CHECKOUT_SESSION_ID}} placeholder.
-        sessionId: '{{CHECKOUT_SESSION_ID}}'
+        sessionId: sessionId
       })
       .then(function(result) {
         // If `redirectToCheckout` fails due to a browser or network
         // error, display the localized error message to your customer
         // using `result.error.message`.
+        console.log('stripe', result)
+      })
+      .catch(err => {
+        console.error(err)
       })
   }
 
