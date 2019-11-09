@@ -7,12 +7,15 @@ import EditUserButton from './EditUserButton'
 const SingleUser = props => {
   const route = props.match.params.id
   const isSameUser = props.currentUser.id === route
-  useEffect(() => {
-    if (!isSameUser) {
-      props.getOtherUserThunk(route)
-    }
-  }, [])
   const user = isSameUser ? props.currentUser : props.otherUser
+  useEffect(
+    () => {
+      if (!isSameUser) {
+        props.getOtherUserThunk(route)
+      }
+    },
+    [user.id]
+  )
   console.log(isSameUser, 'IS currentUser', user)
   const isAdmin = props.location.search.includes('isAdmin=true')
   return (
