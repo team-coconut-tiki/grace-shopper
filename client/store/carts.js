@@ -54,7 +54,7 @@ export const fetchUserCart = userId => async dispatch => {
     console.error(err)
   }
 }
-//where do we check if someone has logged in?
+
 export const addToCartThunk = (userId, productId, price) => async dispatch => {
   try {
     await axios.post(`/api/carts/${userId}/${productId}`, {
@@ -115,20 +115,16 @@ export default function(state = initialState, action) {
         })
       }
     case UPDATE_CART:
-      const newCartArr = []
-      state.currentCarts.forEach(cartRow => {
-        if (cartRow.id === action.cart.productId) {
-          const newProduct = cartRow
-          newProduct.cart_item.quantity = action.cart.quantity
-          newCartArr.push(newProduct)
-          // cartRow.cart_item.quantity = action.cart.quantity
-        } else {
-          newCartArr.push(cartRow)
-        }
-      })
       return {
         ...state,
-        currentCarts: newCartArr
+        currentCarts: state.currentCarts.map(cartRow => {
+          if (cartRow.id === action.cart.productId) {
+            cartRow.cart_item.quantity = action.cart.quantity
+            return cartRow
+          } else {
+            return cartRow
+          }
+        })
       }
     default:
       return state

@@ -6,7 +6,7 @@ import {Link} from 'react-router-dom'
 
 const Cart = () => {
   const dispatch = useDispatch()
-  const user = useSelector(state => state.singleUser)
+  const user = useSelector(state => state.currentUser)
   const cartItems = useSelector(state => state.carts.currentCarts)
 
   useEffect(
@@ -77,7 +77,7 @@ const Cart = () => {
         <div className="level-right">
           <Link to="/checkout">
             <button
-              type="submit"
+              type="button"
               onClick={evt => evt.preventDefault()}
               className="button is-large"
             >

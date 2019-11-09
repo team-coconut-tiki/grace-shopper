@@ -11,7 +11,8 @@ import {
   SingleProduct,
   SingleUser,
   Cart,
-  AllOrders
+  AllOrders,
+  Checkout
 } from './components'
 import {me} from './store'
 
@@ -37,13 +38,15 @@ class Routes extends Component {
         <Route path="/users" component={AllUsersAdmin} />
         <Route path="/cart" component={Cart} />
         <Route path="/orders" component={AllOrders} />
+        <Route path="/checkout" component={Checkout} />
         {isLoggedIn && (
           <Switch>
             {/* Routes placed here are only available after logging in */}
-            <Route path="/" component={UserHome} />
+            <Route path="/" component={AllProducts} />
           </Switch>
         )}
         {/* Displays our Login component as a fallback */}
+        <Route path="/" component={AllProducts} />
         <Route component={AllProducts} />
       </Switch>
     )
@@ -57,7 +60,7 @@ const mapState = state => {
   return {
     // Being 'logged in' for our purposes will be defined has having a state.user that has a truthy id.
     // Otherwise, state.user will be an empty object, and state.user.id will be falsey
-    isLoggedIn: !!state.singleUser.id
+    isLoggedIn: !!state.currentUser.id
   }
 }
 
