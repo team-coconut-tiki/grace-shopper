@@ -11,7 +11,7 @@ const EditUserButton = props => {
   useEffect(
     () => {
       setFormState(user[props.source])
-      console.log('Changed')
+      // console.log('Changed')
     },
     [user[props.source]]
   )
@@ -50,10 +50,12 @@ const EditUserButton = props => {
         <>
           <button
             type="button"
-            className="edit-user-button"
+            className="edit-user-button button"
             onClick={() => setRenderForm(false)}
           >
-            Emoji needed
+            {/* <span className="icon">
+              <i className="fas fa-edit" />
+            </span> */}
           </button>
           <div className="user-edit-form-container">
             <form onSubmit={handleSubmit}>

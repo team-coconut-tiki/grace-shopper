@@ -6,7 +6,7 @@ const GET_OTHER_USER = 'GET_OTHER_USER'
 const DELETE_OTHER_USER = 'DELETE_OTHER_USER'
 
 const getOtherUser = user => ({type: GET_OTHER_USER, user})
-const deleteOtherUser = () => ({type: DELETE_OTHER_USER})
+export const deleteOtherUser = () => ({type: DELETE_OTHER_USER})
 
 export const getOtherUserThunk = userId => async dispatch => {
   try {
