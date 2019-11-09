@@ -20,14 +20,6 @@ const Navbar = ({handleClick, isLoggedIn}) => {
               <h1 className="title">Coconuts!</h1>
             </Link>
           </div>
-          <div className="level-item has-text-centered">
-            <Link className="button is-white" to="/users">
-              Users
-            </Link>
-            <Link className="button is-white" to="/orders">
-              All Orders
-            </Link>
-          </div>
           <div className="level-right">
             <nav>
               {isLoggedIn ? (
