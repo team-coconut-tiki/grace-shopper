@@ -27,7 +27,7 @@ const Order = db.define('order', {
     }
   },
   status: {
-    type: Sequelize.ENUM('open', 'paid', 'shipped')
+    type: Sequelize.ENUM('open', 'paid', 'shipped', 'completed', 'cancelled')
   }
 })
 
