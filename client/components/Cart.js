@@ -3,6 +3,9 @@ import {useSelector, useDispatch} from 'react-redux'
 import {fetchUserCart, removeFromCartThunk, updateCartThunk} from '../store'
 import {dollarsInDollars} from '../../Utilities'
 import {Link} from 'react-router-dom'
+import Stripe from 'stripe'
+var stripe = Stripe('pk_test_pReitL4ywW7aWvUlEbjYeiFO00sZCjLWB7')
+// const sessionId = session id
 
 const Cart = () => {
   const dispatch = useDispatch()
@@ -15,6 +18,23 @@ const Cart = () => {
     },
     [user]
   )
+
+  //stripe checkout
+  function completeOrder(event) {
+    event.preventDefault()
+    stripe
+      .redirectToCheckout({
+        // Make the id field from the Checkout Session creation API response
+        // available to this file, so you can provide it as parameter here
+        // instead of the {{CHECKOUT_SESSION_ID}} placeholder.
+        sessionId: '{{CHECKOUT_SESSION_ID}}'
+      })
+      .then(function(result) {
+        // If `redirectToCheckout` fails due to a browser or network
+        // error, display the localized error message to your customer
+        // using `result.error.message`.
+      })
+  }
 
   const subtotal = cartItems.reduce((acc, cur) => {
     acc += cur.cart_item.priceInCents * cur.cart_item.quantity
@@ -75,18 +95,16 @@ const Cart = () => {
         <div className="level-left" />
         <div className="level-center" />
         <div className="level-right">
-          <Link to="/checkout">
-            <button
-              type="button"
-              onClick={evt => evt.preventDefault()}
-              className="button is-large"
-            >
-              <span className="icon">
-                <i className="fas fa-shopping-bag" />
-              </span>
-              <p>Complete Order</p>
-            </button>
-          </Link>
+          <button
+            type="button"
+            onClick={evt => completeOrder(evt)}
+            className="button is-large"
+          >
+            <span className="icon">
+              <i className="fas fa-shopping-bag" />
+            </span>
+            <p>Complete Order</p>
+          </button>
         </div>
       </div>
     </div>
