@@ -3,7 +3,7 @@ import {connect} from 'react-redux'
 import {updateUserThunk, deleteUserThunk} from '../store/'
 
 const EditUserButton = props => {
-  const user = props.isSameUser ? props.currentUser : props.otherUser
+  const user = props.user
   const [renderForm, setRenderForm] = useState()
   const [formState, setFormState] = useState(user[props.source])
 
@@ -64,8 +64,5 @@ const EditUserButton = props => {
 
 export default connect(
   ({currentUser, otherUser}) => ({currentUser, otherUser}),
-  {
-    updateUserThunk,
-    deleteUserThunk
-  }
+  {updateUserThunk, deleteUserThunk}
 )(EditUserButton)

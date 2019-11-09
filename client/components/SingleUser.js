@@ -1,21 +1,19 @@
 import React, {useEffect} from 'react'
 import {connect} from 'react-redux'
 import {Redirect} from 'react-router'
-import {getUserThunk, adminDeleteUser} from '../store/'
+import {getUserThunk, adminDeleteUser, getOtherUserThunk} from '../store/'
 import EditUserButton from './EditUserButton'
 
 const SingleUser = props => {
   const route = props.match.params.id
   const isSameUser = props.currentUser.id === route
-  let checkedOutUser
-  if (!isSameUser) {
-    const getUser = async () => {
-      checkedOutUser = await axios.get(`/api/users/${route}`)
+  useEffect(() => {
+    if (!isSameUser) {
+      props.getOtherUserThunk(route)
     }
-    getUser()
-  }
+  }, [])
   const user = isSameUser ? props.currentUser : props.otherUser
-  console.log(user)
+  console.log(isSameUser, 'IS currentUser', user)
   const isAdmin = props.location.search.includes('isAdmin=true')
   return (
     <div className="user-profile-container">
@@ -45,17 +43,17 @@ const SingleUser = props => {
         )}
         <h4>User email: </h4>
         <p>{user.email}</p>
-        <EditUserButton isSameUser={isSameUser} source="email" />
+        <EditUserButton user={user} source="email" />
       </div>
       <div className="user-shipping-address">
         <h4>Current address:</h4>
         <p>{user.shippingAddress}</p>
-        <EditUserButton isSameUser={isSameUser} source="shippingAddress" />
+        <EditUserButton user={user} source="shippingAddress" />
       </div>
       <div className="user-billing-address">
         <h4>Current address:</h4>
         <p>{user.billingAddress}</p>
-        <EditUserButton isSameUser={isSameUser} source="billingAddress" />
+        <EditUserButton user={user} source="billingAddress" />
       </div>
       <div className="user-credit-card-short">
         <h4>Current credit card:</h4>
@@ -64,7 +62,7 @@ const SingleUser = props => {
             ? user.creditCard.slice(-4)
             : 'No Credit associated with this'}
         </p>
-        <EditUserButton isSameUser={isSameUser} source="creditCard" />
+        <EditUserButton user={user} source="creditCard" />
       </div>
     </div>
   )
@@ -74,6 +72,7 @@ export default connect(
   ({currentUser, otherUser}) => ({currentUser, otherUser}),
   {
     getUserThunk,
+    getOtherUserThunk,
     adminDeleteUser
   }
 )(SingleUser)
