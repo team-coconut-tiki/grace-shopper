@@ -18,7 +18,7 @@ const SingleProduct = props => {
 
       dispatch(fetchProduct(thisProductId))
     },
-    [user]
+    [user, thisProductId]
   )
   //same as componentDidMount()
 

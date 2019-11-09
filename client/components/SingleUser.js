@@ -11,6 +11,8 @@ const SingleUser = props => {
   if (!isSameUser) {
     const getUser = async () => {
       checkedOutUser = await axios.get(`/api/users/${route}`)
+      //to be updated to thunk via Randy
+      //if using useEffect - have user.id be tracked in hook
     }
     getUser()
   }
