@@ -13,7 +13,6 @@ const Cart = () => {
   useEffect(
     () => {
       dispatch(fetchUserCart(user.id))
-      console.log('cart items', cartItems)
     },
     [user]
   )
@@ -23,7 +22,6 @@ const Cart = () => {
   //stripe checkout
   function completeOrder(event) {
     event.preventDefault()
-    console.log('sessionId', sessionId)
 
     stripe
       .redirectToCheckout({
@@ -33,7 +31,7 @@ const Cart = () => {
         // If `redirectToCheckout` fails due to a browser or network
         // error, display the localized error message to your customer
         // using `result.error.message`.
-        console.log('stripe', result)
+        console.log(result)
       })
       .catch(err => {
         console.error(err)
@@ -107,7 +105,7 @@ const Cart = () => {
             <span className="icon">
               <i className="fas fa-shopping-bag" />
             </span>
-            <p>Complete Order</p>
+            <p>Checkout</p>
           </button>
         </div>
       </div>

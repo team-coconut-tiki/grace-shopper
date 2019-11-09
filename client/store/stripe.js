@@ -16,8 +16,7 @@ export const checkoutItems = sessionId => {
 
 export const checkoutThunk = lineItems => {
   return async dispatch => {
-    const res = await axios.get('/api/stripe', {lineItems: lineItems})
-    console.log('in the thunk', res)
+    const res = await axios.post('/api/stripe', {lineItems})
     dispatch(checkoutItems(res.data.id))
   }
 }
@@ -28,7 +27,6 @@ const initialState = {sessionId: null}
 export default (state = initialState, action) => {
   switch (action.type) {
     case CHECKOUT:
-      console.log('in reducer, action.sessionId')
       return {...state, sessionId: action.sessionId}
     default:
       return state

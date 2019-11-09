@@ -15,6 +15,14 @@ const SingleProduct = props => {
 
   const thisProductId = props.location.pathname.split('/')[2]
 
+  useEffect(() => {
+    if (!user.id) {
+      dispatch(createUserThunk({}))
+    }
+
+    dispatch(fetchProduct(thisProductId))
+  }, [])
+
   const lineItems = cartItems.map(item => {
     return {
       amount: item.priceInCents,
@@ -24,18 +32,8 @@ const SingleProduct = props => {
     }
   })
 
-  useEffect(() => {
-    if (!user.id) {
-      dispatch(createUserThunk({}))
-    }
-
-    dispatch(fetchProduct(thisProductId))
-  }, [])
-  //same as componentDidMount()
-
   function addToCart() {
     dispatch(addToCartThunk(user.id, thisProduct.id, thisProduct.priceInCents))
-    console.log('added to cart!', cartItems)
     dispatch(checkoutThunk(lineItems))
   }
 
