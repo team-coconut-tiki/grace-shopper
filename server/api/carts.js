@@ -1,23 +1,11 @@
 const router = require('express').Router()
 const {CartItem, User, Product} = require('../db/models')
 
-router.get('/:userId', async (req, res, next) => {
-  try {
-    const userCart = await CartItem.findAll({
-      where: {
-        userId: req.user.id,
-        orderId: null
-      }
-    })
-    res.json(userCart)
-  } catch (err) {
-    next(err)
-  }
-})
-
+//no need to 'get' any cart item; will be pulled via Product or User table/routes
 //creates a new cart item
 router.post('/:userId/:productId', async (req, res, next) => {
   try {
+    // console.log(req.user) // no req.user when guest account 'created'
     const existingCart = await CartItem.findOne({
       where: {
         userId: req.params.userId,

@@ -1,11 +1,20 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import {connect} from 'react-redux'
-import {updateUserThunk, deleteUserThunk} from '../store/'
+import {updateUserThunk, deleteUserThunk, updateOtherUserThunk} from '../store/'
 
 const EditUserButton = props => {
   const user = props.isSameUser ? props.currentUser : props.otherUser
+  // const user = props.user
   const [renderForm, setRenderForm] = useState()
   const [formState, setFormState] = useState(user[props.source])
+
+  useEffect(
+    () => {
+      setFormState(user[props.source])
+      console.log('Changed')
+    },
+    [user[props.source]]
+  )
 
   const handleChange = e => {
     setFormState(e.target.value)
@@ -14,14 +23,27 @@ const EditUserButton = props => {
   const handleSubmit = async evt => {
     evt.preventDefault()
     try {
-      user[props.source] = formState
-      await props.updateUserThunk(user)
+      const payload = {...user, [props.source]: formState}
+      props.isSameUser
+        ? await props.updateUserThunk(payload)
+        : await props.updateOtherUserThunk(payload)
+      console.log(user)
+      console.log(props.otherUser)
       setRenderForm(false)
     } catch (err) {
       console.error(err)
     }
   }
 
+  // function useToggle (default) {
+  //   const [value, setValue] = React.useState(default)
+  //   return [value, () => setValue(!value)]
+  // }
+
+  // function useInput (default) {
+  //   const [value, setValue] = React.useState(default)
+  //   return { value: value, onChange: event => setValue(event.target.value) }
+  // }
   return (
     <div className="edit-user-button">
       {renderForm ? (
@@ -37,9 +59,9 @@ const EditUserButton = props => {
             <form onSubmit={handleSubmit}>
               <input
                 name="form"
+                type="text"
                 className="user-edit-form"
                 onChange={handleChange}
-                value={formState}
               />
               <button type="submit" onClick={handleSubmit}>
                 Submit
@@ -64,8 +86,5 @@ const EditUserButton = props => {
 
 export default connect(
   ({currentUser, otherUser}) => ({currentUser, otherUser}),
-  {
-    updateUserThunk,
-    deleteUserThunk
-  }
+  {updateUserThunk, deleteUserThunk, updateOtherUserThunk}
 )(EditUserButton)

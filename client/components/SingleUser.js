@@ -1,21 +1,21 @@
 import React, {useEffect} from 'react'
 import {connect} from 'react-redux'
 import {Redirect} from 'react-router'
-import {getUserThunk, adminDeleteUser} from '../store/'
+import {getUserThunk, adminDeleteUser, getOtherUserThunk} from '../store/'
 import EditUserButton from './EditUserButton'
 
 const SingleUser = props => {
   const route = props.match.params.id
   const isSameUser = props.currentUser.id === route
-  let checkedOutUser
-  if (!isSameUser) {
-    const getUser = async () => {
-      checkedOutUser = await axios.get(`/api/users/${route}`)
-    }
-    getUser()
-  }
   const user = isSameUser ? props.currentUser : props.otherUser
-  console.log(user)
+  useEffect(
+    () => {
+      if (!isSameUser) {
+        props.getOtherUserThunk(route)
+      }
+    },
+    [user.id]
+  )
   const isAdmin = props.location.search.includes('isAdmin=true')
   return (
     <div className="user-profile-container">
@@ -74,6 +74,7 @@ export default connect(
   ({currentUser, otherUser}) => ({currentUser, otherUser}),
   {
     getUserThunk,
+    getOtherUserThunk,
     adminDeleteUser
   }
 )(SingleUser)
