@@ -1,6 +1,26 @@
-import React from 'react'
+import React, {useEffect, useState} from 'react'
+import {useDispatch, useSelector} from 'react-redux'
+import {getAllCategories} from '../store'
 
 const CreateProductForm = () => {
+  const dispatch = useDispatch()
+  const categories = useSelector(state => state.categories.list)
+
+  useEffect(
+    () => {
+      dispatch(getAllCategories())
+    },
+    [categories.length]
+  )
+
+  const [form, setForm] = useState({
+    title: '',
+    description: '',
+    priceInCents: 0,
+    quantity: 0,
+    imageUrl: ''
+  })
+
   return (
     <div className="container">
       <h1 className="title">Add a New Product</h1>
@@ -50,7 +70,9 @@ const CreateProductForm = () => {
         <div className="control">
           <div className="select">
             <select>
-              <option>Luau</option>
+              {categories.map(category => (
+                <option key={category.id}>{category.type}</option>
+              ))}
             </select>
           </div>
         </div>

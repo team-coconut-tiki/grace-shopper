@@ -4,6 +4,7 @@ import axios from 'axios'
  * ACTION TYPES
  */
 const GET_ALL_PRODUCTS = 'GET_ALL_PRODUCTS'
+const ADD_NEW_PRODUCT = 'ADD_NEW_PRODUCT'
 
 /**
  * INITIAL STATE
@@ -26,6 +27,15 @@ export const getAllProducts = () => async dispatch => {
     dispatch(getProducts(res.data))
   } catch (err) {
     console.error(err)
+  }
+}
+
+export const addNewProduct = product => async dispatch => {
+  try {
+    const res = await axios.post('/api/products', product)
+    dispatch(getProducts(res.data))
+  } catch (error) {
+    console.error(error)
   }
 }
 

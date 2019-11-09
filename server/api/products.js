@@ -3,8 +3,8 @@ const {Product, Category} = require('../db/models')
 module.exports = router
 
 router.get('/', async (req, res, next) => {
-  console.log(req.session)
-  console.log(req.user)
+  // console.log(req.session)
+  // console.log(req.user)
   try {
     const products = await Product.findAll({
       // explicitly select only the id and email fields - even though
@@ -23,6 +23,21 @@ router.get('/', async (req, res, next) => {
     res.json(products)
   } catch (err) {
     next(err)
+  }
+})
+
+router.post('/', async (req, res, next) => {
+  try {
+    const newProduct = await Product.create({
+      title: req.body.title,
+      description: req.body.description,
+      priceInCents: req.body.priceInCents,
+      quantity: req.body.quantity,
+      imageUrl: req.body.imageUrl
+    })
+    res.json(newProduct)
+  } catch (error) {
+    next(error)
   }
 })
 
