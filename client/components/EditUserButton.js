@@ -15,6 +15,8 @@ const EditUserButton = props => {
     evt.preventDefault()
     try {
       user[props.source] = formState
+      //try to avoid mutating props - update this with thunk?
+      //useToggle/useInput may be useful (included below for reference)
       await props.updateUserThunk(user)
       setRenderForm(false)
     } catch (err) {
@@ -22,6 +24,15 @@ const EditUserButton = props => {
     }
   }
 
+  // function useToggle (default) {
+  //   const [value, setValue] = React.useState(default)
+  //   return [value, () => setValue(!value)]
+  // }
+
+  // function useInput (default) {
+  //   const [value, setValue] = React.useState(default)
+  //   return { value: value, onChange: event => setValue(event.target.value) }
+  // }
   return (
     <div className="edit-user-button">
       {renderForm ? (

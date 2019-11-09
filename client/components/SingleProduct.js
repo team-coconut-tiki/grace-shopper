@@ -8,15 +8,18 @@ const SingleProduct = props => {
   const user = useSelector(state => state.currentUser)
   const cartItems = useSelector(state => state.carts.currentCarts)
 
-  const thisProductId = props.location.pathname.split('/')[2]
+  const thisProductId = +props.match.params.id
 
-  useEffect(() => {
-    if (!user.id) {
-      dispatch(createUserThunk({}))
-    }
+  useEffect(
+    () => {
+      if (!user.id) {
+        dispatch(createUserThunk({}))
+      }
 
-    dispatch(fetchProduct(thisProductId))
-  }, [])
+      dispatch(fetchProduct(thisProductId))
+    },
+    [user, thisProductId]
+  )
   //same as componentDidMount()
 
   function addToCart() {
