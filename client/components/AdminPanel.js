@@ -3,7 +3,7 @@ import {Link} from 'react-router-dom'
 
 const AdminPanel = () => {
   return (
-    <div>
+    <div className="box">
       <h2 className="title is-4">Admin Panel</h2>
       <Link
         className="button is-success is-outlined is-rounded level"
