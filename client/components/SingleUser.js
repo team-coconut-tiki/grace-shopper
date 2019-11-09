@@ -7,17 +7,14 @@ import AdminPanel from './AdminPanel'
 import Cart from './Cart'
 
 const SingleUser = props => {
-  const route = props.match.params.id
-  const isSameUser = props.currentUser.id === route
+  const route = props.match.params.id //url of page
+  const isSameUser = props.currentUser.id === route //checks if authenticateduser is visiting their own page
   const user = isSameUser ? props.currentUser : props.otherUser
-  useEffect(
-    () => {
-      if (!isSameUser) {
-        props.getOtherUserThunk(route)
-      }
-    },
-    [user.id]
-  )
+  useEffect(() => {
+    if (!isSameUser) {
+      props.getOtherUserThunk(route)
+    }
+  }, [])
   // const isAdmin = props.location.search.includes('isAdmin=true')
   const isAdmin = props.currentUser.isAdmin
   return (
@@ -35,12 +32,12 @@ const SingleUser = props => {
           <EditUserButton isSameUser={isSameUser} source="email" />
         </div>
         <div className="user-shipping-address">
-          <h4>Current address:</h4>
+          <h4>Shipping address:</h4>
           <p>{user.shippingAddress}</p>
           <EditUserButton isSameUser={isSameUser} source="shippingAddress" />
         </div>
         <div className="user-billing-address">
-          <h4>Current address:</h4>
+          <h4>Billing address:</h4>
           <p>{user.billingAddress}</p>
           <EditUserButton isSameUser={isSameUser} source="billingAddress" />
         </div>
@@ -48,7 +45,7 @@ const SingleUser = props => {
           <h4>Current credit card:</h4>
           <p>
             {user.creditCard
-              ? user.creditCard.slice(-4)
+              ? `Card ending in ${user.creditCard.slice(-4)}`
               : 'No Credit associated with this'}
           </p>
           <EditUserButton isSameUser={isSameUser} source="creditCard" />
