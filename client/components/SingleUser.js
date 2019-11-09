@@ -30,24 +30,6 @@ const SingleUser = props => {
           !isAdmin && <Redirect to={`/users/${user.id || route}`} />
         )}
         <div className="email">
-          {isAdmin && (
-            <div className="delete-user-button">
-              <button
-                type="button"
-                className="delete-user-button"
-                onClick={() => {
-                  try {
-                    props.adminDeleteUser(user.id)
-                    props.history.push('/')
-                  } catch (err) {
-                    console.error(err)
-                  }
-                }}
-              >
-                Delete this user
-              </button>
-            </div>
-          )}
           <h4>User email: </h4>
           <p>{user.email}</p>
           <EditUserButton isSameUser={isSameUser} source="email" />
@@ -71,6 +53,24 @@ const SingleUser = props => {
           </p>
           <EditUserButton isSameUser={isSameUser} source="creditCard" />
         </div>
+        {isAdmin && (
+          <div className="delete-user-button">
+            <button
+              type="button"
+              className="delete-user-button button"
+              onClick={() => {
+                try {
+                  props.adminDeleteUser(user.id)
+                  props.history.push('/')
+                } catch (err) {
+                  console.error(err)
+                }
+              }}
+            >
+              Delete this user
+            </button>
+          </div>
+        )}
       </div>
       <div className="column">{isAdmin ? <AdminPanel /> : <Cart />}</div>
     </div>

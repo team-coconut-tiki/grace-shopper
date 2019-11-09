@@ -48,25 +48,25 @@ const EditUserButton = props => {
     <div className="edit-user-button">
       {renderForm ? (
         <>
-          <button
-            type="button"
-            className="edit-user-button button"
-            onClick={() => setRenderForm(false)}
-          >
-            {/* <span className="icon">
-              <i className="fas fa-edit" />
-            </span> */}
-          </button>
           <div className="user-edit-form-container">
             <form onSubmit={handleSubmit}>
               <input
                 name="form"
                 type="text"
-                className="user-edit-form"
+                className="user-edit-form input"
                 onChange={handleChange}
               />
-              <button type="submit" onClick={handleSubmit}>
+              <button type="submit" className="button" onClick={handleSubmit}>
                 Submit
+              </button>
+              <button
+                type="button"
+                className="edit-user-button button"
+                onClick={() => setRenderForm(false)}
+              >
+                <span className="icon">
+                  <i className="fas fa-chevron-up" />
+                </span>
               </button>
             </form>
           </div>
@@ -78,7 +78,12 @@ const EditUserButton = props => {
             className="edit-user-button"
             onClick={() => setRenderForm(true)}
           >
-            Emoji needed
+            <span className="icon">
+              <i className="fas fa-edit" />
+            </span>
+            <span className="icon">
+              <i className="fas fa-chevron-down" />
+            </span>
           </button>
         </>
       )}
