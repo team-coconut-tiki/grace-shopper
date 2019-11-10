@@ -1,5 +1,10 @@
 import React, {useEffect} from 'react'
-import {addToCartThunk, fetchProduct, createUserThunk} from '../store'
+import {
+  addToCartThunk,
+  fetchProduct,
+  createUserThunk,
+  checkoutThunk
+} from '../store'
 import {useSelector, useDispatch} from 'react-redux'
 
 const SingleProduct = props => {
@@ -15,16 +20,21 @@ const SingleProduct = props => {
       if (!user.id) {
         dispatch(createUserThunk({}))
       }
+    dispatch(fetchProduct(thisProductId))
+  }, [])
 
-      dispatch(fetchProduct(thisProductId))
-    },
-    [user, thisProductId]
-  )
-  //same as componentDidMount()
+  const lineItems = cartItems.map(item => {
+    return {
+      amount: item.priceInCents,
+      currency: 'usd',
+      name: item.title,
+      quantity: item.cart_item.quantity
+    }
+  })
 
   function addToCart() {
     dispatch(addToCartThunk(user.id, thisProduct.id, thisProduct.priceInCents))
-    console.log('added to cart!', cartItems)
+    dispatch(checkoutThunk(lineItems))
   }
 
   return (
