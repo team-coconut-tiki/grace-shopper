@@ -10,19 +10,20 @@ const SingleOrder = props => {
   useEffect(() => {
     dispatch(getOrderThunk(thisOrderId))
   }, [])
-  return (
-    <ul>
-      {!order.cart_items
-        ? 'no order exists'
-        : order.cart_items.map(cart => {
-            return (
-              <li key={cart.productId}>
-                <span>Quantity: {cart.quantity}</span>
-              </li>
-            )
-          })}
-    </ul>
-  )
+  return <div>{console.log(order)}</div>
+  // <ul>
+  //   {!order.cart_items
+  //     ? 'no order exists'
+  //     : order.cart_items.map(cart => {
+  //         return (
+  //           <li key={cart.productId}>
+  //             <span className="column">Order Status: {order.status}</span>
+  //             <span className="column">Quantity: {cart.quantity}</span>
+  //             <span className="column" />
+  //           </li>
+  //         )
+  //       })}
+  // </ul>
 }
 
 export default SingleOrder
