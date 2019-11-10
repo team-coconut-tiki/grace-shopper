@@ -22,6 +22,8 @@ const SingleProduct = props => {
   )
   //same as componentDidMount()
 
+  // grab Reviews
+
   function addToCart() {
     dispatch(addToCartThunk(user.id, thisProduct.id, thisProduct.priceInCents))
     console.log('added to cart!', cartItems)
