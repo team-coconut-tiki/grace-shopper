@@ -39,7 +39,8 @@ class Routes extends Component {
         <Route path="/users" component={AllUsersAdmin} />
         <Route path="/cart" component={Cart} />
         <Route path="/orders" component={AllOrders} />
-        <Route path="/create-product" component={CreateProductForm} />
+        <Route path="/create-product/:id" component={CreateProductForm} />
+        <Route path="/create-product/" component={CreateProductForm} />
         <Route path="/all-products-admin" component={AllProductsAdmin} />
         <Route path="/checkout" component={Checkout} />
         {isLoggedIn && (
