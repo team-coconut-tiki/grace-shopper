@@ -10,6 +10,7 @@ import singleProduct from './singleProduct'
 import otherUser from './otherUser'
 import allOrders from './allOrders'
 import carts from './carts'
+import singleOrder from './singleOrder'
 import stripe from './stripe'
 
 const reducer = combineReducers({
@@ -21,6 +22,7 @@ const reducer = combineReducers({
   carts,
   otherUser,
   allOrders,
+  singleOrder,
   stripe
 })
 const middleware = composeWithDevTools(
@@ -37,4 +39,4 @@ export * from './singleProduct'
 export * from './carts'
 export * from './stripe'
 export * from './otherUser'
-
+export * from './singleOrder'

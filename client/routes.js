@@ -13,9 +13,9 @@ import {
 
   AllOrders,
   Checkout,
+  SingleOrder,
   CreateProductForm,
   AllProductsAdmin
-
 } from './components'
 import {me} from './store'
 
@@ -40,6 +40,7 @@ class Routes extends Component {
         <Route path="/users/:id" component={SingleUser} />
         <Route path="/users" component={AllUsersAdmin} />
         <Route path="/cart" component={Cart} />
+        <Route path="/orders/:id" component={SingleOrder} />
         <Route path="/orders" component={AllOrders} />
         <Route path="/create-product" component={CreateProductForm} />
         <Route path="/all-products-admin" component={AllProductsAdmin} />
