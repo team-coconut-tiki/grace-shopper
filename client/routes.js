@@ -11,10 +11,10 @@ import {
   SingleUser,
   Cart,
   AllOrders,
-  Checkout,
   SingleOrder,
   ProductForm,
-  AllProductsAdmin
+  AllProductsAdmin,
+  NewCategoryForm
 } from './components'
 import {me} from './store'
 
@@ -27,7 +27,7 @@ class Routes extends Component {
   }
 
   render() {
-    const {isLoggedIn} = this.props
+    const {isLoggedIn, isAdmin} = this.props
 
     return (
       <Switch>
@@ -37,14 +37,19 @@ class Routes extends Component {
         <Route path="/products/:id" component={SingleProduct} />
         <Route path="/products" component={AllProducts} />
         <Route path="/users/:id" component={SingleUser} />
-        <Route path="/users" component={AllUsersAdmin} />
         <Route path="/cart" component={Cart} />
         <Route path="/orders/:id" component={SingleOrder} />
-        <Route path="/orders" component={AllOrders} />
-        <Route path="/product-form/:id" component={ProductForm} />
-        <Route path="/product-form/" component={ProductForm} />
-        <Route path="/all-products-admin" component={AllProductsAdmin} />
-        <Route path="/checkout" component={Checkout} />
+        {isAdmin && (
+          <Switch>
+            <Route path="/users" component={AllUsersAdmin} />
+            <Route path="/orders" component={AllOrders} />
+            <Route path="/product-form/:id" component={ProductForm} />
+            <Route path="/product-form/" component={ProductForm} />
+            <Route path="/all-products-admin" component={AllProductsAdmin} />
+            <Route path="/new-category-form" component={NewCategoryForm} />
+            <Route path="/" component={AllProducts} />
+          </Switch>
+        )}
 
         {isLoggedIn && (
           <Switch>
@@ -67,7 +72,8 @@ const mapState = state => {
   return {
     // Being 'logged in' for our purposes will be defined has having a state.user that has a truthy id.
     // Otherwise, state.user will be an empty object, and state.user.id will be falsey
-    isLoggedIn: !!state.currentUser.id
+    isLoggedIn: !!state.currentUser.id,
+    isAdmin: state.currentUser.isAdmin
   }
 }
 

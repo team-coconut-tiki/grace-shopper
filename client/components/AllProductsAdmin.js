@@ -1,6 +1,6 @@
 import React, {useEffect} from 'react'
 import {useDispatch, useSelector} from 'react-redux'
-import {Link} from 'react-router-dom'
+import {Link, Redirect} from 'react-router-dom'
 import {getAllProducts, getAllCategories, deleteProductThunk} from '../store'
 import {dollarsInDollars} from '../../Utilities'
 
