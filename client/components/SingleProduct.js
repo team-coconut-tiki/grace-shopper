@@ -38,7 +38,7 @@ const SingleProduct = props => {
   }
 
   return (
-    <div id="single-product">
+    <div id="single-product" className="box">
       {/* <div>Breadcrumb placeholder</div> */}
       <div>Name: {thisProduct.title}</div>
       {/* <div>product tile placeholder</div> */}
@@ -48,7 +48,19 @@ const SingleProduct = props => {
         Add to cart
       </button>
       <p>Description: {thisProduct.description}</p>
-      <img src={thisProduct.imageUrl} />
+      <p>
+        Categories:{' '}
+        {thisProduct.categories
+          ? thisProduct.categories
+              .map(category => {
+                return category.type
+              })
+              .join(', ')
+          : 'none'}
+      </p>
+      <figure className="image">
+        <img src={thisProduct.imageUrl} />
+      </figure>
       <div>reviews to come!</div>
     </div>
   )
