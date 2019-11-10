@@ -81,7 +81,9 @@ const CreateProductForm = props => {
   return (
     <>
       <form onSubmit={handleSubmit} className="box">
-        <h1 className="title">Add a New Product</h1>
+        <h1 className="title">
+          {productId ? 'Update Product' : 'Add a New Product'}
+        </h1>
 
         <label className="label">Title</label>
         <div className="control">
