@@ -6,6 +6,7 @@ import axios from 'axios'
 const GET_ALL_PRODUCTS = 'GET_ALL_PRODUCTS'
 const ADD_NEW_PRODUCT = 'ADD_NEW_PRODUCT'
 const DELETE_PRODUCT = 'DELETE_PRODUCT'
+const UPDATE_PRODUCT = 'UPDATE_PRODUCT'
 
 /**
  * INITIAL STATE
@@ -20,6 +21,7 @@ const initialState = {
 const getProducts = products => ({type: GET_ALL_PRODUCTS, products})
 const addProduct = product => ({type: ADD_NEW_PRODUCT, product})
 const deleteProduct = productId => ({type: DELETE_PRODUCT, productId})
+export const updateProduct = product => ({type: UPDATE_PRODUCT, product})
 
 /**
  * THUNK CREATORS
@@ -51,6 +53,15 @@ export const deleteProductThunk = productId => async dispatch => {
   }
 }
 
+export const updateProductThunk = (product, productId) => async dispatch => {
+  try {
+    const {data} = await axios.put(`/api/products/${productId}`, product)
+    dispatch(updateProduct(data))
+  } catch (err) {
+    console.error(err)
+  }
+}
+
 /**
  * REDUCER
  */
@@ -65,6 +76,15 @@ export default function(state = initialState, action) {
         ...state,
         products: state.products.filter(product => {
           return product.id !== action.productId
+        })
+      }
+    case UPDATE_PRODUCT:
+      return {
+        ...state,
+        products: state.products.map(product => {
+          if (product.id === action.product.id) {
+            return action.product
+          } else return product
         })
       }
     default:

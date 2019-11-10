@@ -19,15 +19,21 @@ const AdminPanel = () => {
       </Link>
       <Link
         className="button is-success is-outlined is-rounded level"
-        to="/create-product"
+        to="/all-products-admin"
+      >
+        <strong>All Products Admin</strong>
+      </Link>
+      <Link
+        className="button is-success is-outlined is-rounded level"
+        to="/product-form"
       >
         <strong>Create Product</strong>
       </Link>
       <Link
         className="button is-success is-outlined is-rounded level"
-        to="/all-products-admin"
+        to="/new-category-form"
       >
-        <strong>All Products Admin</strong>
+        <strong>Create Category</strong>
       </Link>
     </div>
   )
