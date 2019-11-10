@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react'
 import {useDispatch, useSelector} from 'react-redux'
 import {getAllCategories, addNewProduct, fetchProduct} from '../store'
 
-const CreateProductForm = props => {
+const ProductForm = props => {
   const dispatch = useDispatch()
   const categories = useSelector(state => state.categories.list)
   const productToUpdate = useSelector(
@@ -145,7 +145,11 @@ const CreateProductForm = props => {
                 type="checkbox"
                 name={category.type}
                 onChange={handleChange}
-                checked={form.categories.includes(category.type)}
+                checked={
+                  form.categories
+                    ? form.categories.includes(category.type)
+                    : false
+                }
               />{' '}
               {category.type}
             </label>
@@ -172,4 +176,4 @@ const CreateProductForm = props => {
   )
 }
 
-export default CreateProductForm
+export default ProductForm

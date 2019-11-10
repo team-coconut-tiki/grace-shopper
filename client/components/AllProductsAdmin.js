@@ -31,9 +31,11 @@ const AllProductsAdmin = props => {
             return (
               <div className="columns" key={product.id}>
                 <div className="column">
-                  <span className="icon">
-                    <i className="fas fa-edit" />
-                  </span>{' '}
+                  <Link to={`/product-form/${product.id}`}>
+                    <span className="icon">
+                      <i className="fas fa-edit" />
+                    </span>
+                  </Link>{' '}
                   {product.id}
                 </div>
                 <div className="column">{product.title}</div>
