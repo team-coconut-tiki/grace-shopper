@@ -51,7 +51,9 @@ router.post('/', async (req, res, next) => {
 
 router.get('/:productId', async (req, res, next) => {
   try {
-    const product = await Product.findByPk(req.params.productId)
+    const product = await Product.findByPk(req.params.productId, {
+      include: [{model: Category}]
+    })
     res.json(product)
   } catch (err) {
     next(err)
