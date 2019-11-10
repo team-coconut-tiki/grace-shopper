@@ -124,8 +124,35 @@ async function seed() {
   }
 
   const reviews = await Promise.all([
-    Review.create({description: 'Best coconuts north of Wisconsin', rating: 5}),
-    Review.create({description: 'Rotten Coconuts are no fun!', rating: 1})
+    Review.create({
+      title: 'This is a title',
+      description: 'Best coconuts north of Wisconsin',
+      rating: 5,
+      userId: 2,
+      productId: 5
+    }),
+    Review.create({
+      title: 'this is also a title',
+      description: 'Rotten Coconuts are no fun!',
+      rating: 1,
+      userId: 1,
+      productId: 1
+    }),
+    Review.create({
+      title: 'this is another a title',
+      description:
+        'Sad boy seemed to cheer up a little bit. He was still sad so not giving a 1, but very disappointed. I almost saw a smile!',
+      rating: 2,
+      userId: 1,
+      productId: 3
+    }),
+    Review.create({
+      title: 'Food Reviews',
+      description: 'My disappointment is immeasurable and my day is ruined',
+      productId: 7,
+      userId: 1,
+      rating: 1
+    })
   ])
 
   const categories = await Promise.all([
