@@ -2,12 +2,13 @@ import React, {useEffect} from 'react'
 import {useSelector, useDispatch} from 'react-redux'
 import {fetchUserCart, removeFromCartThunk, updateCartThunk} from '../store'
 import {dollarsInDollars} from '../../Utilities'
-import {Link} from 'react-router-dom'
+var stripe = Stripe('pk_test_pReitL4ywW7aWvUlEbjYeiFO00sZCjLWB7')
 
 const Cart = () => {
   const dispatch = useDispatch()
   const user = useSelector(state => state.currentUser)
   const cartItems = useSelector(state => state.carts.currentCarts)
+  const sessionId = useSelector(state => state.stripe.sessionId)
 
   useEffect(
     () => {
@@ -15,6 +16,27 @@ const Cart = () => {
     },
     [user]
   )
+
+  //CHANGE
+
+  //stripe checkout
+  function completeOrder(event) {
+    event.preventDefault()
+
+    stripe
+      .redirectToCheckout({
+        sessionId: sessionId
+      })
+      .then(function(result) {
+        // If `redirectToCheckout` fails due to a browser or network
+        // error, display the localized error message to your customer
+        // using `result.error.message`.
+        console.log(result)
+      })
+      .catch(err => {
+        console.error(err)
+      })
+  }
 
   const subtotal = cartItems.reduce((acc, cur) => {
     acc += cur.cart_item.priceInCents * cur.cart_item.quantity
@@ -75,18 +97,16 @@ const Cart = () => {
         <div className="level-left" />
         <div className="level-center" />
         <div className="level-right">
-          <Link to="/checkout">
-            <button
-              type="button"
-              onClick={evt => evt.preventDefault()}
-              className="button is-large"
-            >
-              <span className="icon">
-                <i className="fas fa-shopping-bag" />
-              </span>
-              <p>Complete Order</p>
-            </button>
-          </Link>
+          <button
+            type="button"
+            onClick={evt => completeOrder(evt)}
+            className="button is-large"
+          >
+            <span className="icon">
+              <i className="fas fa-shopping-bag" />
+            </span>
+            <p>Checkout</p>
+          </button>
         </div>
       </div>
     </div>

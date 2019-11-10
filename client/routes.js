@@ -10,10 +10,12 @@ import {
   SingleProduct,
   SingleUser,
   Cart,
+
   AllOrders,
   Checkout,
   CreateProductForm,
   AllProductsAdmin
+
 } from './components'
 import {me} from './store'
 
@@ -42,6 +44,7 @@ class Routes extends Component {
         <Route path="/create-product" component={CreateProductForm} />
         <Route path="/all-products-admin" component={AllProductsAdmin} />
         <Route path="/checkout" component={Checkout} />
+
         {isLoggedIn && (
           <Switch>
             {/* Routes placed here are only available after logging in */}
