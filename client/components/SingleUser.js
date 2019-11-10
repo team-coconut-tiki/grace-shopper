@@ -64,7 +64,10 @@ const SingleUser = props => {
                 }
               }}
             >
-              Delete this user
+              <span className="icon">
+                <i className="fas fa-trash" />
+              </span>{' '}
+              <p>Delete this user</p>
             </button>
           </div>
         )}

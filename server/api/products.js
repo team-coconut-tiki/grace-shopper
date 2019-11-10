@@ -59,3 +59,13 @@ router.get('/:productId', async (req, res, next) => {
     next(err)
   }
 })
+
+router.delete('/:productId', async (req, res, next) => {
+  try {
+    const product = await Product.findByPk(req.params.productId)
+    await product.destroy()
+    res.status(204).end()
+  } catch (err) {
+    next(err)
+  }
+})
