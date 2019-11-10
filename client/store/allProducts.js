@@ -17,7 +17,7 @@ const initialState = {
  * ACTION CREATORS
  */
 const getProducts = products => ({type: GET_ALL_PRODUCTS, products})
-
+const addProduct = product => ({type: ADD_NEW_PRODUCT, product})
 /**
  * THUNK CREATORS
  */
@@ -33,7 +33,7 @@ export const getAllProducts = () => async dispatch => {
 export const addNewProduct = product => async dispatch => {
   try {
     const res = await axios.post('/api/products', product)
-    dispatch(getProducts(res.data))
+    dispatch(addProduct(res.data))
   } catch (error) {
     console.error(error)
   }
@@ -46,6 +46,8 @@ export default function(state = initialState, action) {
   switch (action.type) {
     case GET_ALL_PRODUCTS:
       return {...state, products: action.products}
+    case ADD_NEW_PRODUCT:
+      return {...state, products: [...state.products, action.product]}
     default:
       return state
   }

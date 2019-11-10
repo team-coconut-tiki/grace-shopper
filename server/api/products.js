@@ -31,9 +31,17 @@ router.post('/', async (req, res, next) => {
     const newProduct = await Product.create({
       title: req.body.title,
       description: req.body.description,
-      priceInCents: req.body.priceInCents,
-      quantity: req.body.quantity,
+      priceInCents: +req.body.priceInCents,
+      quantity: +req.body.quantity,
       imageUrl: req.body.imageUrl
+    })
+    req.body.categories.forEach(async category => {
+      const thisCat = await Category.findOne({
+        where: {
+          type: category.type
+        }
+      })
+      await newProduct.addCategory(thisCat.id)
     })
     res.json(newProduct)
   } catch (error) {
