@@ -1,5 +1,6 @@
 import axios from 'axios'
 import history from '../history'
+import {deleteOtherUser} from './'
 
 /**
  * ACTION TYPES
@@ -87,6 +88,7 @@ export const logout = () => async dispatch => {
   try {
     await axios.post('/auth/logout')
     dispatch(removeUser())
+    dispatch(deleteOtherUser())
     history.push('/login')
   } catch (err) {
     console.error(err)

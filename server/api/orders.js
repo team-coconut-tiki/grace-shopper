@@ -1,11 +1,41 @@
 const router = require('express').Router()
-const {Order} = require('../db/models')
+const {Order, User, CartItem} = require('../db/models')
 module.exports = router
 
 router.get('/', async (req, res, next) => {
   try {
-    const orders = await Order.findAll({})
+    const orders = await Order.findAll({include: [{model: User}]})
     res.json(orders)
+  } catch (error) {
+    next(error)
+  }
+})
+
+router.get('/:id', async (req, res, next) => {
+  try {
+    const order = await Order.findByPk(req.params.id, {
+      include: [{model: CartItem}]
+    })
+    res.json(order)
+  } catch (error) {
+    next(error)
+  }
+})
+
+router.post('/:userId', async (req, res, next) => {
+  try {
+    const currentCart = await CartItem.findAll({
+      where: {userId: req.params.userId}
+    })
+    const newOrder = await Order.create({status: 'open'})
+    newOrder.update({
+      userId: req.params.userId,
+      subtotalInCents: req.body.subtotal
+    })
+    currentCart.forEach(cart => {
+      cart.update({orderId: newOrder.id})
+    })
+    res.json(currentCart)
   } catch (error) {
     next(error)
   }

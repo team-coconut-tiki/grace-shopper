@@ -1,35 +1,60 @@
 import React, {useEffect} from 'react'
 import {connect} from 'react-redux'
 import {Redirect} from 'react-router'
-import {getUserThunk, adminDeleteUser} from '../store/'
+import {getUserThunk, adminDeleteUser, getOtherUserThunk} from '../store/'
 import EditUserButton from './EditUserButton'
+import AdminPanel from './AdminPanel'
+import Cart from './Cart'
 
 const SingleUser = props => {
-  const route = props.match.params.id
-  const isSameUser = props.currentUser.id === route
-  let checkedOutUser
-  if (!isSameUser) {
-    const getUser = async () => {
-      checkedOutUser = await axios.get(`/api/users/${route}`)
-    }
-    getUser()
-  }
+  const route = props.match.params.id //url of page
+  const isSameUser = props.currentUser.id === route //checks if authenticateduser is visiting their own page
   const user = isSameUser ? props.currentUser : props.otherUser
-  console.log(user)
-  const isAdmin = props.location.search.includes('isAdmin=true')
+  useEffect(() => {
+    if (!isSameUser) {
+      props.getOtherUserThunk(route)
+    }
+  }, [])
+  // const isAdmin = props.location.search.includes('isAdmin=true')
+  const isAdmin = props.currentUser.isAdmin
   return (
-    <div className="user-profile-container">
-      {!user ? (
-        <Redirect to="/login" />
-      ) : (
-        !isSameUser && !isAdmin && <Redirect to={`/users/${user.id}`} />
-      )}
-      <div className="email">
+    <div className="columns">
+      <div className="user-profile-container column">
+        {!user ? (
+          <Redirect to="/login" />
+        ) : (
+          !isSameUser &&
+          !isAdmin && <Redirect to={`/users/${user.id || route}`} />
+        )}
+        <div className="email">
+          <h4>User email: </h4>
+          <p>{user.email}</p>
+          <EditUserButton isSameUser={isSameUser} source="email" />
+        </div>
+        <div className="user-shipping-address">
+          <h4>Shipping address:</h4>
+          <p>{user.shippingAddress}</p>
+          <EditUserButton isSameUser={isSameUser} source="shippingAddress" />
+        </div>
+        <div className="user-billing-address">
+          <h4>Billing address:</h4>
+          <p>{user.billingAddress}</p>
+          <EditUserButton isSameUser={isSameUser} source="billingAddress" />
+        </div>
+        <div className="user-credit-card-short">
+          <h4>Current credit card:</h4>
+          <p>
+            {user.creditCard
+              ? `Card ending in ${user.creditCard.slice(-4)}`
+              : 'No Credit associated with this'}
+          </p>
+          <EditUserButton isSameUser={isSameUser} source="creditCard" />
+        </div>
         {isAdmin && (
           <div className="delete-user-button">
             <button
               type="button"
-              className="delete-user-button"
+              className="delete-user-button button"
               onClick={() => {
                 try {
                   props.adminDeleteUser(user.id)
@@ -43,29 +68,8 @@ const SingleUser = props => {
             </button>
           </div>
         )}
-        <h4>User email: </h4>
-        <p>{user.email}</p>
-        <EditUserButton isSameUser={isSameUser} source="email" />
       </div>
-      <div className="user-shipping-address">
-        <h4>Current address:</h4>
-        <p>{user.shippingAddress}</p>
-        <EditUserButton isSameUser={isSameUser} source="shippingAddress" />
-      </div>
-      <div className="user-billing-address">
-        <h4>Current address:</h4>
-        <p>{user.billingAddress}</p>
-        <EditUserButton isSameUser={isSameUser} source="billingAddress" />
-      </div>
-      <div className="user-credit-card-short">
-        <h4>Current credit card:</h4>
-        <p>
-          {user.creditCard
-            ? user.creditCard.slice(-4)
-            : 'No Credit associated with this'}
-        </p>
-        <EditUserButton isSameUser={isSameUser} source="creditCard" />
-      </div>
+      <div className="column">{isAdmin ? <AdminPanel /> : <Cart />}</div>
     </div>
   )
 }
@@ -74,6 +78,7 @@ export default connect(
   ({currentUser, otherUser}) => ({currentUser, otherUser}),
   {
     getUserThunk,
+    getOtherUserThunk,
     adminDeleteUser
   }
 )(SingleUser)

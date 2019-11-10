@@ -6,9 +6,9 @@ const GET_OTHER_USER = 'GET_OTHER_USER'
 const DELETE_OTHER_USER = 'DELETE_OTHER_USER'
 
 const getOtherUser = user => ({type: GET_OTHER_USER, user})
-const deleteOtherUser = () => ({type: DELETE_OTHER_USER})
+export const deleteOtherUser = () => ({type: DELETE_OTHER_USER})
 
-export const getUserThunk = userId => async dispatch => {
+export const getOtherUserThunk = userId => async dispatch => {
   try {
     const {data} = await axios.get(`/api/users/${userId}`)
     if (!data) {
@@ -20,7 +20,7 @@ export const getUserThunk = userId => async dispatch => {
   }
 }
 
-export const updateUserThunk = user => async dispatch => {
+export const updateOtherUserThunk = user => async dispatch => {
   try {
     const {data} = await axios.put(`/api/users/${user.id}`, user)
     if (!data) {
@@ -32,7 +32,7 @@ export const updateUserThunk = user => async dispatch => {
   }
 }
 
-export const deleteUserThunk = userId => async dispatch => {
+export const deleteOtherUserThunk = userId => async dispatch => {
   try {
     await axios.delete(`/api/users/${userId}`)
     dispatch(deleteOtherUser())

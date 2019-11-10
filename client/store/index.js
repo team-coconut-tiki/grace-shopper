@@ -36,3 +36,5 @@ export * from './categories'
 export * from './singleProduct'
 export * from './carts'
 export * from './stripe'
+export * from './otherUser'
+
