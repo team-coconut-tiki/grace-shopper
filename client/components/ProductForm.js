@@ -1,6 +1,12 @@
 import React, {useEffect, useState} from 'react'
 import {useDispatch, useSelector} from 'react-redux'
-import {getAllCategories, addNewProduct, fetchProduct} from '../store'
+import {
+  getAllCategories,
+  addNewProduct,
+  fetchProduct,
+  updateProductThunk
+} from '../store'
+import {Redirect} from 'react-router-dom'
 
 const ProductForm = props => {
   const dispatch = useDispatch()
@@ -8,13 +14,17 @@ const ProductForm = props => {
   const productToUpdate = useSelector(
     state => state.singleProduct.selectedProduct
   )
-  const categoriesMapped = categories.map(
-    category => (category = category.type)
-  )
+  const categoriesMapped = categories.map(category => {
+    category = category.type
+    return category
+  })
 
   const productId = props.match.params.id //if is update
   const thisProductsCategories = productToUpdate.categories
-    ? productToUpdate.categories.map(category => (category = category.type))
+    ? productToUpdate.categories.map(category => {
+        category = category.type
+        return category
+      })
     : false
 
   useEffect(
@@ -69,13 +79,18 @@ const ProductForm = props => {
     } else {
       setForm({...form, [evt.target.name]: evt.target.value})
     }
-    console.log('form', form)
+    // console.log('form', form)
   }
 
   const handleSubmit = evt => {
     evt.preventDefault()
-    dispatch(addNewProduct(form))
-    setForm(initialState)
+    if (!productId) {
+      dispatch(addNewProduct(form))
+      setForm(initialState)
+    } else {
+      dispatch(updateProductThunk(form, productId))
+      props.history.push(`/all-products-admin`)
+    }
   }
 
   return (
@@ -169,7 +184,9 @@ const ProductForm = props => {
         </div>
 
         <div className="control">
-          <button className="button is-success">Submit</button>
+          <button type="submit" className="button is-success">
+            Submit
+          </button>
         </div>
       </form>
     </>
