@@ -1,6 +1,6 @@
 import React, {useEffect} from 'react'
 import {useDispatch, useSelector} from 'react-redux'
-import {Link} from 'react-router-dom'
+import {Link, Redirect} from 'react-router-dom'
 import {getAllProducts, getAllCategories, deleteProductThunk} from '../store'
 import {dollarsInDollars} from '../../Utilities'
 
@@ -31,12 +31,16 @@ const AllProductsAdmin = props => {
             return (
               <div className="columns" key={product.id}>
                 <div className="column">
-                  <span className="icon">
-                    <i className="fas fa-edit" />
-                  </span>{' '}
+                  <Link to={`/product-form/${product.id}`}>
+                    <span className="icon">
+                      <i className="fas fa-edit" />
+                    </span>
+                  </Link>{' '}
                   {product.id}
                 </div>
-                <div className="column">{product.title}</div>
+                <div className="column">
+                  <Link to={`/products/${product.id}`}>{product.title}</Link>
+                </div>
                 <div className="column">
                   {product.description.slice(0, 12)}...
                 </div>
@@ -46,7 +50,7 @@ const AllProductsAdmin = props => {
                 <div className="column">{product.quantity}</div>
                 <div className="column">
                   <span
-                    className="icon"
+                    className="icon button"
                     onClick={() => dispatch(deleteProductThunk(product.id))}
                   >
                     <i className="fas fa-trash" />

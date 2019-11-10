@@ -1,20 +1,30 @@
 import React, {useEffect, useState} from 'react'
 import {useDispatch, useSelector} from 'react-redux'
-import {getAllCategories, addNewProduct, fetchProduct} from '../store'
+import {
+  getAllCategories,
+  addNewProduct,
+  fetchProduct,
+  updateProductThunk
+} from '../store'
+import {Redirect} from 'react-router-dom'
 
-const CreateProductForm = props => {
+const ProductForm = props => {
   const dispatch = useDispatch()
   const categories = useSelector(state => state.categories.list)
   const productToUpdate = useSelector(
     state => state.singleProduct.selectedProduct
   )
-  const categoriesMapped = categories.map(
-    category => (category = category.type)
-  )
+  const categoriesMapped = categories.map(category => {
+    category = category.type
+    return category
+  })
 
   const productId = props.match.params.id //if is update
   const thisProductsCategories = productToUpdate.categories
-    ? productToUpdate.categories.map(category => (category = category.type))
+    ? productToUpdate.categories.map(category => {
+        category = category.type
+        return category
+      })
     : false
 
   useEffect(
@@ -69,19 +79,26 @@ const CreateProductForm = props => {
     } else {
       setForm({...form, [evt.target.name]: evt.target.value})
     }
-    console.log('form', form)
+    // console.log('form', form)
   }
 
   const handleSubmit = evt => {
     evt.preventDefault()
-    dispatch(addNewProduct(form))
-    setForm(initialState)
+    if (!productId) {
+      dispatch(addNewProduct(form))
+      setForm(initialState)
+    } else {
+      dispatch(updateProductThunk(form, productId))
+      props.history.push(`/all-products-admin`)
+    }
   }
 
   return (
     <>
       <form onSubmit={handleSubmit} className="box">
-        <h1 className="title">Add a New Product</h1>
+        <h1 className="title">
+          {productId ? 'Update Product' : 'Add a New Product'}
+        </h1>
 
         <label className="label">Title</label>
         <div className="control">
@@ -143,7 +160,11 @@ const CreateProductForm = props => {
                 type="checkbox"
                 name={category.type}
                 onChange={handleChange}
-                checked={form.categories.includes(category.type)}
+                checked={
+                  form.categories
+                    ? form.categories.includes(category.type)
+                    : false
+                }
               />{' '}
               {category.type}
             </label>
@@ -163,11 +184,13 @@ const CreateProductForm = props => {
         </div>
 
         <div className="control">
-          <button className="button is-success">Submit</button>
+          <button type="submit" className="button is-success">
+            Submit
+          </button>
         </div>
       </form>
     </>
   )
 }
 
-export default CreateProductForm
+export default ProductForm
