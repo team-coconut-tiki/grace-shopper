@@ -25,5 +25,8 @@ module.exports = {
         loader: 'babel-loader'
       }
     ]
+  },
+  externals: {
+    child_process: 'empty'
   }
 }
