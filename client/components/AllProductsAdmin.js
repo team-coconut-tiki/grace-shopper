@@ -38,7 +38,9 @@ const AllProductsAdmin = props => {
                   </Link>{' '}
                   {product.id}
                 </div>
-                <div className="column">{product.title}</div>
+                <div className="column">
+                  <Link to={`/products/${product.id}`}>{product.title}</Link>
+                </div>
                 <div className="column">
                   {product.description.slice(0, 12)}...
                 </div>
@@ -48,7 +50,7 @@ const AllProductsAdmin = props => {
                 <div className="column">{product.quantity}</div>
                 <div className="column">
                   <span
-                    className="icon"
+                    className="icon button"
                     onClick={() => dispatch(deleteProductThunk(product.id))}
                   >
                     <i className="fas fa-trash" />
