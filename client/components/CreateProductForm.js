@@ -5,7 +5,9 @@ import {getAllCategories, addNewProduct} from '../store'
 const CreateProductForm = () => {
   const dispatch = useDispatch()
   const categories = useSelector(state => state.categories.list)
-
+  const categoriesMapped = categories.map(
+    category => (category = category.type)
+  )
   useEffect(
     () => {
       dispatch(getAllCategories())
@@ -23,8 +25,12 @@ const CreateProductForm = () => {
   })
 
   const handleChange = evt => {
-    setForm({...form, [evt.target.name]: evt.target.value})
-    console.log('handle chaneg', form)
+    if (categoriesMapped.includes(evt.target.name)) {
+      setForm({...form, categories: [...form.categories, evt.target.name]})
+    } else {
+      setForm({...form, [evt.target.name]: evt.target.value})
+    }
+    console.log('handle change', form)
   }
 
   const handleSubmit = evt => {
@@ -109,7 +115,12 @@ const CreateProductForm = () => {
           <div className="control columns is-multiline">
             {categories.map(category => (
               <label className="column is-one-quarter" key={category.id}>
-                <input type="checkbox" /> {category.type}
+                <input
+                  type="checkbox"
+                  name={category.type}
+                  onChange={handleChange}
+                />{' '}
+                {category.type}
               </label>
             ))}
           </div>

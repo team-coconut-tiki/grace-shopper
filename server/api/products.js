@@ -38,7 +38,7 @@ router.post('/', async (req, res, next) => {
     req.body.categories.forEach(async category => {
       const thisCat = await Category.findOne({
         where: {
-          type: category.type
+          type: category
         }
       })
       await newProduct.addCategory(thisCat.id)
