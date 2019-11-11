@@ -27,7 +27,7 @@ export const getOrderThunk = id => async dispatch => {
 export const createOrderThunk = (userId, subtotal) => {
   return async dispatch => {
     try {
-      const {data} = await axios.post(`/api/orders/${userId}`, subtotal)
+      await axios.post(`/api/orders/${userId}`, subtotal)
       dispatch(createOrder())
     } catch (err) {
       console.error(err)
@@ -38,7 +38,7 @@ export const createOrderThunk = (userId, subtotal) => {
 export const updateOrderPaidThunk = (userId, status) => {
   return async dispatch => {
     try {
-      const {data} = await axios.put(`/api/orders/${userId}`, status)
+      await axios.put(`/api/orders/${userId}`, status)
       dispatch(updateOrderPaid())
     } catch (err) {
       console.error(err)
