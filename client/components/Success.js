@@ -8,7 +8,7 @@ const Success = () => {
   const user = useSelector(state => state.currentUser)
 
   useEffect(() => {
-    console.log('TEST', user)
+    // console.log('TEST', user)
     dispatch(updateOrderPaidThunk(user.id, {status: 'paid'}))
   })
 

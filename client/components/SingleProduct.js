@@ -35,7 +35,7 @@ const SingleProduct = props => {
     dispatch(addToCartThunk(user.id, thisProduct.id, thisProduct.priceInCents))
   }
 
-  console.log(reviews)
+  // console.log(reviews)
   return (
     <div id="single-product" className="container box">
       {/* <div>Breadcrumb placeholder</div> */}
@@ -44,7 +44,7 @@ const SingleProduct = props => {
       </figure>
 
       <div className="title is-5">{thisProduct.title}</div>
-      <div>Price: ${thisProduct.priceInCents}</div>
+      <div>Price: ${thisProduct.priceInCents / 100}</div>
       <button
         type="button"
         className="button is-success is-rounded"

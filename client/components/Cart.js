@@ -66,7 +66,7 @@ const Cart = () => {
         // If `redirectToCheckout` fails due to a browser or network
         // error, display the localized error message to your customer
         // using `result.error.message`.
-        console.log(result)
+        // console.log(result)
         console.log('payment completed')
       })
       .catch(err => {
