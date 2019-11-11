@@ -1,17 +1,19 @@
 import React, {useState, useEffect} from 'react'
 import {connect} from 'react-redux'
-import {updateUserThunk, updateOtherUserThunk} from '../store/'
+import {
+  updateUserThunk,
+  adminDeleteUserThunk,
+  updateOtherUserThunk
+} from '../store/'
 
 const EditUserButton = props => {
   const user = props.isSameUser ? props.currentUser : props.otherUser
-  // const user = props.user
   const [renderForm, setRenderForm] = useState()
   const [formState, setFormState] = useState(user[props.source])
 
   useEffect(
     () => {
       setFormState(user[props.source])
-      // console.log('Changed')
     },
     [user[props.source]]
   )
@@ -93,5 +95,5 @@ const EditUserButton = props => {
 
 export default connect(
   ({currentUser, otherUser}) => ({currentUser, otherUser}),
-  {updateUserThunk, updateOtherUserThunk}
+  {updateUserThunk, adminDeleteUserThunk, updateOtherUserThunk}
 )(EditUserButton)
