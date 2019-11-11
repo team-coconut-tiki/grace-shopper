@@ -12,7 +12,20 @@ const Navbar = ({handleClick, isLoggedIn}) => {
 
   useEffect(() => {
     user.id > 0 && dispatch(fetchUserCart(user.id))
-  }, [])
+  }, [user.id])
+  
+//for fun
+  useEffect(
+    () => {
+      numInCart = cartItems.reduce((acc, cur) => {
+        acc += cur.cart_item.quantity
+        return acc
+      }, 0)
+      // console.log('numInCart', numInCart)
+    },
+    [cartItems]
+  )
+
   return (
     <section className="hero">
       <div className="hero-body">
