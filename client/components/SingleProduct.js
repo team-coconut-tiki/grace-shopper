@@ -15,11 +15,10 @@ const SingleProduct = props => {
 
   const thisProductId = +props.match.params.id
 
-  useEffect(
-    () => {
-      if (!user.id) {
-        dispatch(createUserThunk({}))
-      }
+  useEffect(() => {
+    if (!user.id) {
+      dispatch(createUserThunk({}))
+    }
     dispatch(fetchProduct(thisProductId))
   }, [])
 
@@ -58,7 +57,7 @@ const SingleProduct = props => {
               .join(', ')
           : 'none'}
       </p>
-      <figure className="image">
+      <figure className="image product-image">
         <img src={thisProduct.imageUrl} />
       </figure>
       <div>reviews to come!</div>
