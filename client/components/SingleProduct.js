@@ -5,6 +5,7 @@ import {useSelector, useDispatch} from 'react-redux'
 const SingleProduct = props => {
   const dispatch = useDispatch()
   const thisProduct = useSelector(state => state.singleProduct.selectedProduct)
+
   const user = useSelector(state => state.currentUser)
   const thisProductId = +props.match.params.id
 

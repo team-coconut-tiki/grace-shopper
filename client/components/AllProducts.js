@@ -1,7 +1,12 @@
 import React, {useEffect} from 'react'
 import {useDispatch, useSelector} from 'react-redux'
 import {Link} from 'react-router-dom'
-import {getAllProducts, getAllCategories} from '../store'
+import {
+  getAllProducts,
+  getAllCategories,
+  addToCartThunk,
+  createUserThunk
+} from '../store'
 import ProductCard from './ProductCard'
 import ProductNav from './ProductNav'
 
@@ -10,10 +15,19 @@ const AllProducts = () => {
   const products = useSelector(state => state.allProducts.products)
   const categories = useSelector(state => state.categories.list)
 
+  const user = useSelector(state => state.currentUser)
+
   useEffect(() => {
     dispatch(getAllProducts())
     dispatch(getAllCategories())
   }, []) //equivalent to componentDidMount
+
+  function addToCart(product) {
+    if (!user.id) {
+      dispatch(createUserThunk({}))
+    }
+    dispatch(addToCartThunk(user.id, product.id, product.priceInCents))
+  }
 
   return (
     <div className="columns">
@@ -30,6 +44,13 @@ const AllProducts = () => {
                   <Link to={`/products/${product.id}`} key={product.id}>
                     <ProductCard key={product.id} product={product} />
                   </Link>
+                  <button
+                    className="button is-small"
+                    type="button"
+                    onClick={() => addToCart(product)}
+                  >
+                    <i className="fas fa-cart-plus" />
+                  </button>
                 </div>
               )
             })
