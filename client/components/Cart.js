@@ -1,6 +1,11 @@
 import React, {useEffect} from 'react'
 import {useSelector, useDispatch} from 'react-redux'
-import {fetchUserCart, removeFromCartThunk, updateCartThunk} from '../store'
+import {
+  fetchUserCart,
+  removeFromCartThunk,
+  updateCartThunk,
+  updateSessionCartThunk
+} from '../store'
 import {dollarsInDollars} from '../../Utilities'
 var stripe = Stripe('pk_test_pReitL4ywW7aWvUlEbjYeiFO00sZCjLWB7')
 
@@ -15,6 +20,21 @@ const Cart = () => {
       dispatch(fetchUserCart(user.id))
     },
     [user]
+  )
+
+  useEffect(
+    () => {
+      const lineItems = cartItems.map(item => {
+        return {
+          amount: item.priceInCents,
+          currency: 'usd',
+          name: item.title,
+          quantity: item.cart_item.quantity
+        }
+      })
+      dispatch(updateSessionCartThunk(sessionId, lineItems))
+    },
+    [cartItems.length]
   )
 
   //CHANGE
@@ -75,7 +95,9 @@ const Cart = () => {
               </p>
               <span
                 className="icon button"
-                onClick={() => dispatch(removeFromCartThunk(user.id, item.id))}
+                onClick={() => {
+                  dispatch(removeFromCartThunk(user.id, item.id))
+                }}
               >
                 <i className="fas fa-trash" />
               </span>

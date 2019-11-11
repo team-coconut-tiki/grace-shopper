@@ -15,3 +15,31 @@ router.post('/', async (req, res, next) => {
     next(error)
   }
 })
+router.put('/:sessionId', async (req, res, next) => {
+  try {
+    if (req.params.sessionId === req.session.id) {
+      const session = await stripe.checkout.sessions.findByPk(req.session.id)
+      await session.update({
+        payment_method_types: req.body.payment_method_types,
+        line_items: req.body.lineItems
+      })
+      const updatedSession = await stripe.checkout.sessions.findByPk(
+        req.session.id
+      )
+      res.json(updatedSession)
+    } else res.status(401).end()
+  } catch (error) {
+    next(error)
+  }
+})
+router.delete('/:sessionId', async (req, res, next) => {
+  try {
+    if (req.params.sessionId === req.session.id) {
+      const session = await stripe.checkout.sessions.findByPk(req.session.id)
+      await session.destroy()
+      res.status(202).end()
+    } else res.status(401).end()
+  } catch (error) {
+    next(error)
+  }
+})
