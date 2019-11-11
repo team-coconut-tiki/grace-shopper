@@ -13,7 +13,7 @@ const AllProducts = () => {
 
   const query = queryString.parse(props.location.search)
 
-  console.log('q', Object.keys(query))
+  // console.log('q', Object.keys(query))
   useEffect(() => {
     dispatch(getAllProducts())
     dispatch(getAllCategories())
