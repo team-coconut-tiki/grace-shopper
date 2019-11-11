@@ -1,6 +1,6 @@
 import React, {useEffect} from 'react'
 import {useDispatch, useSelector} from 'react-redux'
-import {getOrderThunk} from '../store'
+import {getOrderThunk, updateOrderPaid} from '../store'
 import {dollarsInDollars} from '../../Utilities'
 import {Link} from 'react-router-dom'
 
@@ -26,14 +26,22 @@ const SingleOrder = props => {
               {console.log(order)}
             </Link>
           </span>
-
-          <span className="column">Order Status: {order.status}</span>
-          <div className="select">
-            <select>
-              <option>Select dropdown</option>
-              <option>With options</option>
-            </select>
-          </div>
+          {/* <span className="column">Order Status: {order.status}</span> */}
+          <span className="column">
+            Order Status:->
+            <div className="select">
+              <select
+                onChange={evt => dispatch(updateOrderPaid(evt.target.value))}
+              >
+                <option>{order.status}</option>
+                <option>open</option>
+                <option>paid</option>
+                <option>shipped</option>
+                <option>completed</option>
+                <option>cancelled</option>
+              </select>
+            </div>
+          </span>
           <span className="column">
             Order Subtotal: ${dollarsInDollars(order.subtotalInCents)}
           </span>
