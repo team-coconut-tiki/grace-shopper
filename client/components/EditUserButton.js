@@ -8,14 +8,12 @@ import {
 
 const EditUserButton = props => {
   const user = props.isSameUser ? props.currentUser : props.otherUser
-  // const user = props.user
   const [renderForm, setRenderForm] = useState()
   const [formState, setFormState] = useState(user[props.source])
 
   useEffect(
     () => {
       setFormState(user[props.source])
-      // console.log('Changed')
     },
     [user[props.source]]
   )
@@ -31,8 +29,8 @@ const EditUserButton = props => {
       props.isSameUser
         ? await props.updateUserThunk(payload)
         : await props.updateOtherUserThunk(payload)
-      console.log(user)
-      console.log(props.otherUser)
+      // console.log(user)
+      // console.log(props.otherUser)
       setRenderForm(false)
     } catch (err) {
       console.error(err)
@@ -48,6 +46,7 @@ const EditUserButton = props => {
   //   const [value, setValue] = React.useState(default)
   //   return { value: value, onChange: event => setValue(event.target.value) }
   // }
+
   return (
     <div className="edit-user-button">
       {renderForm ? (

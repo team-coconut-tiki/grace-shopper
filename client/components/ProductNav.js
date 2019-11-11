@@ -8,7 +8,9 @@ const ProductNav = props => {
         {props.categories.map(category => {
           return (
             <li key={category.id}>
-              <Link to="/products">{category.type}</Link>
+              <Link to={`/products/?category=${category.type}`}>
+                {category.type}
+              </Link>
             </li>
           )
         })}
