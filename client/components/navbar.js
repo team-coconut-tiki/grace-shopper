@@ -8,6 +8,7 @@ const Navbar = ({handleClick, isLoggedIn}) => {
   const dispatch = useDispatch()
   const cartItems = useSelector(state => state.carts.currentCarts)
   const user = useSelector(state => state.currentUser)
+  console.log('cartItems', cartItems)
 
   useEffect(() => {
     user.id > 0 && dispatch(fetchUserCart(user.id))
