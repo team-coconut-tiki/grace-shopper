@@ -136,7 +136,7 @@ async function seed() {
       description: 'Rotten Coconuts are no fun!',
       rating: 1,
       userId: 1,
-      productId: 1
+      productId: 5
     }),
     Review.create({
       title: 'this is another a title',
