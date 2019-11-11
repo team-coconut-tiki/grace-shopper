@@ -17,7 +17,7 @@ const Navbar = ({handleClick, isLoggedIn}) => {
         acc += cur.cart_item.quantity
         return acc
       }, 0)
-      console.log('numInCart', numInCart)
+      // console.log('numInCart', numInCart)
     },
     [cartItems]
   )

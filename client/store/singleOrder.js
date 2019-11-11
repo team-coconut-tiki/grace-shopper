@@ -50,9 +50,7 @@ export const updateOrderStatusThunk = (orderId, status) => {
   return async dispatch => {
     try {
       const {data} = await axios.get(`/api/orders/${orderId}`)
-      console.log(data)
       data.status = status
-      console.log(data)
       await axios.put(`/api/orders/${orderId}`, {status: data.status})
       dispatch(updateOrderStatus(data))
     } catch (error) {

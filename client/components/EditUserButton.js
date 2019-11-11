@@ -29,8 +29,8 @@ const EditUserButton = props => {
       props.isSameUser
         ? await props.updateUserThunk(payload)
         : await props.updateOtherUserThunk(payload)
-      console.log(user)
-      console.log(props.otherUser)
+      // console.log(user)
+      // console.log(props.otherUser)
       setRenderForm(false)
     } catch (err) {
       console.error(err)
