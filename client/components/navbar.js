@@ -54,7 +54,7 @@ const Navbar = ({handleClick, isLoggedIn}) => {
                     <span className="icon">
                       <i className="fas fa-shopping-cart" />
                     </span>
-                    <p> {cartItems.length} Items</p>
+                    <p>{cartItems.length > 0 ? cartItems.length : '0'} Items</p>
                   </Link>
                   <a href="#" className="button" onClick={handleClick}>
                     Logout
@@ -71,8 +71,10 @@ const Navbar = ({handleClick, isLoggedIn}) => {
                       <i className="fas fa-shopping-cart" />
                     </span>
                     <p>
-                      {console.log('navbar cart items', cartItems)}
-                      {totalItems(cartItems, 'quantity')} Items
+                      {cartItems.length > 0
+                        ? totalItems(cartItems, 'quantity')
+                        : '0'}{' '}
+                      Items
                     </p>
                   </Link>
                   <Link className="button" to="/signup">

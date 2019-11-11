@@ -18,8 +18,6 @@ if (process.env.NODE_ENV === 'test') {
   after('close the session store', () => sessionStore.stopExpiringSessions())
 }
 
-console.log(process.env.GOOGLE_CALLBACK)
-
 /**
  * In your development environment, you can keep all of your
  * app's secret API keys in a file called `secrets.js`, in your project
@@ -59,7 +57,7 @@ const createApp = () => {
       secret: process.env.SESSION_SECRET || 'my best friend is Cody',
       store: sessionStore,
       resave: false,
-      saveUninitialized: false
+      saveUninitialized: true
     })
   )
   app.use(passport.initialize())
@@ -67,6 +65,7 @@ const createApp = () => {
 
   app.use((req, res, next) => {
     console.log('SESSION: ', req.session)
+
     next()
   })
 
