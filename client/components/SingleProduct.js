@@ -49,15 +49,23 @@ const SingleProduct = props => {
 
   console.log(reviews)
   return (
-    <div id="single-product" className="box">
+    <div id="single-product" className="container box">
       {/* <div>Breadcrumb placeholder</div> */}
-      <div>Name: {thisProduct.title}</div>
-      {/* <div>product tile placeholder</div> */}
-      <div>Price: ${thisProduct.priceInCents / 100}</div>
-      {/* <h1>Number in Cart: {quantity}</h1> */}
-      <button type="button" onClick={addToCart}>
+      <figure className="image product-image">
+        <img src={thisProduct.imageUrl} />
+      </figure>
+
+      <div className="title is-5">{thisProduct.title}</div>
+      <div>Price: ${thisProduct.priceInCents}</div>
+      <button
+        type="button"
+        className="button is-success is-rounded"
+        onClick={addToCart}
+      >
         Add to cart
       </button>
+      {/* <div>product tile placeholder</div> */}
+
       <p>Description: {thisProduct.description}</p>
       <p>
         Categories:{' '}
@@ -69,9 +77,7 @@ const SingleProduct = props => {
               .join(', ')
           : 'none'}
       </p>
-      <figure className="image product-image">
-        <img src={thisProduct.imageUrl} />
-      </figure>
+
       <div>
         {reviews &&
           reviews.map(review => (
