@@ -1,6 +1,10 @@
 import React, {useState, useEffect} from 'react'
 import {connect} from 'react-redux'
-import {updateUserThunk, deleteUserThunk, updateOtherUserThunk} from '../store/'
+import {
+  updateUserThunk,
+  adminDeleteUserThunk,
+  updateOtherUserThunk
+} from '../store/'
 
 const EditUserButton = props => {
   const user = props.isSameUser ? props.currentUser : props.otherUser
@@ -93,5 +97,5 @@ const EditUserButton = props => {
 
 export default connect(
   ({currentUser, otherUser}) => ({currentUser, otherUser}),
-  {updateUserThunk, deleteUserThunk, updateOtherUserThunk}
+  {updateUserThunk, adminDeleteUserThunk, updateOtherUserThunk}
 )(EditUserButton)

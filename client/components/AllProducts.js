@@ -5,7 +5,7 @@ import {getAllProducts, getAllCategories} from '../store'
 import ProductCard from './ProductCard'
 import ProductNav from './ProductNav'
 
-const AllProducts = props => {
+const AllProducts = () => {
   const dispatch = useDispatch()
   const products = useSelector(state => state.allProducts.products)
   const categories = useSelector(state => state.categories.list)
