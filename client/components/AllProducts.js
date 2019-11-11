@@ -13,7 +13,7 @@ const AllProducts = props => {
 
   const query = queryString.parse(props.location.search)
 
-  console.log('q', query)
+  console.log('q', Object.keys(query))
   useEffect(() => {
     dispatch(getAllProducts())
     dispatch(getAllCategories())
@@ -25,7 +25,9 @@ const AllProducts = props => {
         <ProductNav categories={categories} />
       </div>
       <div className="container box column">
-        <h1 className="title">{query ? 'Results' : 'All Products'}</h1>
+        <h1 className="title">
+          {Object.keys(query).length ? 'Results' : 'All Products'}
+        </h1>
         <div className="columns is-mobile is-multiline">
           {products ? (
             products.reduce((accu, cur) => {
@@ -33,7 +35,7 @@ const AllProducts = props => {
                 category => category.type
               )
               if (
-                !query.category ||
+                !Object.keys(query).length ||
                 mappedProductCategories.includes(query.category)
               ) {
                 accu.push(
