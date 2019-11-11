@@ -5,7 +5,8 @@ import {
   removeFromCartThunk,
   updateCartThunk,
   updateSessionCartThunk,
-  createOrderThunk
+  createOrderThunk,
+  checkoutThunk
 } from '../store'
 import {dollarsInDollars} from '../../Utilities'
 var stripe = Stripe('pk_test_pReitL4ywW7aWvUlEbjYeiFO00sZCjLWB7')
@@ -21,6 +22,19 @@ const Cart = () => {
     return acc
   }, 0)
 
+  const lineItems = cartItems.map(item => {
+    return {
+      amount: item.priceInCents,
+      currency: 'usd',
+      name: item.title,
+      quantity: item.cart_item.quantity
+    }
+  })
+
+  useEffect(() => {
+    dispatch(checkoutThunk(lineItems))
+  }, [])
+
   useEffect(
     () => {
       dispatch(fetchUserCart(user.id))
@@ -30,15 +44,7 @@ const Cart = () => {
 
   useEffect(
     () => {
-      const lineItems = cartItems.map(item => {
-        return {
-          amount: item.priceInCents,
-          currency: 'usd',
-          name: item.title,
-          quantity: item.cart_item.quantity
-        }
-      })
-      dispatch(updateSessionCartThunk(sessionId, lineItems))
+      // dispatch(updateSessionCartThunk(sessionId, lineItems))
     },
     [cartItems.length]
   )
@@ -48,8 +54,10 @@ const Cart = () => {
   //stripe checkout
   function completeOrder(event) {
     event.preventDefault()
-    //dispatch createOrder thunk, takes in UserId
+
+    // dispatch(updateSessionCartThunk(sessionId, lineItems))
     dispatch(createOrderThunk(user.id, {subtotal: subtotal}))
+
     stripe
       .redirectToCheckout({
         sessionId: sessionId
