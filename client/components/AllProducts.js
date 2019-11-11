@@ -11,7 +11,9 @@ const AllProducts = props => {
   const products = useSelector(state => state.allProducts.products)
   const categories = useSelector(state => state.categories.list)
 
-  console.log('allp', queryString.parse(props.location.search))
+  const query = queryString.parse(props.location.search)
+
+  console.log('q', query)
   useEffect(() => {
     dispatch(getAllProducts())
     dispatch(getAllCategories())
@@ -23,19 +25,42 @@ const AllProducts = props => {
         <ProductNav categories={categories} />
       </div>
       <div className="container box column">
-        <h1 className="title">All Products</h1>
+        <h1 className="title">{query ? 'Results' : 'All Products'}</h1>
         <div className="columns is-mobile is-multiline">
           {products ? (
-            products.map(product => {
-              return (
-                <div className="column is-one-fifth" key={product.id}>
-                  <Link to={`/products/${product.id}`} key={product.id}>
-                    <ProductCard key={product.id} product={product} />
-                  </Link>
-                </div>
+            products.reduce((accu, cur) => {
+              const mappedProductCategories = cur.categories.map(
+                category => category.type
               )
-            })
+              if (
+                !query.category ||
+                mappedProductCategories.includes(query.category)
+              ) {
+                accu.push(
+                  <div className="column is-one-fifth" key={cur.id}>
+                    <Link to={`/products/${cur.id}`} key={cur.id}>
+                      <ProductCard key={cur.id} product={cur} />
+                    </Link>
+                  </div>
+                )
+              }
+              return accu
+            }, [])
           ) : (
+            // products.reduce((acc, product) => {
+            // const mappedProductCategories = product.categories.map(
+            //   category => category.type
+            // )
+            // if (!query || mappedProductCategories.includes(query.category)) {
+            //   acc.push(
+            //     <div className="column is-one-fifth" key={product.id}>
+            //       <Link to={`/products/${product.id}`} key={product.id}>
+            //         <ProductCard key={product.id} product={product} />
+            //       </Link>
+            //     </div>
+            //     )
+            //   }
+            // }, [])
             <p>no products</p>
           )}
         </div>
