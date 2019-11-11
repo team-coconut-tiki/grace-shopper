@@ -1,5 +1,5 @@
 import React from 'react'
-
+import {dollarsInDollars} from '../../Utilities'
 const ProductCard = props => {
   return (
     <div className="box">
@@ -7,8 +7,7 @@ const ProductCard = props => {
       <p>
         <strong>{props.product.title}</strong>
         <br />
-        ${props.product.priceInCents /
-          100}.{props.product.priceInCents.toString().slice(-2)}
+        ${dollarsInDollars(props.product.priceInCents)}
       </p>
     </div>
   )

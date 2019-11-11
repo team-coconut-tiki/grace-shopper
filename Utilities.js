@@ -1,5 +1,10 @@
 export const dollarsInDollars = priceInCents => {
-  return `${priceInCents / 100}`
+  if (priceInCents < 10) {
+    return `.0${priceInCents}`
+  }
+  return `${Math.floor(priceInCents / 100)}.${priceInCents
+    .toString()
+    .slice(-2)}`
 }
 
 export const totalItems = (arr, key) => {

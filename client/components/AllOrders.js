@@ -1,7 +1,7 @@
 import React, {useEffect} from 'react'
 import {useDispatch, useSelector} from 'react-redux'
 import {getOrdersThunk} from '../store/allOrders'
-import {getUsersThunk} from '../store'
+import {Link} from 'react-router-dom'
 
 const AllOrders = props => {
   const dispatch = useDispatch()
@@ -20,7 +20,9 @@ const AllOrders = props => {
         : orders.map(order => {
             return (
               <li key={order.id} className="columns">
-                <span className="column">Order ID: {order.id}</span>
+                <span className="column">
+                  <Link to={`/orders/${order.id}`}>Order ID: {order.id}</Link>
+                </span>
                 <span className="column">
                   User ID: {order.userId} Email: {order.user.email}
                 </span>

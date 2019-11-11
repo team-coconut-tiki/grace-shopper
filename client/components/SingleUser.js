@@ -51,10 +51,10 @@ const SingleUser = props => {
           <EditUserButton isSameUser={isSameUser} source="creditCard" />
         </div>
         {isAdmin && (
-          <div className="delete-user-button">
+          <div className="delete-user-button box">
             <button
               type="button"
-              className="delete-user-button button"
+              className="delete-user-button button is-danger"
               onClick={() => {
                 try {
                   props.adminDeleteUser(user.id)
@@ -64,7 +64,10 @@ const SingleUser = props => {
                 }
               }}
             >
-              Delete this user
+              <span className="icon">
+                <i className="fas fa-trash" />
+              </span>{' '}
+              <p>Delete this user</p>
             </button>
           </div>
         )}

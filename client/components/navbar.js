@@ -1,13 +1,20 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 import PropTypes from 'prop-types'
-import {connect, useSelector} from 'react-redux'
+import {connect, useSelector, useDispatch} from 'react-redux'
 import {Link} from 'react-router-dom'
-import {logout, clearCart} from '../store'
+import {logout, clearCart, fetchUserCart} from '../store'
 import {totalItems} from '../../Utilities'
 
 const Navbar = ({handleClick, isLoggedIn}) => {
+  const dispatch = useDispatch()
   const cartItems = useSelector(state => state.carts.currentCarts)
   const user = useSelector(state => state.currentUser)
+  useEffect(
+    () => {
+      dispatch(fetchUserCart(user.id))
+    },
+    [user.id]
+  )
   return (
     <section className="hero">
       <div className="hero-body">
@@ -18,14 +25,6 @@ const Navbar = ({handleClick, isLoggedIn}) => {
                 <img src="/coconut.png" />
               </figure>
               <h1 className="title">Coconuts!</h1>
-            </Link>
-          </div>
-          <div className="level-item has-text-centered">
-            <Link className="button is-white" to="/users">
-              Users
-            </Link>
-            <Link className="button is-white" to="/orders">
-              All Orders
             </Link>
           </div>
           <div className="level-right">
@@ -42,10 +41,10 @@ const Navbar = ({handleClick, isLoggedIn}) => {
                     </span>
                     <p>
                       {' '}
-                      {cartItems.reduce(
-                        (acc, cur) => (acc += cur.cart_item.quantity),
-                        0
-                      )}{' '}
+                      {cartItems.reduce((acc, cur) => {
+                        acc += cur.cart_item.quantity
+                        return acc
+                      }, 0)}{' '}
                       Items
                     </p>
                   </Link>

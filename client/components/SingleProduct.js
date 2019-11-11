@@ -1,5 +1,10 @@
 import React, {useEffect} from 'react'
-import {addToCartThunk, fetchProduct, createUserThunk} from '../store'
+import {
+  addToCartThunk,
+  fetchProduct,
+  createUserThunk,
+  checkoutThunk
+} from '../store'
 import {useSelector, useDispatch} from 'react-redux'
 
 const SingleProduct = props => {
@@ -10,27 +15,31 @@ const SingleProduct = props => {
 
   const thisProductId = +props.match.params.id
 
-  useEffect(
-    () => {
-      if (!user.id) {
-        dispatch(createUserThunk({}))
-      }
+  useEffect(() => {
+    if (!user.id) {
+      dispatch(createUserThunk({}))
+    }
+    dispatch(fetchProduct(thisProductId))
+  }, [])
 
-      dispatch(fetchProduct(thisProductId))
-    },
-    [user, thisProductId]
-  )
-  //same as componentDidMount()
+  const lineItems = cartItems.map(item => {
+    return {
+      amount: item.priceInCents,
+      currency: 'usd',
+      name: item.title,
+      quantity: item.cart_item.quantity
+    }
+  })
 
   // grab Reviews
 
   function addToCart() {
     dispatch(addToCartThunk(user.id, thisProduct.id, thisProduct.priceInCents))
-    console.log('added to cart!', cartItems)
+    dispatch(checkoutThunk(lineItems))
   }
 
   return (
-    <div id="single-product">
+    <div id="single-product" className="box">
       {/* <div>Breadcrumb placeholder</div> */}
       <div>Name: {thisProduct.title}</div>
       {/* <div>product tile placeholder</div> */}
@@ -40,7 +49,19 @@ const SingleProduct = props => {
         Add to cart
       </button>
       <p>Description: {thisProduct.description}</p>
-      <img src={thisProduct.imageUrl} />
+      <p>
+        Categories:{' '}
+        {thisProduct.categories
+          ? thisProduct.categories
+              .map(category => {
+                return category.type
+              })
+              .join(', ')
+          : 'none'}
+      </p>
+      <figure className="image product-image">
+        <img src={thisProduct.imageUrl} />
+      </figure>
       <div>reviews to come!</div>
     </div>
   )
