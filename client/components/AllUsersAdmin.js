@@ -24,7 +24,7 @@ const AllUsersAdmin = props => {
               <li key={user.id} className="columns">
                 <span className="column">
                   ID: {user.id} {user.email}
-                  <Link to={`/users/${user.id}?isAdmin=true`}>
+                  <Link to={`/users/${user.id}`}>
                     <i className="fas fa-user-edit" />
                   </Link>
                 </span>
