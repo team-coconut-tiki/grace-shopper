@@ -13,7 +13,7 @@ const AllProducts = props => {
 
   const query = queryString.parse(props.location.search)
 
-  // console.log('q', Object.keys(query))
+  // console.log('q', query)
   useEffect(() => {
     dispatch(getAllProducts())
     dispatch(getAllCategories())
@@ -26,7 +26,8 @@ const AllProducts = props => {
       </div>
       <div className="container box column">
         <h1 className="title">
-          {Object.keys(query).length ? 'Results' : 'All Products'}
+          {query.category ? 'Results' : 'All Products'}
+          {/* fix later */}
         </h1>
         <div className="columns is-mobile is-multiline">
           {products ? (
@@ -35,7 +36,7 @@ const AllProducts = props => {
                 category => category.type
               )
               if (
-                !Object.keys(query).length ||
+                !query.category ||
                 mappedProductCategories.includes(query.category)
               ) {
                 accu.push(
