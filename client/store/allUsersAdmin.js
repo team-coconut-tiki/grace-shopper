@@ -32,7 +32,7 @@ export const adminDeleteUserThunk = userId => async dispatch => {
 export const switchAdminStatus = userId => async dispatch => {
   try {
     const {data} = await axios.get(`/api/users/${userId}`)
-    console.log('THUNK DATA', data)
+    // console.log('THUNK DATA', data)
     data.isAdmin = !data.isAdmin
     await axios.put(`/api/users/${userId}`, {isAdmin: data.isAdmin})
     dispatch(adminStatus(data))

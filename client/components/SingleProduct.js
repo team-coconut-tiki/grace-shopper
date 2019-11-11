@@ -35,7 +35,7 @@ const SingleProduct = props => {
     dispatch(addToCartThunk(user.id, thisProduct.id, thisProduct.priceInCents))
   }
 
-  console.log(reviews)
+  // console.log(reviews)
   return (
     <div id="single-product" className="container box">
       {/* <div>Breadcrumb placeholder</div> */}

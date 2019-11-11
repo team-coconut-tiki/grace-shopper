@@ -7,8 +7,8 @@ const SingleReview = props => {
   let reviewUser = review.user
   const currentUser = useSelector(state => state.currentUser)
   const [formState, setFormState] = useState()
-  console.log(reviewUser)
-  console.log(currentUser)
+  // console.log(reviewUser)
+  // console.log(currentUser)
   return (
     <div className="review message is-link is-small container">
       <div className="review-title message-header">
