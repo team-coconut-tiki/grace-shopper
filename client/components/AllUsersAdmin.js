@@ -24,7 +24,7 @@ const AllUsersAdmin = props => {
               <li key={user.id} className="columns">
                 <span className="column">
                   ID: {user.id} {user.email}
-                  <Link to={`/users/${user.id}?isAdmin=true`}>
+                  <Link to={`/users/${user.id}`}>
                     <i className="fas fa-user-edit" />
                   </Link>
                 </span>
@@ -33,7 +33,9 @@ const AllUsersAdmin = props => {
                 </span>
                 <span className="column">
                   orders:{user.orders ? user.orders.length : 0}
-                  <i className="fas fa-truck" />
+                  <Link to={`/users/${user.id}/orders`}>
+                    <i className="fas fa-truck" />
+                  </Link>
                 </span>
                 <span className="column">
                   admin status:
@@ -42,13 +44,7 @@ const AllUsersAdmin = props => {
                       dispatch(switchAdminStatus(user.id))
                     }}
                   >
-                    {/* <i
-                      className={
-                        user.isAdmin ? 'fas fa-user-tie' : 'fas fa-times-circle'
-                      }
-                    /> */}
                     {user.isAdmin ? 'ADMIN' : 'NO'}
-                    {/* {user.isAdmin ? 'im an admin fam' : 'not an admin, sadface'} */}
                   </a>
                 </span>
                 <span className="column">

@@ -2,12 +2,12 @@ import React, {useEffect} from 'react'
 import {useDispatch, useSelector} from 'react-redux'
 import {getOrderThunk} from '../store'
 import {dollarsInDollars} from '../../Utilities'
+import {Link} from 'react-router-dom'
 
 const SingleOrder = props => {
   const dispatch = useDispatch()
   const order = useSelector(state => state.singleOrder.order)
-
-  const thisOrderId = +props.match.params.id
+  const thisOrderId = props.match ? +props.match.params.id : props.orderId
   useEffect(() => {
     dispatch(getOrderThunk(thisOrderId))
   }, [])
@@ -18,9 +18,16 @@ const SingleOrder = props => {
       ) : (
         <div className="columns">
           <span className="column">
-            Order Status: {order.status}
-            {console.log(order)}
+            <Link to="/users">Customer: {order.user.email}</Link>
           </span>
+          <span className="column">
+            <Link to="/orders">
+              Order Number: {order.id}
+              {console.log(order)}
+            </Link>
+          </span>
+
+          <span className="column">Order Status: {order.status}</span>
           <span className="column">
             Order Subtotal: ${dollarsInDollars(order.subtotalInCents)}
           </span>

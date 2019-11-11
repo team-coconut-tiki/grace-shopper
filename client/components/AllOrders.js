@@ -2,15 +2,13 @@ import React, {useEffect} from 'react'
 import {useDispatch, useSelector} from 'react-redux'
 import {getOrdersThunk} from '../store/allOrders'
 import {Link} from 'react-router-dom'
+import {dollarsInDollars} from '../../Utilities'
 
 const AllOrders = props => {
   const dispatch = useDispatch()
   const orders = useSelector(state => state.allOrders.orders)
-  // const users = useSelector(state => state.allUsersAdmin.allUsers)
-
   useEffect(() => {
     dispatch(getOrdersThunk())
-    // dispatch(getUsersThunk())
   }, [])
 
   return (
@@ -28,9 +26,7 @@ const AllOrders = props => {
                 </span>
                 <span className="column">Status: {order.status}</span>
                 <span className="column" />SubTotal:$
-                {(order.subtotalInCents / 100)
-                  .toString()
-                  .slice(-2)}.{order.subtotalInCents.toString().slice(-2)}
+                {dollarsInDollars(order.subtotalInCents)}
                 <span />
               </li>
             )
