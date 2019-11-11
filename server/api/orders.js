@@ -22,6 +22,17 @@ router.get('/:id', async (req, res, next) => {
   }
 })
 
+router.put('/:id', async (req, res, next) => {
+  try {
+    const updatedOrder = await Order.findByPk(req.params.id, {})
+    updatedOrder.update({status: req.body.status})
+    res.json(updatedOrder)
+  } catch (err) {
+    next(err)
+  }
+})
+
+//creates a new order
 router.post('/:userId', async (req, res, next) => {
   try {
     const currentCart = await CartItem.findAll({
