@@ -3,15 +3,18 @@ import {
   addToCartThunk,
   fetchProduct,
   createUserThunk,
-  checkoutThunk
+  checkoutThunk,
+  getReviewsByProductThunk
 } from '../store'
 import {useSelector, useDispatch} from 'react-redux'
+import SingleReview from './SingleReview'
 
 const SingleProduct = props => {
   const dispatch = useDispatch()
   const thisProduct = useSelector(state => state.singleProduct.selectedProduct)
   const user = useSelector(state => state.currentUser)
   const cartItems = useSelector(state => state.carts.currentCarts)
+  const reviews = useSelector(state => state.allReviews)
 
   const thisProductId = +props.match.params.id
 
@@ -21,6 +24,12 @@ const SingleProduct = props => {
     }
     dispatch(fetchProduct(thisProductId))
   }, [])
+  useEffect(
+    () => {
+      dispatch(getReviewsByProductThunk(thisProductId))
+    },
+    [thisProduct]
+  )
 
   const lineItems = cartItems.map(item => {
     return {
@@ -38,6 +47,7 @@ const SingleProduct = props => {
     dispatch(checkoutThunk(lineItems))
   }
 
+  console.log(reviews)
   return (
     <div id="single-product" className="box">
       {/* <div>Breadcrumb placeholder</div> */}
@@ -62,7 +72,12 @@ const SingleProduct = props => {
       <figure className="image product-image">
         <img src={thisProduct.imageUrl} />
       </figure>
-      <div>reviews to come!</div>
+      <div>
+        {reviews &&
+          reviews.map(review => (
+            <SingleReview key={review.id} review={review} />
+          ))}
+      </div>
     </div>
   )
 }
