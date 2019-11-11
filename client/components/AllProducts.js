@@ -4,12 +4,14 @@ import {Link} from 'react-router-dom'
 import {getAllProducts, getAllCategories} from '../store'
 import ProductCard from './ProductCard'
 import ProductNav from './ProductNav'
+import queryString from 'query-string'
 
 const AllProducts = props => {
   const dispatch = useDispatch()
   const products = useSelector(state => state.allProducts.products)
   const categories = useSelector(state => state.categories.list)
 
+  console.log('allp', queryString.parse(props.location.search))
   useEffect(() => {
     dispatch(getAllProducts())
     dispatch(getAllCategories())
