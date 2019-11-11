@@ -14,7 +14,8 @@ import {
   SingleOrder,
   ProductForm,
   AllProductsAdmin,
-  NewCategoryForm
+  NewCategoryForm,
+  UserOrders
 } from './components'
 import {me} from './store'
 
@@ -36,9 +37,11 @@ class Routes extends Component {
         <Route path="/signup" component={Signup} />
         <Route path="/products/:id" component={SingleProduct} />
         <Route path="/products" component={AllProducts} />
+        <Route path="/users/:id/orders" component={UserOrders} />
         <Route path="/users/:id" component={SingleUser} />
         <Route path="/cart" component={Cart} />
         <Route path="/orders/:id" component={SingleOrder} />
+
         {isAdmin && (
           <Switch>
             <Route path="/users" component={AllUsersAdmin} />
@@ -47,6 +50,7 @@ class Routes extends Component {
             <Route path="/product-form/" component={ProductForm} />
             <Route path="/all-products-admin" component={AllProductsAdmin} />
             <Route path="/new-category-form" component={NewCategoryForm} />
+
             <Route path="/" component={AllProducts} />
           </Switch>
         )}

@@ -6,11 +6,8 @@ import {Link} from 'react-router-dom'
 const AllOrders = props => {
   const dispatch = useDispatch()
   const orders = useSelector(state => state.allOrders.orders)
-  // const users = useSelector(state => state.allUsersAdmin.allUsers)
-
   useEffect(() => {
     dispatch(getOrdersThunk())
-    // dispatch(getUsersThunk())
   }, [])
 
   return (

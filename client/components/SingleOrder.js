@@ -7,8 +7,8 @@ import {Link} from 'react-router-dom'
 const SingleOrder = props => {
   const dispatch = useDispatch()
   const order = useSelector(state => state.singleOrder.order)
-
-  const thisOrderId = +props.match.params.id
+  console.log(props)
+  const thisOrderId = props.match ? +props.match.params.id : props.orderId
   useEffect(() => {
     dispatch(getOrderThunk(thisOrderId))
   }, [])

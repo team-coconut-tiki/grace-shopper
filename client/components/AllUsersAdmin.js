@@ -33,7 +33,9 @@ const AllUsersAdmin = props => {
                 </span>
                 <span className="column">
                   orders:{user.orders ? user.orders.length : 0}
-                  <i className="fas fa-truck" />
+                  <Link to={`/users/${user.id}/orders`}>
+                    <i className="fas fa-truck" />
+                  </Link>
                 </span>
                 <span className="column">
                   admin status:
