@@ -68,12 +68,12 @@ const createApp = () => {
 
   //COOKIES
   app.use((req, res, next) => {
-    const cookie = req.cookies.testingCookie
+    const cookie = req.cookies.currentCarts
     if (cookie === undefined) {
       console.log('if', req.cookies)
-      res.cookie('testingCookie', {cart: ['test cart']})
+      res.cookie('currentCarts', {cart: ['test cart']})
     } else {
-      console.log('else', req.cookies)
+      console.log('the cookie is there', req.cookies)
     }
     next()
   })
