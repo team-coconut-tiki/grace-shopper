@@ -2,6 +2,7 @@ const router = require('express').Router()
 const {CartItem, User, Product} = require('../db/models')
 
 //no need to 'get' any cart item; will be pulled via Product or User table/routes
+
 //creates a new cart item
 router.post('/:userId/:productId', async (req, res, next) => {
   try {
