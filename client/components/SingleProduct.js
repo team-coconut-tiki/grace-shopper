@@ -31,20 +31,8 @@ const SingleProduct = props => {
     [thisProduct]
   )
 
-  const lineItems = cartItems.map(item => {
-    return {
-      amount: item.priceInCents,
-      currency: 'usd',
-      name: item.title,
-      quantity: item.cart_item.quantity
-    }
-  })
-
-  // grab Reviews
-
   function addToCart() {
     dispatch(addToCartThunk(user.id, thisProduct.id, thisProduct.priceInCents))
-    dispatch(checkoutThunk(lineItems))
   }
 
   console.log(reviews)

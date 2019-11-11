@@ -7,7 +7,7 @@ const ADMIN_STATUS = 'ADMIN_STATUS'
 
 //action creators
 const getUsers = users => ({type: GET_ALL_USERS, users})
-const deleteUser = id => ({type: DELETE_USER, id})
+const adminDeleteUser = id => ({type: DELETE_USER, id})
 const adminStatus = user => ({type: ADMIN_STATUS, user})
 
 //thunk creators
@@ -20,10 +20,10 @@ export const getUsersThunk = () => async dispatch => {
   }
 }
 
-export const adminDeleteUser = userId => async dispatch => {
+export const adminDeleteUserThunk = userId => async dispatch => {
   try {
     await axios.delete(`/api/users/${userId}`)
-    dispatch(deleteUser(userId))
+    dispatch(adminDeleteUser(userId))
   } catch (err) {
     console.error(err)
   }

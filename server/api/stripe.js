@@ -4,9 +4,10 @@ module.exports = router
 
 router.post('/', async (req, res, next) => {
   try {
+    console.log('in the route', req.body)
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ['card'],
-      line_items: req.body.lineItems,
+      line_items: req.body,
       success_url: 'http://localhost:8080/success',
       cancel_url: 'http://localhost:8080'
     })

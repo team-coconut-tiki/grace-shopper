@@ -6,14 +6,14 @@ import ProductCard from './ProductCard'
 import ProductNav from './ProductNav'
 import queryString from 'query-string'
 
-const AllProducts = props => {
+const AllProducts = () => {
   const dispatch = useDispatch()
   const products = useSelector(state => state.allProducts.products)
   const categories = useSelector(state => state.categories.list)
 
   const query = queryString.parse(props.location.search)
 
-  console.log('q', Object.keys(query))
+  // console.log('q', Object.keys(query))
   useEffect(() => {
     dispatch(getAllProducts())
     dispatch(getAllCategories())
