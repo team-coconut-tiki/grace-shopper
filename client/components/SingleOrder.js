@@ -2,6 +2,7 @@ import React, {useEffect} from 'react'
 import {useDispatch, useSelector} from 'react-redux'
 import {getOrderThunk} from '../store'
 import {dollarsInDollars} from '../../Utilities'
+import {Link} from 'react-router-dom'
 
 const SingleOrder = props => {
   const dispatch = useDispatch()
@@ -17,6 +18,9 @@ const SingleOrder = props => {
         'no order exists'
       ) : (
         <div className="columns">
+          <Link to="/orders" className="column">
+            <span>Order Number: {order.id}</span>
+          </Link>
           <span className="column">
             Order Status: {order.status}
             {console.log(order)}
