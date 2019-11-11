@@ -9,14 +9,9 @@ const Navbar = ({handleClick, isLoggedIn}) => {
   const cartItems = useSelector(state => state.carts.currentCarts)
   const user = useSelector(state => state.currentUser)
 
-  useEffect(
-    () => {
-      user.id > 0
-        ? dispatch(fetchUserCart(user.id))
-        : console.log('no user yet')
-    },
-    [user.id]
-  )
+  useEffect(() => {
+    user.id > 0 && dispatch(fetchUserCart(user.id))
+  }, [])
   return (
     <section className="hero">
       <div className="hero-body">
