@@ -1,6 +1,13 @@
 import React, {useEffect} from 'react'
 import {useSelector, useDispatch} from 'react-redux'
-import {fetchUserCart, removeFromCartThunk, updateCartThunk} from '../store'
+import {
+  fetchUserCart,
+  removeFromCartThunk,
+  updateCartThunk,
+  updateSessionCartThunk,
+  createOrderThunk,
+  checkoutThunk
+} from '../store'
 import {dollarsInDollars} from '../../Utilities'
 var stripe = Stripe('pk_test_pReitL4ywW7aWvUlEbjYeiFO00sZCjLWB7')
 
@@ -10,6 +17,24 @@ const Cart = () => {
   const cartItems = useSelector(state => state.carts.currentCarts)
   const sessionId = useSelector(state => state.stripe.sessionId)
 
+  const subtotal = cartItems.reduce((acc, cur) => {
+    acc += cur.cart_item.priceInCents * cur.cart_item.quantity
+    return acc
+  }, 0)
+
+  const lineItems = cartItems.map(item => {
+    return {
+      amount: item.priceInCents,
+      currency: 'usd',
+      name: item.title,
+      quantity: item.cart_item.quantity
+    }
+  })
+
+  useEffect(() => {
+    dispatch(checkoutThunk(lineItems))
+  }, [])
+
   useEffect(
     () => {
       dispatch(fetchUserCart(user.id))
@@ -17,11 +42,21 @@ const Cart = () => {
     [user]
   )
 
+  useEffect(
+    () => {
+      // dispatch(updateSessionCartThunk(sessionId, lineItems))
+    },
+    [cartItems.length]
+  )
+
   //CHANGE
 
   //stripe checkout
   function completeOrder(event) {
     event.preventDefault()
+
+    // dispatch(updateSessionCartThunk(sessionId, lineItems))
+    dispatch(createOrderThunk(user.id, {subtotal: subtotal}))
 
     stripe
       .redirectToCheckout({
@@ -32,16 +67,12 @@ const Cart = () => {
         // error, display the localized error message to your customer
         // using `result.error.message`.
         console.log(result)
+        console.log('payment completed')
       })
       .catch(err => {
         console.error(err)
       })
   }
-
-  const subtotal = cartItems.reduce((acc, cur) => {
-    acc += cur.cart_item.priceInCents * cur.cart_item.quantity
-    return acc
-  }, 0)
 
   return (
     <div>
@@ -75,7 +106,9 @@ const Cart = () => {
               </p>
               <span
                 className="icon button"
-                onClick={() => dispatch(removeFromCartThunk(user.id, item.id))}
+                onClick={() => {
+                  dispatch(removeFromCartThunk(user.id, item.id))
+                }}
               >
                 <i className="fas fa-trash" />
               </span>

@@ -1,13 +1,35 @@
-import React from 'react'
+import React, {useEffect, useState} from 'react'
 import PropTypes from 'prop-types'
-import {connect, useSelector} from 'react-redux'
+import {connect, useSelector, useDispatch} from 'react-redux'
 import {Link} from 'react-router-dom'
-import {logout, clearCart} from '../store'
+import {logout, clearCart, fetchUserCart} from '../store'
 import {totalItems} from '../../Utilities'
 
 const Navbar = ({handleClick, isLoggedIn}) => {
+  const dispatch = useDispatch()
   const cartItems = useSelector(state => state.carts.currentCarts)
   const user = useSelector(state => state.currentUser)
+  let numInCart
+
+  useEffect(
+    () => {
+      numInCart = cartItems.reduce((acc, cur) => {
+        acc += cur.cart_item.quantity
+        return acc
+      }, 0)
+      console.log('numInCart', numInCart)
+    },
+    [cartItems]
+  )
+
+  useEffect(
+    () => {
+      user.id > 0
+        ? dispatch(fetchUserCart(user.id))
+        : console.log('no user yet')
+    },
+    [user.id]
+  )
   return (
     <section className="hero">
       <div className="hero-body">
@@ -32,14 +54,7 @@ const Navbar = ({handleClick, isLoggedIn}) => {
                     <span className="icon">
                       <i className="fas fa-shopping-cart" />
                     </span>
-                    <p>
-                      {' '}
-                      {cartItems.reduce(
-                        (acc, cur) => (acc += cur.cart_item.quantity),
-                        0
-                      )}{' '}
-                      Items
-                    </p>
+                    <p>{cartItems.length > 0 ? cartItems.length : '0'} Items</p>
                   </Link>
                   <a href="#" className="button" onClick={handleClick}>
                     Logout
@@ -55,7 +70,12 @@ const Navbar = ({handleClick, isLoggedIn}) => {
                     <span className="icon">
                       <i className="fas fa-shopping-cart" />
                     </span>
-                    <p> {totalItems(cartItems, 'quantity')} Items</p>
+                    <p>
+                      {cartItems.length > 0
+                        ? totalItems(cartItems, 'quantity')
+                        : '0'}{' '}
+                      Items
+                    </p>
                   </Link>
                   <Link className="button" to="/signup">
                     Sign Up

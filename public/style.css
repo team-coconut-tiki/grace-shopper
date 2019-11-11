@@ -19,3 +19,24 @@ form div {
   margin: 1em;
   display: inline-block;
 }
+
+.product-image {
+  max-width: 240px;
+  height: auto;
+}
+
+.normal-cursor:hover {
+  cursor: default;
+}
+
+.link-cursor:hover {
+  cursor: pointer;
+}
+
+.margin-left {
+  margin-left: 20px;
+}
+
+.margin-right {
+  margin-right: 20px;
+}

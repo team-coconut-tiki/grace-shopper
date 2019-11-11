@@ -10,8 +10,11 @@ import singleProduct from './singleProduct'
 import otherUser from './otherUser'
 import allOrders from './allOrders'
 import carts from './carts'
+import allReviews from './allReviews'
+import singleReview from './singleReview'
 import singleOrder from './singleOrder'
 import stripe from './stripe'
+import userOrders from './userOrders'
 
 const reducer = combineReducers({
   currentUser,
@@ -22,8 +25,11 @@ const reducer = combineReducers({
   carts,
   otherUser,
   allOrders,
-  singleOrder,
-  stripe
+  stripe,
+  userOrders,
+  allReviews,
+  singleReview,
+  singleOrder
 })
 const middleware = composeWithDevTools(
   applyMiddleware(thunkMiddleware, createLogger({collapsed: true}))
@@ -39,4 +45,8 @@ export * from './singleProduct'
 export * from './carts'
 export * from './stripe'
 export * from './otherUser'
+export * from './singleOrder'
+export * from './userOrders'
+export * from './allReviews'
+export * from './singleReview'
 export * from './singleOrder'

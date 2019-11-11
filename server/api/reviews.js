@@ -1,11 +1,24 @@
 const router = require('express').Router()
-const {Review} = require('../db/models')
+const {Review, User, Product} = require('../db/models')
 module.exports = router
+
+router.get('/user/:userId', async (req, res, next) => {
+  try {
+    const reviews = await Review.findAll({
+      where: {userId: req.params.userId},
+      include: [{model: User}, {model: Product}]
+    })
+    res.json(reviews)
+  } catch (err) {
+    next(err)
+  }
+})
 
 router.get('/:productId', async (req, res, next) => {
   try {
     const reviews = await Review.findAll({
-      where: {productId: req.params.productId}
+      where: {productId: req.params.productId},
+      include: [{model: User}, {model: Product}]
     })
     res.json(reviews)
   } catch (err) {
@@ -40,8 +53,10 @@ router.post('/:productId', async (req, res, next) => {
 router.put('/:id', async (req, res, next) => {
   try {
     let review = await Review.findByPk(req.params.id)
-    if (review.userId === req.body.userId || req.body.isAdmin) {
+    if (review.userId === req.body.user.userId || req.body.user.isAdmin) {
       await Review.update(req.body, {where: {id: req.params.id}})
+    } else {
+      throw new Error('User is not authorized to alter this review')
     }
     review = await Review.findByPk(req.params.id)
     res.json(review)
@@ -50,9 +65,9 @@ router.put('/:id', async (req, res, next) => {
   }
 })
 
-router.delete('/:productId', async (req, res, next) => {
+router.delete('/:reviewId', async (req, res, next) => {
   try {
-    const review = await Review.findByPk(req.params.productId)
+    const review = await Review.findByPk(req.params.reviewId)
     await review.destroy()
     res.sendStatus(204)
   } catch (err) {
