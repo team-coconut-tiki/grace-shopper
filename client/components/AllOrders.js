@@ -16,7 +16,6 @@ const AllOrders = props => {
       {!orders
         ? 'No orders'
         : orders.map(order => {
-            console.log(order)
             return (
               <li key={order.id} className="columns">
                 <span className="column">
