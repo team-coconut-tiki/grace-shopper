@@ -66,7 +66,6 @@ const createApp = () => {
   app.use(passport.session())
 
   app.use((req, res, next) => {
-    console.log('SESSION: ', req.session)
     next()
   })
 

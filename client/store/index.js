@@ -28,8 +28,7 @@ const reducer = combineReducers({
   stripe,
   userOrders,
   allReviews,
-  singleReview,
-  stripe
+  singleReview
 })
 const middleware = composeWithDevTools(
   applyMiddleware(thunkMiddleware, createLogger({collapsed: true}))

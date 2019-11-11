@@ -24,3 +24,19 @@ form div {
   max-width: 120px;
   height: auto;
 }
+
+.normal-cursor:hover {
+  cursor: default;
+}
+
+.link-cursor:hover {
+  cursor: pointer;
+}
+
+.margin-left {
+  margin-left: 20px;
+}
+
+.margin-right {
+  margin-right: 20px;
+}
