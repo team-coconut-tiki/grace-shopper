@@ -22,7 +22,9 @@ const AllOrders = props => {
                   <Link to={`/orders/${order.id}`}>Order ID: {order.id}</Link>
                 </span>
                 <span className="column">
-                  {/* User ID: {order.userId} Email: {order.user.email} */}
+                  <Link to={`/users/${order.user.id}/orders`}>
+                    User ID: {order.user.id} Email: {order.user.email}
+                  </Link>
                 </span>
                 <span className="column">Status: {order.status}</span>
                 <span className="column" />SubTotal:$
