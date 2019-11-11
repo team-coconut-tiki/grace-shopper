@@ -62,11 +62,9 @@ const createApp = () => {
   )
   app.use(passport.initialize())
   app.use(passport.session())
-  // need cookieParser middleware before we can do anything with cookies
 
   //COOKIES
   app.use((req, res, next) => {
-    console.log((req.session.cookie.cart = 'cart'))
     console.log('req.session', req.session)
     next()
   })

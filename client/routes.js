@@ -84,6 +84,7 @@ const mapDispatch = dispatch => {
   return {
     loadInitialData() {
       dispatch(me())
+      //load carts from the database
     }
   }
 }
