@@ -37,14 +37,14 @@ if (!process.env.GOOGLE_CLIENT_ID || !process.env.GOOGLE_CLIENT_SECRET) {
       const lastName = profile.name.familyName
       const fullName = profile.displayName
 
-      console.log(
-        User.findOrCreate({
-          where: {googleId},
-          defaults: {email, imgUrl, firstName, lastName, fullName}
-        })
-          .then(([user]) => done(null, user))
-          .catch(done)
-      )
+      // console.log(
+      User.findOrCreate({
+        where: {googleId},
+        defaults: {email, imgUrl, firstName, lastName, fullName}
+      })
+        .then(([user]) => done(null, user))
+        .catch(done)
+      // )
     }
   )
 
