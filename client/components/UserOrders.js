@@ -6,14 +6,12 @@ import SingleOrder from './SingleOrder'
 const UserOrders = props => {
   const dispatch = useDispatch()
   const user = useSelector(state => state.userOrders.orders)
-  console.log('Props', props)
   const thisUserId = +props.match.params.id
   useEffect(() => {
     dispatch(getUserOrdersThunk(thisUserId))
   }, [])
   return (
     <ul>
-      {/* {console.log(user)} */}
       {!user.orders || user.orders.length < 1
         ? 'no orders'
         : user.orders.map(order => {

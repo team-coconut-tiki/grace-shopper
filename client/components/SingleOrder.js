@@ -7,7 +7,6 @@ import {Link} from 'react-router-dom'
 const SingleOrder = props => {
   const dispatch = useDispatch()
   const order = useSelector(state => state.singleOrder.order)
-  console.log(props)
   const thisOrderId = props.match ? +props.match.params.id : props.orderId
   useEffect(() => {
     dispatch(getOrderThunk(thisOrderId))
@@ -18,13 +17,17 @@ const SingleOrder = props => {
         'no order exists'
       ) : (
         <div className="columns">
-          <Link to="/orders" className="column">
-            <span>Order Number: {order.id}</span>
-          </Link>
           <span className="column">
-            Order Status: {order.status}
-            {console.log(order)}
+            <Link to="/users">Customer: {order.user.email}</Link>
           </span>
+          <span className="column">
+            <Link to="/orders">
+              Order Number: {order.id}
+              {console.log(order)}
+            </Link>
+          </span>
+
+          <span className="column">Order Status: {order.status}</span>
           <span className="column">
             Order Subtotal: ${dollarsInDollars(order.subtotalInCents)}
           </span>

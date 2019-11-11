@@ -44,13 +44,7 @@ const AllUsersAdmin = props => {
                       dispatch(switchAdminStatus(user.id))
                     }}
                   >
-                    {/* <i
-                      className={
-                        user.isAdmin ? 'fas fa-user-tie' : 'fas fa-times-circle'
-                      }
-                    /> */}
                     {user.isAdmin ? 'ADMIN' : 'NO'}
-                    {/* {user.isAdmin ? 'im an admin fam' : 'not an admin, sadface'} */}
                   </a>
                 </span>
                 <span className="column">
