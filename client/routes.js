@@ -15,7 +15,8 @@ import {
   ProductForm,
   AllProductsAdmin,
   NewCategoryForm,
-  UserOrders
+  UserOrders,
+  Success
 } from './components'
 import {me} from './store'
 
@@ -41,6 +42,7 @@ class Routes extends Component {
         <Route path="/users/:id" component={SingleUser} />
         <Route path="/cart" component={Cart} />
         <Route path="/orders/:id" component={SingleOrder} />
+        <Route path="/success" component={Success} />
 
         {isAdmin && (
           <Switch>

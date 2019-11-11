@@ -4,7 +4,8 @@ import {
   fetchUserCart,
   removeFromCartThunk,
   updateCartThunk,
-  updateSessionCartThunk
+  updateSessionCartThunk,
+  createOrderThunk
 } from '../store'
 import {dollarsInDollars} from '../../Utilities'
 var stripe = Stripe('pk_test_pReitL4ywW7aWvUlEbjYeiFO00sZCjLWB7')
@@ -14,6 +15,11 @@ const Cart = () => {
   const user = useSelector(state => state.currentUser)
   const cartItems = useSelector(state => state.carts.currentCarts)
   const sessionId = useSelector(state => state.stripe.sessionId)
+
+  const subtotal = cartItems.reduce((acc, cur) => {
+    acc += cur.cart_item.priceInCents * cur.cart_item.quantity
+    return acc
+  }, 0)
 
   useEffect(
     () => {
@@ -42,7 +48,8 @@ const Cart = () => {
   //stripe checkout
   function completeOrder(event) {
     event.preventDefault()
-
+    //dispatch createOrder thunk, takes in UserId
+    dispatch(createOrderThunk(user.id, {subtotal: subtotal}))
     stripe
       .redirectToCheckout({
         sessionId: sessionId
@@ -52,16 +59,12 @@ const Cart = () => {
         // error, display the localized error message to your customer
         // using `result.error.message`.
         console.log(result)
+        console.log('payment completed')
       })
       .catch(err => {
         console.error(err)
       })
   }
-
-  const subtotal = cartItems.reduce((acc, cur) => {
-    acc += cur.cart_item.priceInCents * cur.cart_item.quantity
-    return acc
-  }, 0)
 
   return (
     <div>

@@ -17,7 +17,7 @@ export const getReviewsByProductThunk = productId => async dispatch => {
     console.error(err)
   }
 }
-export const getReviewsByUserThunk0 = userId => async dispatch => {
+export const getReviewsByUserThunk = userId => async dispatch => {
   try {
     const {data} = await axios.get(`/api/reviews/user/${userId}`)
     if (!data) {
