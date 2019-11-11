@@ -28,6 +28,12 @@ const SingleOrder = props => {
           </span>
 
           <span className="column">Order Status: {order.status}</span>
+          <div className="select">
+            <select>
+              <option>Select dropdown</option>
+              <option>With options</option>
+            </select>
+          </div>
           <span className="column">
             Order Subtotal: ${dollarsInDollars(order.subtotalInCents)}
           </span>
