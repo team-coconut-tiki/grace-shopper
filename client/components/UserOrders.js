@@ -14,7 +14,7 @@ const UserOrders = props => {
   return (
     <ul>
       {/* {console.log(user)} */}
-      {!user.orders
+      {!user.orders || user.orders.length < 1
         ? 'no orders'
         : user.orders.map(order => {
             return <SingleOrder key={order.id} orderId={order.id} />
