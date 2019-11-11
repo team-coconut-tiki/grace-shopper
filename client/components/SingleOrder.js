@@ -1,6 +1,7 @@
 import React, {useEffect} from 'react'
 import {useDispatch, useSelector} from 'react-redux'
 import {getOrderThunk} from '../store'
+import {dollarsInDollars} from '../../Utilities'
 
 const SingleOrder = props => {
   const dispatch = useDispatch()
@@ -12,18 +13,38 @@ const SingleOrder = props => {
   }, [])
   return (
     <ul>
-      {console.log(order)}
-      {/* {!order
-        ? 'no order exists'
-        : order.products.map(product => {
+      {!order.id ? (
+        'no order exists'
+      ) : (
+        <div className="columns">
+          <span className="column">
+            Order Status: {order.status}
+            {console.log(order)}
+          </span>
+          <span className="column">
+            Order Subtotal: ${dollarsInDollars(order.subtotalInCents)}
+          </span>
+        </div>
+      )}
+
+      {!order.user
+        ? 'no user for order'
+        : order.user.products.map(product => {
             return (
-              <li key={product.id}>
-                <span className="column">Order Status: {order.status}</span>
-                <span className="column">Quantity: {product.quantity}</span>
-                <span className="column" />
+              <li key={product.id} className="columns">
+                <span className="column">Title: {product.title}</span>
+                <span className="column">
+                  Quantity: {product.cart_item.quantity}
+                </span>
+                <span className="column">
+                  Price: ${dollarsInDollars(product.cart_item.priceInCents)}
+                </span>
+                <span className="column">
+                  <img src={product.imageUrl} className="image product-image" />
+                </span>
               </li>
             )
-          })} */}
+          })}
     </ul>
   )
 }
