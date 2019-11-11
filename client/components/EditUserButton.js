@@ -8,14 +8,12 @@ import {
 
 const EditUserButton = props => {
   const user = props.isSameUser ? props.currentUser : props.otherUser
-  // const user = props.user
   const [renderForm, setRenderForm] = useState()
   const [formState, setFormState] = useState(user[props.source])
 
   useEffect(
     () => {
       setFormState(user[props.source])
-      // console.log('Changed')
     },
     [user[props.source]]
   )
