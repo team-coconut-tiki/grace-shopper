@@ -10,7 +10,6 @@ const sessionStore = new SequelizeStore({db})
 const PORT = process.env.PORT || 8080
 const app = express()
 const socketio = require('socket.io')
-const cookieParser = require('cookie-parser')
 module.exports = app
 
 // This is a global Mocha hook, used for resource cleanup.
@@ -48,7 +47,6 @@ const createApp = () => {
   // body parsing middleware
   app.use(express.json())
   app.use(express.urlencoded({extended: true}))
-  app.use(cookieParser())
 
   // compression middleware
   app.use(compression())
@@ -68,13 +66,8 @@ const createApp = () => {
 
   //COOKIES
   app.use((req, res, next) => {
-    const cookie = req.cookies.currentCarts
-    if (cookie === undefined) {
-      console.log('if', req.cookies)
-      res.cookie('currentCarts', {cart: ['test cart']})
-    } else {
-      console.log('the cookie is there', req.cookies)
-    }
+    console.log((req.session.cookie.cart = 'cart'))
+    console.log('req.session', req.session)
     next()
   })
 

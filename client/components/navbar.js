@@ -1,26 +1,13 @@
-import React, {useEffect, useState} from 'react'
+import React, {useEffect} from 'react'
 import PropTypes from 'prop-types'
 import {connect, useSelector, useDispatch} from 'react-redux'
 import {Link} from 'react-router-dom'
 import {logout, clearCart, fetchUserCart} from '../store'
-import {totalItems} from '../../Utilities'
 
 const Navbar = ({handleClick, isLoggedIn}) => {
   const dispatch = useDispatch()
   const cartItems = useSelector(state => state.carts.currentCarts)
   const user = useSelector(state => state.currentUser)
-  let numInCart
-
-  useEffect(
-    () => {
-      numInCart = cartItems.reduce((acc, cur) => {
-        acc += cur.cart_item.quantity
-        return acc
-      }, 0)
-      console.log('numInCart', numInCart)
-    },
-    [cartItems]
-  )
 
   useEffect(
     () => {
