@@ -2,6 +2,23 @@ const router = require('express').Router()
 const {Product, Category} = require('../db/models')
 module.exports = router
 
+router.get('/page/:page', async (req, res, next) => {
+  const limit = 10
+  const cat = req.query.category
+  const order = req.query.order ? JSON.parse(req.query.order) : null
+  try {
+    const products = await Product.findAll({
+      include: [{model: Category, where: {type: cat}}],
+      limit: limit,
+      order: order,
+      offset: (req.params.page - 1) * limit
+    })
+    res.json(products)
+  } catch (err) {
+    next(err)
+  }
+})
+
 router.get('/', async (req, res, next) => {
   try {
     const products = await Product.findAll({
