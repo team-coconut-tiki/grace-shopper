@@ -7,9 +7,12 @@ const Success = () => {
   const dispatch = useDispatch()
   const user = useSelector(state => state.currentUser)
 
-  useEffect(() => {
-    dispatch(updateOrderPaidThunk(user.id, {status: 'paid'}))
-  })
+  useEffect(
+    () => {
+      user.id && dispatch(updateOrderPaidThunk(user.id, {status: 'paid'}))
+    },
+    [user]
+  )
 
   return (
     <div>
