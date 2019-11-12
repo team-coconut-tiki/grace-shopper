@@ -9,13 +9,18 @@ router.get('/page/:page', async (req, res, next) => {
   const cat = req.query.category
   const order = req.query.order ? JSON.parse(req.query.order) : null
   try {
-    const products = await Product.findAll({
+    const obj = {}
+    const pages = await Product.findAll({
+      include: [{model: Category, where: {type: cat}}]
+    })
+    obj.pages = Math.ceil(pages.length / limit)
+    obj.products = await Product.findAll({
       include: [{model: Category, where: {type: cat}}],
       limit: limit,
       order: order,
       offset: (req.params.page - 1) * limit
     })
-    res.json(products)
+    res.json(obj)
   } catch (err) {
     next(err)
   }
