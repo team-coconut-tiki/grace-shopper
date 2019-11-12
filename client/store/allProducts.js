@@ -1,4 +1,5 @@
 import axios from 'axios'
+import {runInNewContext} from 'vm'
 
 /**
  * ACTION TYPES
@@ -7,6 +8,7 @@ const GET_ALL_PRODUCTS = 'GET_ALL_PRODUCTS'
 const ADD_NEW_PRODUCT = 'ADD_NEW_PRODUCT'
 const DELETE_PRODUCT = 'DELETE_PRODUCT'
 const UPDATE_PRODUCT = 'UPDATE_PRODUCT'
+const CHANGE_INVENTORY = 'CHANGE_INVENTORY'
 
 /**
  * INITIAL STATE
@@ -22,6 +24,7 @@ const getProducts = products => ({type: GET_ALL_PRODUCTS, products})
 const addProduct = product => ({type: ADD_NEW_PRODUCT, product})
 const deleteProduct = productId => ({type: DELETE_PRODUCT, productId})
 export const updateProduct = product => ({type: UPDATE_PRODUCT, product})
+export const changeInventory = product => ({type: CHANGE_INVENTORY, product})
 
 /**
  * THUNK CREATORS
@@ -62,6 +65,15 @@ export const updateProductThunk = (product, productId) => async dispatch => {
   }
 }
 
+export const changeInventoryThunk = (product, reduceNum) => async dispatch => {
+  try {
+    const {data} = await axios.put(`/api/products/${product.id}`, reduceNum)
+    dispatch(changeInventory(data))
+  } catch (err) {
+    console.error(err)
+  }
+}
+
 /**
  * REDUCER
  */
@@ -79,6 +91,15 @@ export default function(state = initialState, action) {
         })
       }
     case UPDATE_PRODUCT:
+      return {
+        ...state,
+        products: state.products.map(product => {
+          if (product.id === action.product.id) {
+            return action.product
+          } else return product
+        })
+      }
+    case CHANGE_INVENTORY:
       return {
         ...state,
         products: state.products.map(product => {

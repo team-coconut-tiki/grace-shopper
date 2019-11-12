@@ -8,7 +8,7 @@ router.post('/', async (req, res, next) => {
       payment_method_types: ['card'],
       line_items: req.body,
       success_url: 'http://localhost:8080/success',
-      cancel_url: 'http://localhost:8080'
+      cancel_url: 'http://localhost:8080/cancel'
     })
     res.json(session)
   } catch (error) {
