@@ -9,11 +9,15 @@ const Navbar = ({handleClick, isLoggedIn}) => {
   const cartItems = useSelector(state => state.carts.currentCarts)
   const user = useSelector(state => state.currentUser)
 
-  useEffect(() => {
-    user.id > 0 && dispatch(fetchUserCart(user.id))
-  }, [user.id])
-  
-//for fun
+  useEffect(
+    () => {
+      user.id > 0 && dispatch(fetchUserCart(user.id))
+    },
+    [user.id]
+  )
+
+  let numInCart
+  //for fun
   useEffect(
     () => {
       numInCart = cartItems.reduce((acc, cur) => {
@@ -42,23 +46,27 @@ const Navbar = ({handleClick, isLoggedIn}) => {
               {isLoggedIn ? (
                 <div>
                   {/* The navbar will show these links after you log in */}
-                  <Link className="button" to={`/users/${user.id}`}>
+                  <Link className="button is-rounded" to={`/users/${user.id}`}>
                     My Account
                   </Link>
-                  <Link className="button is-white" to="/cart">
+                  <Link className="button is-white " to="/cart">
                     <span className="icon">
                       <i className="fas fa-shopping-cart" />
                     </span>
                     <p>{cartItems.length > 0 ? cartItems.length : '0'} Items</p>
                   </Link>
-                  <a href="#" className="button" onClick={handleClick}>
+                  <a
+                    href="#"
+                    className="button is-rounded"
+                    onClick={handleClick}
+                  >
                     Logout
                   </a>
                 </div>
               ) : (
                 <div>
                   {/* The navbar will show these links before you log in */}
-                  <Link className="button" to="/login">
+                  <Link className="button is-rounded" to="/login">
                     Login
                   </Link>
                   <Link className="button is-white" to="/cart">
@@ -67,7 +75,7 @@ const Navbar = ({handleClick, isLoggedIn}) => {
                     </span>
                     <p>{cartItems.length > 0 ? cartItems.length : '0'} Items</p>
                   </Link>
-                  <Link className="button" to="/signup">
+                  <Link className="button is-rounded" to="/signup">
                     Sign Up
                   </Link>
                 </div>

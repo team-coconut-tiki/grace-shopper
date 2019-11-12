@@ -17,7 +17,7 @@ const AllProducts = props => {
   const categories = useSelector(state => state.categories.list)
 
   const user = useSelector(state => state.currentUser)
-
+  // console.log('props', props)
   const query = queryString.parse(props.location.search)
 
   // console.log('q', query)
@@ -36,7 +36,7 @@ const AllProducts = props => {
   return (
     <div className="columns">
       <div className="column is-one-fifth">
-        <ProductNav categories={categories} />
+        <ProductNav categories={categories} query={query} />
       </div>
       <div className="container box column">
         <h1 className="title">
@@ -46,9 +46,9 @@ const AllProducts = props => {
         <div className="columns is-mobile is-multiline">
           {products ? (
             products.reduce((accu, cur) => {
-              const mappedProductCategories = cur.categories.map(
-                category => category.type
-              )
+              const mappedProductCategories = cur.categories
+                ? cur.categories.map(category => category.type)
+                : []
               if (
                 !query.category ||
                 mappedProductCategories.includes(query.category)

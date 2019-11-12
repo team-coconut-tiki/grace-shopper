@@ -2,13 +2,26 @@ import React from 'react'
 import {Link} from 'react-router-dom'
 
 const ProductNav = props => {
+  // const query = props.query
   return (
     <div className="container box">
-      <ul>
+      <ul className="has-text-centered">
         {props.categories.map(category => {
+          // let activeCat = ''
+          // if (
+          //   query.category === category.type ||
+          //   query.category.includes(category.type)
+          // ) {
+          //   activeCat = 'is-outlined'
+          // }
           return (
-            <li key={category.id}>
-              <Link to={`/products/?category=${category.type}`}>
+            <li className="container" key={category.id}>
+              <Link
+                className={`button is-rounded is-fullwidth is-success cat ${
+                  /*activeCat*/ ''
+                }`}
+                to={`/products/?category=${category.type}`}
+              >
                 {category.type}
               </Link>
             </li>
@@ -23,20 +36,24 @@ const ProductNav = props => {
         Filter
       </p>
       <ul>
-        <li>
+        {/* <li>
           <span className="icon">
             <i className="fas fa-star" />
           </span>Rating
+        </li> */}
+        <li>
+          <Link to="/page/1?order=[['title','ASC']]">
+            <span className="icon">
+              <i className="fas fa-sort-alpha-down" />
+            </span>A-Z
+          </Link>
         </li>
         <li>
-          <span className="icon">
-            <i className="fas fa-sort-alpha-down" />
-          </span>A-Z
-        </li>
-        <li>
-          <span className="icon">
-            <i className="fas fa-dollar-sign" />
-          </span>Price (Low to High)
+          <Link to="/page/1?order=[['priceInCents','ASC']]">
+            <span className="icon">
+              <i className="fas fa-dollar-sign" />
+            </span>Price (Low to High)
+          </Link>
         </li>
       </ul>
     </div>
