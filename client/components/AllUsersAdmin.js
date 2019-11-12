@@ -1,9 +1,10 @@
+/* eslint-disable no-alert */
 import React, {useEffect} from 'react'
 import {Link} from 'react-router-dom'
 import {useSelector, useDispatch} from 'react-redux'
 import {
   getUsersThunk,
-  adminDeleteUser,
+  adminDeleteUserThunk,
   switchAdminStatus
 } from '../store/allUsersAdmin'
 
@@ -32,26 +33,45 @@ const AllUsersAdmin = props => {
                   reset password<i className="fas fa-key" />
                 </span>
                 <span className="column">
-                  orders:{user.orders ? user.orders.length : 0}
+                  {user.orders ? user.orders.length : 0} order(s)
                   <Link to={`/users/${user.id}/orders`}>
                     <i className="fas fa-truck" />
                   </Link>
                 </span>
                 <span className="column">
                   admin status:
-                  <a
-                    onClick={() => {
-                      dispatch(switchAdminStatus(user.id))
-                    }}
-                  >
-                    {user.isAdmin ? 'ADMIN' : 'NO'}
-                  </a>
+                  <div className="buttons has-addons">
+                    <button
+                      type="button"
+                      className={
+                        user.isAdmin
+                          ? 'button is-success is-selected'
+                          : 'button is-danger is-selected'
+                      }
+                      onClick={() => {
+                        dispatch(switchAdminStatus(user.id))
+                      }}
+                    >
+                      {user.isAdmin ? 'ADMIN' : 'NO'}
+                    </button>
+                  </div>
                 </span>
                 <span className="column">
                   delete user
                   <a
                     onClick={() => {
-                      dispatch(adminDeleteUser(user.id))
+                      if (user.isAdmin)
+                        alert(
+                          `${
+                            user.email
+                          } is an Admin. Please demote Admin status to delete this account.`
+                        )
+                      else {
+                        const yesDelete = confirm(
+                          `Press OK to delete ${user.email}`
+                        )
+                        if (yesDelete) dispatch(adminDeleteUserThunk(user.id))
+                      }
                     }}
                   >
                     <i className="fas fa-trash" />
