@@ -5,6 +5,7 @@ const GET_SINGLE_ORDER = 'GET_SINGLE_ORDER'
 const CREATE_ORDER = 'CREATE_ORDER'
 const UPDATE_USER_ORDER = 'UPDATE_USER_ORDER'
 const UPDATE_ORDER_STATUS = 'UPDATE_ORDER_STATUS'
+const GET_USERS_ORDER = 'GET_USERS_ORDER'
 
 //action creators
 export const createOrder = () => ({
@@ -13,6 +14,7 @@ export const createOrder = () => ({
 export const getOrder = order => ({type: GET_SINGLE_ORDER, order})
 export const updateOrderPaid = () => ({type: UPDATE_USER_ORDER})
 export const updateOrderStatus = order => ({type: UPDATE_ORDER_STATUS, order})
+export const getUsersOrder = order => ({type: GET_USERS_ORDER, order})
 
 //thunks
 export const getOrderThunk = orderId => async dispatch => {
@@ -59,9 +61,21 @@ export const updateOrderStatusThunk = (orderId, status) => {
   }
 }
 
+export const getUsersOrderThunk = userId => {
+  return async dispatch => {
+    try {
+      const {data} = await axios.get(`/api/orders/users/${userId}`)
+      dispatch(getUsersOrder(data))
+    } catch (err) {
+      console.error(err)
+    }
+  }
+}
+
 //reducer
 const initialState = {
-  order: {}
+  order: {},
+  latestOrder: {}
 }
 
 export default function(state = initialState, action) {
@@ -74,6 +88,8 @@ export default function(state = initialState, action) {
       return state
     case UPDATE_ORDER_STATUS:
       return {...state, order: action.order}
+    case GET_USERS_ORDER:
+      return {...state, latestOrder: action.order}
     default:
       return state
   }

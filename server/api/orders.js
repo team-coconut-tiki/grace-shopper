@@ -24,6 +24,21 @@ router.get('/:id', async (req, res, next) => {
   }
 })
 
+//get user's orders
+router.get('/users/:id', async (req, res, next) => {
+  try {
+    const orders = await Order.findAll({
+      where: {
+        userId: req.params.id
+      },
+      order: [['createdAt', 'DESC']]
+    })
+    res.json(orders)
+  } catch (error) {
+    next(error)
+  }
+})
+
 //update order status by user
 router.put('/users/:userId', async (req, res, next) => {
   try {

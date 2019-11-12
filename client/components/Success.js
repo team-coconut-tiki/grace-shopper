@@ -1,18 +1,24 @@
 import React, {useEffect} from 'react'
 import {Link} from 'react-router-dom'
-import {updateOrderThunk} from '../store'
+import {
+  updateUserOrderThunk,
+  changeInventoryThunk,
+  getUsersOrderThunk
+} from '../store'
 import {useDispatch, useSelector} from 'react-redux'
 
 const Success = () => {
   const dispatch = useDispatch()
   const user = useSelector(state => state.currentUser)
-  const cartItems = useSelector(state => state.carts.currentCarts)
+  const latestOrder = useSelector(state => state.singleOrder.latestOrder)
 
-  console.log(cartItems)
+  const status = {prevStatus: 'open', nextStatus: 'paid'}
+  console.log(latestOrder)
 
   useEffect(
     () => {
-      user.id && dispatch(updateOrderThunk(user.id, 'open', 'paid'))
+      user.id && dispatch(getUsersOrderThunk(user.id))
+      user.id && dispatch(updateUserOrderThunk(user.id, status))
     },
     [user]
   )
