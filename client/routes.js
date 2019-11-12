@@ -17,7 +17,8 @@ import {
   NewCategoryForm,
   UserOrders,
   Success,
-  Cancel
+  Cancel,
+  UpdatePasswordForm
 } from './components'
 import {me} from './store'
 
@@ -30,7 +31,7 @@ class Routes extends Component {
   }
 
   render() {
-    const {isLoggedIn, isAdmin} = this.props
+    const {isLoggedIn, isAdmin, passwordReset} = this.props
 
     return (
       <Switch>
@@ -58,6 +59,12 @@ class Routes extends Component {
             <Route path="/all-products-admin" component={AllProductsAdmin} />
             <Route path="/new-category-form" component={NewCategoryForm} />
             <Route path="/" component={AllProducts} />
+          </Switch>
+        )}
+
+        {passwordReset && (
+          <Switch>
+            <Route path="/" component={UpdatePasswordForm} />
           </Switch>
         )}
 
