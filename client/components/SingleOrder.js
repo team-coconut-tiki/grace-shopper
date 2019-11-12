@@ -11,7 +11,7 @@ const SingleOrder = props => {
   useEffect(() => {
     dispatch(getOrderThunk(thisOrderId))
   }, [])
-  console.log(order)
+
   return (
     <div className="columns">
       <div className="container box column">

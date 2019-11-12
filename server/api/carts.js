@@ -27,7 +27,7 @@ router.get('/:userId', async (req, res, next) => {
 //creates a new cart item
 router.post('/:userId/:productId', async (req, res, next) => {
   try {
-    // console.log(req.user) // no req.user when guest account 'created'
+    // no req.user when guest account 'created'
     const existingCart = await CartItem.findOne({
       where: {
         userId: req.params.userId,
