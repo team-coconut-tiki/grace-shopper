@@ -28,11 +28,11 @@ router.get('/:id', async (req, res, next) => {
 router.put('/users/:userId', async (req, res, next) => {
   try {
     const updatedOrder = await Order.update(
-      {status: req.body.status},
+      {status: req.body.nextStatus},
       {
         where: {
           userId: req.params.userId,
-          status: 'open'
+          status: req.body.prevStatus
         }
       }
     )

@@ -16,7 +16,8 @@ import {
   AllProductsAdmin,
   NewCategoryForm,
   UserOrders,
-  Success
+  Success,
+  Cancel
 } from './components'
 import {me} from './store'
 
@@ -43,6 +44,7 @@ class Routes extends Component {
         <Route path="/cart" component={Cart} />
         <Route path="/orders/:id" component={SingleOrder} />
         <Route path="/success" component={Success} />
+        <Route path="/cancel" component={Cancel} />
         <Route path="/auth/google" component={AllProducts} />
 
         {isAdmin && (

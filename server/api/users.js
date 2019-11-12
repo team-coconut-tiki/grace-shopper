@@ -62,7 +62,6 @@ router.get('/:id/cart', async (req, res, next) => {
       ] //give us the cart as 'products', including past orders
     })
 
-    console.log('in the route', user)
     if (!user) {
       let err = new Error('No user found')
       err.status = 404

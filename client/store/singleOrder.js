@@ -3,7 +3,7 @@ import axios from 'axios'
 //action types
 const GET_SINGLE_ORDER = 'GET_SINGLE_ORDER'
 const CREATE_ORDER = 'CREATE_ORDER'
-const UPDATE_ORDER_PAID = 'UPDATE_ORDER_PAID'
+const UPDATE_USER_ORDER = 'UPDATE_USER_ORDER'
 const UPDATE_ORDER_STATUS = 'UPDATE_ORDER_STATUS'
 
 //action creators
@@ -11,7 +11,7 @@ export const createOrder = () => ({
   type: CREATE_ORDER
 })
 export const getOrder = order => ({type: GET_SINGLE_ORDER, order})
-export const updateOrderPaid = () => ({type: UPDATE_ORDER_PAID})
+export const updateOrderPaid = () => ({type: UPDATE_USER_ORDER})
 export const updateOrderStatus = order => ({type: UPDATE_ORDER_STATUS, order})
 
 //thunks
@@ -35,7 +35,7 @@ export const createOrderThunk = (userId, subtotal) => {
   }
 }
 
-export const updateOrderPaidThunk = (userId, status) => {
+export const updateUserOrderThunk = (userId, status) => {
   return async dispatch => {
     try {
       await axios.put(`/api/orders/users/${userId}`, status)
@@ -70,7 +70,7 @@ export default function(state = initialState, action) {
       return {...state, order: action.order}
     case CREATE_ORDER:
       return state
-    case UPDATE_ORDER_PAID:
+    case UPDATE_USER_ORDER:
       return state
     case UPDATE_ORDER_STATUS:
       return {...state, order: action.order}
