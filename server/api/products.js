@@ -8,14 +8,15 @@ router.get('/page/:page', async (req, res, next) => {
   const limit = 10
   const cat = req.query.category
   const order = req.query.order ? JSON.parse(req.query.order) : null
+  const whereCase = cat ? {type: cat} : null
   try {
     const obj = {}
     const pages = await Product.findAll({
-      include: [{model: Category, where: {type: cat}}]
+      include: [{model: Category, where: whereCase}]
     })
     obj.pages = Math.ceil(pages.length / limit)
     obj.products = await Product.findAll({
-      include: [{model: Category, where: {type: cat}}],
+      include: [{model: Category, where: whereCase}],
       limit: limit,
       order: order,
       offset: (req.params.page - 1) * limit
