@@ -135,7 +135,7 @@ const Cart = () => {
           <p className="level-item">
             <strong>Subtotal:</strong>
           </p>
-          <p className="level-item">${dollarsInDollars(subtotal)}</p>
+          {/* <p className="level-item">${dollarsInDollars(subtotal)}</p> */}
         </div>
       </div>
       <div className="level">
