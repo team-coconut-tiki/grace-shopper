@@ -3,6 +3,8 @@ const {Product, Category} = require('../db/models')
 module.exports = router
 
 router.get('/page/:page', async (req, res, next) => {
+  // example http request route:
+  // /api/products/page/1?category=Coconuts&order=[["priceInCents","asc"]]
   const limit = 10
   const cat = req.query.category
   const order = req.query.order ? JSON.parse(req.query.order) : null
