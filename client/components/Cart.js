@@ -25,32 +25,23 @@ const Cart = () => {
     return {
       amount: item.priceInCents,
       currency: 'usd',
-      name: item.title,
+      name: item.product.title,
       quantity: item.quantity
     }
   })
 
   useEffect(
     () => {
-      console.log('in the front end', lineItems)
-      dispatch(checkoutThunk(lineItems))
-    },
-    [lineItems]
-  )
-
-  useEffect(
-    () => {
       user.id && dispatch(fetchUserCart(user.id))
+      dispatch(checkoutThunk(lineItems))
     },
     [user]
   )
 
   function completeOrder(event) {
     event.preventDefault()
-    console.log('session id', sessionId)
 
     dispatch(createOrderThunk(user.id, {subtotal: subtotal}))
-
     stripe
       .redirectToCheckout({
         sessionId: sessionId
