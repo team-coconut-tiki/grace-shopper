@@ -14,7 +14,6 @@ import SingleReview from './SingleReview'
 
 import UpdateUserForm from './UpdateUserForm'
 import {Signup, Login} from './auth-form'
-=======
 import UserOrders from './UserOrders'
 
 const SingleUser = props => {

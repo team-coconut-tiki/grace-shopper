@@ -20,17 +20,12 @@ router.post('/:userId/:productId', async (req, res, next) => {
       })
       res.json(existingCart)
     } else {
-      const thisUser = await User.findByPk(req.params.userId)
-      const thisProduct = await Product.findByPk(req.params.productId)
-      await thisUser.addProduct(thisProduct)
-      const newCart = await CartItem.findOne({
-        where: {
-          userId: req.params.userId,
-          productId: req.params.productId,
-          orderId: null
-        }
+      const newCart = await CartItem.create({
+        quantity: 1,
+        priceInCents: req.body.priceInCents
       })
-      newCart.update({quantity: 1, priceInCents: req.body.priceInCents})
+      newCart.setProduct(req.params.productId)
+      newCart.setUser(req.params.userId)
 
       res.json(newCart)
     }
@@ -42,6 +37,7 @@ router.post('/:userId/:productId', async (req, res, next) => {
 //delete cart item
 router.delete('/:userId/:productId', async (req, res, next) => {
   try {
+    //we can also refactor this to find by cart Id now!
     const thisCart = await CartItem.findOne({
       where: {
         userId: req.params.userId,

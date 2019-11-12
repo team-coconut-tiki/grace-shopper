@@ -46,7 +46,10 @@ router.put('/users/:userId', async (req, res, next) => {
 router.post('/users/:userId', async (req, res, next) => {
   try {
     const currentCart = await CartItem.findAll({
-      where: {userId: req.params.userId}
+      where: {
+        userId: req.params.userId,
+        orderId: null
+      }
     })
     const newOrder = await Order.create({status: 'open'})
     newOrder.update({

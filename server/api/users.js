@@ -53,13 +53,13 @@ router.get('/admin', async (req, res, next) => {
 //find all of a user's carts
 router.get('/:id/cart', async (req, res, next) => {
   try {
-    const user = await User.findByPk(req.params.id, {
-      include: [
-        {
-          model: Product,
-          through: {model: CartItem}
-        }
-      ] //give us the cart as 'products', including past orders
+    // if (req.user.id === req.params.id) {
+    const user = await CartItem.findAll({
+      where: {
+        userId: req.params.id,
+        orderId: null
+      },
+      include: [{model: Product}]
     })
 
     console.log('in the route', user)
@@ -69,6 +69,7 @@ router.get('/:id/cart', async (req, res, next) => {
       throw err
     }
     res.json(user)
+    // } else res.status(401).end()
   } catch (err) {
     next(err)
   }

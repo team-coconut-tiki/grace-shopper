@@ -45,7 +45,7 @@ const ProductForm = props => {
     title: '',
     description: '',
     priceInCents: 0,
-    quantity: 0,
+    inventory: 0,
     imageUrl: '',
     categories: []
   }
@@ -55,7 +55,7 @@ const ProductForm = props => {
         title: productToUpdate.title,
         description: productToUpdate.description,
         priceInCents: productToUpdate.priceInCents,
-        quantity: productToUpdate.quantity,
+        inventory: productToUpdate.inventory,
         imageUrl: productToUpdate.imageUrl,
         categories: thisProductsCategories
       }
@@ -144,8 +144,8 @@ const ProductForm = props => {
             className="input"
             type="number"
             placeholder="50"
-            name="quantity"
-            value={form.quantity}
+            name="inventory"
+            value={form.inventory}
             onChange={handleChange}
           />
           <span className="icon is-small is-left">
