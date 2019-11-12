@@ -16,7 +16,7 @@ export const getProductsPerPage = state => ({
 
 export const getProductsPerPageThunk = query => async dispatch => {
   try {
-    const pageNumber = query.split('?')[0]
+    const pageNumber = query.split('?')[0] ? query.split('?')[0] : ''
     const {data} = await axios.get(`/api/products/page/${query}`)
     const numOfPages = data.pages
     const products = data.products

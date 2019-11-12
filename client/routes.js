@@ -45,6 +45,7 @@ class Routes extends Component {
         <Route path="/orders/:id" component={SingleOrder} />
         <Route path="/success" component={Success} />
         <Route path="/auth/google" component={AllProducts} />
+        <Route path="/:id" component={AllProducts} />
 
         {isAdmin && (
           <Switch>

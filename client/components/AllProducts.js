@@ -22,7 +22,10 @@ const AllProducts = props => {
 
   const user = useSelector(state => state.currentUser)
   const query = queryString.parse(props.location.search)
-  const route = props.match.params.id
+  const locationQuery = props.location.search.split('?')[1]
+    ? '?' + props.location.search.split('?')[1]
+    : ''
+  const route = props.match.params.id ? props.match.params.id : 1
 
   useEffect(() => {
     dispatch(getAllProducts())
@@ -31,25 +34,33 @@ const AllProducts = props => {
 
   useEffect(
     () => {
-      console.log(props.location.search)
-      dispatch(
-        getProductsPerPageThunk(
-          route +
-            (props.location.search
-              ? props.location.search
-              : '?' + pageState.query.split('?')[1])
-        )
+      // set the location equal to the route and query
+      // take any auto-changed quotes and make sure api request uses quotes
+      let pageStateQuery
+      if (props.location.search) {
+        pageStateQuery = props.location.search
+      } else if (pageState.query.split('?')[1]) {
+        pageStateQuery = pageState.query.split('?')[1]
+      } else {
+        pageStateQuery = ''
+      }
+      const location = (
+        route +
+        (props.location.search
+          ? props.location.search
+          : '?' + pageState.query.split('?')[1])
       )
-      // dispatch(getProductsPerPageThunk('2?category=Coconuts&order=[["priceInCents","asc"]]'))
+        .split('%27')
+        .join('"')
+      dispatch(getProductsPerPageThunk(location))
+      props.history.push(location)
     },
-    [props.location]
+    [props.location.pathname, props.location.search]
   )
 
   function handlePageChange(data) {
-    console.log(data)
     data.selected++
-    console.log(props.location.search.split('?')[1])
-    const location = data.selected + '?' + props.location.search.split('?')[1]
+    const location = data.selected + locationQuery
     dispatch(getProductsPerPageThunk(location))
     props.history.push(location)
   }
