@@ -11,6 +11,7 @@ const SingleOrder = props => {
   useEffect(() => {
     dispatch(getOrderThunk(thisOrderId))
   }, [])
+  console.log(order)
   return (
     <div className="columns">
       <div className="container box column">
@@ -65,7 +66,7 @@ const SingleOrder = props => {
           <hr />
           {!order.user
             ? 'no user for order'
-            : order.user.products.map(product => {
+            : order.cart_items.map(product => {
                 return (
                   <li key={product.id} className="columns">
                     <span className="column">
@@ -73,14 +74,14 @@ const SingleOrder = props => {
                       {product.title}
                     </span>
                     <span className="column">
-                      Quantity: {product.cart_item.quantity}
+                      Quantity: {product.product.inventory}
                     </span>
                     <span className="column">
-                      Price: ${dollarsInDollars(product.cart_item.priceInCents)}
+                      Price: ${dollarsInDollars(product.product.priceInCents)}
                     </span>
                     <span className="column">
                       <img
-                        src={product.imageUrl}
+                        src={product.product.imageUrl}
                         className="image product-image"
                       />
                     </span>

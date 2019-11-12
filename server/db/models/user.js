@@ -49,6 +49,10 @@ const User = db.define('user', {
   creditCard: {
     type: Sequelize.STRING,
     isCreditCard: true
+  },
+  passwordReset: {
+    type: Sequelize.BOOLEAN,
+    defaultValue: false
   }
 })
 

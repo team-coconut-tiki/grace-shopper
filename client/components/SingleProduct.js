@@ -42,14 +42,18 @@ const SingleProduct = props => {
 
       <div className="title is-5">{thisProduct.title}</div>
       <div>Price: ${thisProduct.priceInCents / 100}</div>
-      <div>Availability: </div>
-      <button
-        type="button"
-        className="button is-success is-rounded"
-        onClick={addToCart}
-      >
-        Add to cart
-      </button>
+      <div>
+        Availability: {thisProduct.inventory > 0 ? 'Available' : 'Unavailable'}
+      </div>
+      {thisProduct.inventory > 0 && (
+        <button
+          type="button"
+          className="button is-success is-rounded"
+          onClick={addToCart}
+        >
+          Add to cart
+        </button>
+      )}
 
       <p>Description: {thisProduct.description}</p>
       <p>
