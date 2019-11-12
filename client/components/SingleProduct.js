@@ -12,6 +12,7 @@ import SingleReview from './SingleReview'
 const SingleProduct = props => {
   const dispatch = useDispatch()
   const thisProduct = useSelector(state => state.singleProduct.selectedProduct)
+
   const user = useSelector(state => state.currentUser)
   const cartItems = useSelector(state => state.carts.currentCarts)
   const reviews = useSelector(state => state.allReviews)

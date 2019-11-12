@@ -86,8 +86,8 @@ router.post('/', async (req, res, next) => {
     //body should be {}
     // console.log('in post route')
     const newUser = await User.create(req.body)
-    // console.log('after creating new user')
-    res.json(newUser)
+    req.login(newUser, err => (err ? next(err) : res.json(newUser)))
+    console.log('after creating new user')
   } catch (err) {
     next(err)
   }
