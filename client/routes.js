@@ -36,6 +36,7 @@ class Routes extends Component {
     return (
       <Switch>
         {/* Routes placed here are available to all visitors */}
+
         <Route path="/login" component={Login} />
         <Route path="/signup" component={Signup} />
         <Route path="/products/page/:id" component={AllProducts} />
@@ -61,11 +62,9 @@ class Routes extends Component {
           </Switch>
         )}
 
-        {passwordReset && (
-          <Switch>
-            <Route path="/" component={UpdatePasswordForm} />
-          </Switch>
-        )}
+        {/* {passwordReset && (
+        <Route path="/passwordreset" component={UpdatePasswordForm} />
+        )} */}
 
         {isLoggedIn && (
           <Switch>
