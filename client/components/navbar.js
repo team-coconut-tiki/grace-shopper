@@ -9,24 +9,13 @@ const Navbar = ({handleClick, isLoggedIn}) => {
   const cartItems = useSelector(state => state.carts.currentCarts)
   const user = useSelector(state => state.currentUser)
 
+  console.log('navbar cart items', cartItems)
+
   useEffect(
     () => {
       user.id > 0 && dispatch(fetchUserCart(user.id))
     },
     [user.id]
-  )
-
-  let numInCart
-  //for fun
-  useEffect(
-    () => {
-      numInCart = cartItems.reduce((acc, cur) => {
-        acc += cur.cart_item.quantity
-        return acc
-      }, 0)
-      // console.log('numInCart', numInCart)
-    },
-    [cartItems]
   )
 
   return (
@@ -53,7 +42,7 @@ const Navbar = ({handleClick, isLoggedIn}) => {
                     <span className="icon">
                       <i className="fas fa-shopping-cart" />
                     </span>
-                    <p>{cartItems.length > 0 ? cartItems.length : '0'} Items</p>
+                    {/* <p>{cartItems.length > 0 ? cartItems.length : '0'} Items</p> */}
                   </Link>
                   <a
                     href="#"
@@ -73,7 +62,7 @@ const Navbar = ({handleClick, isLoggedIn}) => {
                     <span className="icon">
                       <i className="fas fa-shopping-cart" />
                     </span>
-                    <p>{cartItems.length > 0 ? cartItems.length : '0'} Items</p>
+                    {/* <p>{cartItems.length > 0 ? cartItems.length : '0'} Items</p> */}
                   </Link>
                   <Link className="button is-rounded" to="/signup">
                     Sign Up

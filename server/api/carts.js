@@ -1,7 +1,28 @@
 const router = require('express').Router()
 const {CartItem, User, Product} = require('../db/models')
 
-//no need to 'get' any cart item; will be pulled via Product or User table/routes
+router.get('/', async (req, res, next) => {
+  try {
+    const allCarts = await CartItem.findAll()
+    res.json(allCarts)
+  } catch (error) {
+    next(error)
+  }
+})
+
+router.get('/:userId', async (req, res, next) => {
+  try {
+    const userCart = await CartItem.findAll({
+      where: {
+        userId: req.params.userId,
+        orderId: null
+      }
+    })
+    res.json(userCart)
+  } catch (error) {
+    next(error)
+  }
+})
 
 //creates a new cart item
 router.post('/:userId/:productId', async (req, res, next) => {
@@ -20,17 +41,12 @@ router.post('/:userId/:productId', async (req, res, next) => {
       })
       res.json(existingCart)
     } else {
-      const thisUser = await User.findByPk(req.params.userId)
-      const thisProduct = await Product.findByPk(req.params.productId)
-      await thisUser.addProduct(thisProduct)
-      const newCart = await CartItem.findOne({
-        where: {
-          userId: req.params.userId,
-          productId: req.params.productId,
-          orderId: null
-        }
+      const newCart = await CartItem.create({
+        quantity: 1,
+        priceInCents: req.body.priceInCents
       })
-      newCart.update({quantity: 1, priceInCents: req.body.priceInCents})
+      newCart.setProduct(req.params.productId)
+      newCart.setUser(req.params.userId)
 
       res.json(newCart)
     }
@@ -42,6 +58,7 @@ router.post('/:userId/:productId', async (req, res, next) => {
 //delete cart item
 router.delete('/:userId/:productId', async (req, res, next) => {
   try {
+    //we can also refactor this to find by cart Id now!
     const thisCart = await CartItem.findOne({
       where: {
         userId: req.params.userId,
@@ -59,15 +76,18 @@ router.delete('/:userId/:productId', async (req, res, next) => {
 //update cart item
 router.put('/:userId/:productId', async (req, res, next) => {
   try {
+    // if (req.user.id === +req.params.userId) {
     const thisCart = await CartItem.findOne({
       where: {
         userId: req.params.userId,
         productId: req.params.productId,
-        orderId: null //delete only item in active cart
+        orderId: null //update only item in active cart
       }
     })
     await thisCart.update(req.body)
-    res.json(thisCart)
+    const updatedCart = await CartItem.findByPk(thisCart.id)
+    res.json(updatedCart)
+    // } else res.status(401).end()
   } catch (err) {
     next(err)
   }

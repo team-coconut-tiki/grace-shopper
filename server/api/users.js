@@ -1,5 +1,5 @@
 const router = require('express').Router()
-const {User, Order, Product} = require('../db/models')
+const {User, Order, Product, CartItem} = require('../db/models')
 module.exports = router
 
 router.get('/page/:page', async (req, res, next) => {
@@ -50,18 +50,26 @@ router.get('/admin', async (req, res, next) => {
   }
 })
 
-//find all active carts
+//find all of a user's carts
 router.get('/:id/cart', async (req, res, next) => {
   try {
-    const user = await User.findByPk(req.params.id, {
-      include: [{model: Product}] //give us the cart as 'products', including past orders
+    // if (req.user.id === req.params.id) {
+    const user = await CartItem.findAll({
+      where: {
+        userId: req.params.id,
+        orderId: null
+      },
+      include: [{model: Product}]
     })
+
+    console.log('in the route', user)
     if (!user) {
       let err = new Error('No user found')
       err.status = 404
       throw err
     }
     res.json(user)
+    // } else res.status(401).end()
   } catch (err) {
     next(err)
   }

@@ -65,7 +65,7 @@ const createApp = () => {
 
   //COOKIES
   app.use((req, res, next) => {
-    console.log('req.session', req.session)
+    // console.log('req.session', req.session)
     next()
   })
 

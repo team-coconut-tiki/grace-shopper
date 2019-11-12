@@ -54,7 +54,6 @@ class Routes extends Component {
             <Route path="/product-form/" component={ProductForm} />
             <Route path="/all-products-admin" component={AllProductsAdmin} />
             <Route path="/new-category-form" component={NewCategoryForm} />
-
             <Route path="/" component={AllProducts} />
           </Switch>
         )}

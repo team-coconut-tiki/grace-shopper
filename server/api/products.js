@@ -39,7 +39,7 @@ router.get('/', async (req, res, next) => {
         'title',
         'description',
         'priceInCents',
-        'quantity',
+        'inventory',
         'imageUrl'
       ]
     })
@@ -55,7 +55,7 @@ router.post('/', async (req, res, next) => {
       title: req.body.title,
       description: req.body.description,
       priceInCents: +req.body.priceInCents,
-      quantity: +req.body.quantity,
+      inventory: +req.body.inventory,
       imageUrl: req.body.imageUrl
     })
     req.body.categories.forEach(async category => {

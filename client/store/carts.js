@@ -49,7 +49,7 @@ export const getAllCarts = () => async dispatch => {
 export const fetchUserCart = userId => async dispatch => {
   try {
     const res = await axios.get(`/api/users/${userId}/cart`)
-    dispatch(getUserCart(res.data.products)) //in each arr elem, 'cart_items' is cart row info
+    dispatch(getUserCart(res.data)) //in each arr elem, 'cart_items' is cart row info
   } catch (err) {
     console.error(err)
   }
@@ -85,6 +85,7 @@ export const updateCartThunk = (
     const {data} = await axios.put(`/api/carts/${userId}/${productId}`, {
       quantity: newQty
     })
+    console.log('update', data)
     dispatch(updateCart(data))
   } catch (error) {
     console.error(error)
@@ -118,8 +119,8 @@ export default function(state = initialState, action) {
       return {
         ...state,
         currentCarts: state.currentCarts.map(cartRow => {
-          if (cartRow.id === action.cart.productId) {
-            cartRow.cart_item.quantity = action.cart.quantity
+          if (cartRow.productId === action.cart.productId) {
+            cartRow.quantity = action.quantity
             return cartRow
           } else {
             return cartRow
