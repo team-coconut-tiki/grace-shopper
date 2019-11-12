@@ -16,7 +16,8 @@ import {
   AllProductsAdmin,
   NewCategoryForm,
   UserOrders,
-  Success
+  Success,
+  Cancel
 } from './components'
 import {me} from './store'
 
@@ -36,6 +37,7 @@ class Routes extends Component {
         {/* Routes placed here are available to all visitors */}
         <Route path="/login" component={Login} />
         <Route path="/signup" component={Signup} />
+        <Route path="/products/page/:id" component={AllProducts} />
         <Route path="/products/:id" component={SingleProduct} />
         <Route path="/products" component={AllProducts} />
         <Route path="/users/:id/orders" component={UserOrders} />
@@ -43,7 +45,9 @@ class Routes extends Component {
         <Route path="/cart" component={Cart} />
         <Route path="/orders/:id" component={SingleOrder} />
         <Route path="/success" component={Success} />
+        <Route path="/cancel" component={Cancel} />
         <Route path="/auth/google" component={AllProducts} />
+        <Route path="/:id" component={AllProducts} />
 
         {isAdmin && (
           <Switch>

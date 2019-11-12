@@ -1,23 +1,16 @@
 import React, {useEffect} from 'react'
 import {Link} from 'react-router-dom'
-import {
-  updateUserOrderThunk,
-  changeInventoryThunk,
-  getUsersOrderThunk
-} from '../store'
+import {updateUserOrderThunk} from '../store'
 import {useDispatch, useSelector} from 'react-redux'
 
-const Success = () => {
+const Cancel = () => {
   const dispatch = useDispatch()
   const user = useSelector(state => state.currentUser)
-  const latestOrder = useSelector(state => state.singleOrder.latestOrder)
 
-  const status = {prevStatus: 'open', nextStatus: 'paid'}
-  console.log(latestOrder)
+  const status = {prevStatus: 'open', nextStatus: 'cancelled'}
 
   useEffect(
     () => {
-      user.id && dispatch(getUsersOrderThunk(user.id))
       user.id && dispatch(updateUserOrderThunk(user.id, status))
     },
     [user]
@@ -25,9 +18,7 @@ const Success = () => {
 
   return (
     <div>
-      <p>
-        Your order was successful! Thank you for shopping at the Tiki Store.
-      </p>
+      <p>Your order has been canceled.</p>
       <br />
       <Link
         type="button"
@@ -40,4 +31,4 @@ const Success = () => {
   )
 }
 
-export default Success
+export default Cancel
