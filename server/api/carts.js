@@ -86,7 +86,9 @@ router.put('/:userId/:productId', async (req, res, next) => {
       }
     })
     await thisCart.update(req.body)
-    const updatedCart = await CartItem.findByPk(thisCart.id)
+    const updatedCart = await CartItem.findByPk(thisCart.id, {
+      include: [{model: Product}]
+    })
     res.json(updatedCart)
     // } else res.status(401).end()
   } catch (err) {

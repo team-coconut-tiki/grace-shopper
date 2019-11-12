@@ -8,6 +8,12 @@ const Navbar = ({handleClick, isLoggedIn}) => {
   const dispatch = useDispatch()
   const cartItems = useSelector(state => state.carts.currentCarts)
   const user = useSelector(state => state.currentUser)
+  const cartCount = cartItems.length
+    ? cartItems.reduce((acc, cur) => {
+        acc += cur.quantity
+        return acc
+      }, 0)
+    : 0
 
   useEffect(
     () => {
@@ -40,7 +46,7 @@ const Navbar = ({handleClick, isLoggedIn}) => {
                     <span className="icon">
                       <i className="fas fa-shopping-cart" />
                     </span>
-                    {/* <p>{cartItems.length > 0 ? cartItems.length : '0'} Items</p> */}
+                    <p>{cartCount} Items</p>
                   </Link>
                   <a
                     href="#"
@@ -60,7 +66,7 @@ const Navbar = ({handleClick, isLoggedIn}) => {
                     <span className="icon">
                       <i className="fas fa-shopping-cart" />
                     </span>
-                    {/* <p>{cartItems.length > 0 ? cartItems.length : '0'} Items</p> */}
+                    <p>{cartCount} Items</p>
                   </Link>
                   <Link className="button is-rounded" to="/signup">
                     Sign Up
