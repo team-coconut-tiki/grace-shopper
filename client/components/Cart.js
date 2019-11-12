@@ -79,42 +79,44 @@ const Cart = () => {
       <h2>Your Cart</h2>
 
       {cartItems.map(item => {
-        return (
-          <li className="level" key={item.id}>
-            <div className="level-left">
-              <figure className="image is-64x64 level-item">
-                <img src={item.imageUrl} />
-              </figure>
-              <strong className="level-item">{item.title}</strong>
-            </div>
-            <div className="level-right">
-              <p className="level-item">
-                x{'  '}
-                <input
-                  type="number"
-                  className="input is-rounded"
-                  value={item.cart_item.quantity}
-                  onChange={evt => {
-                    dispatch(
-                      updateCartThunk(user.id, item.id, +evt.target.value)
-                    )
+        if (!item.cart_item.orderId) {
+          return (
+            <li className="level" key={item.id}>
+              <div className="level-left">
+                <figure className="image is-64x64 level-item">
+                  <img src={item.imageUrl} />
+                </figure>
+                <strong className="level-item">{item.title}</strong>
+              </div>
+              <div className="level-right">
+                <p className="level-item">
+                  x{'  '}
+                  <input
+                    type="number"
+                    className="input is-rounded"
+                    value={item.cart_item.quantity}
+                    onChange={evt => {
+                      dispatch(
+                        updateCartThunk(user.id, item.id, +evt.target.value)
+                      )
+                    }}
+                  />
+                </p>
+                <p className="level-item">
+                  ${dollarsInDollars(item.cart_item.priceInCents)}
+                </p>
+                <span
+                  className="icon button"
+                  onClick={() => {
+                    dispatch(removeFromCartThunk(user.id, item.id))
                   }}
-                />
-              </p>
-              <p className="level-item">
-                ${dollarsInDollars(item.cart_item.priceInCents)}
-              </p>
-              <span
-                className="icon button"
-                onClick={() => {
-                  dispatch(removeFromCartThunk(user.id, item.id))
-                }}
-              >
-                <i className="fas fa-trash" />
-              </span>
-            </div>
-          </li>
-        )
+                >
+                  <i className="fas fa-trash" />
+                </span>
+              </div>
+            </li>
+          )
+        } else return ''
       })}
       <div className="level">
         <div className="level-left" />
