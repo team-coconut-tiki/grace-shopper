@@ -3,7 +3,7 @@ import {connect} from 'react-redux'
 import {Redirect} from 'react-router'
 import {
   getUserThunk,
-  adminDeleteUser,
+  adminDeleteUserThunk,
   getOtherUserThunk,
   getReviewsByUserThunk
 } from '../store/'
@@ -92,7 +92,7 @@ export default connect(
   {
     getUserThunk,
     getOtherUserThunk,
-    adminDeleteUser,
+    adminDeleteUserThunk,
     getReviewsByUserThunk
   }
 )(SingleUser)
