@@ -15,9 +15,9 @@ export const updateOrderPaid = () => ({type: UPDATE_ORDER_PAID})
 export const updateOrderStatus = order => ({type: UPDATE_ORDER_STATUS, order})
 
 //thunks
-export const getOrderThunk = id => async dispatch => {
+export const getOrderThunk = orderId => async dispatch => {
   try {
-    const {data} = await axios.get(`/api/orders/${id}`)
+    const {data} = await axios.get(`/api/orders/${orderId}`)
     dispatch(getOrder(data))
   } catch (error) {
     console.error('Error getting order, ', error)
@@ -27,7 +27,7 @@ export const getOrderThunk = id => async dispatch => {
 export const createOrderThunk = (userId, subtotal) => {
   return async dispatch => {
     try {
-      await axios.post(`/api/orders/${userId}`, subtotal)
+      await axios.post(`/api/orders/users/${userId}`, subtotal)
       dispatch(createOrder())
     } catch (err) {
       console.error(err)
@@ -38,7 +38,7 @@ export const createOrderThunk = (userId, subtotal) => {
 export const updateOrderPaidThunk = (userId, status) => {
   return async dispatch => {
     try {
-      await axios.put(`/api/orders/${userId}`, status)
+      await axios.put(`/api/orders/users/${userId}`, status)
       dispatch(updateOrderPaid())
     } catch (err) {
       console.error(err)

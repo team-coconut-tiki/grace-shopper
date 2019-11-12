@@ -18,7 +18,7 @@ const Cart = () => {
   const sessionId = useSelector(state => state.stripe.sessionId)
 
   const subtotal = cartItems.reduce((acc, cur) => {
-    acc += cur.cart_item.priceInCents * cur.cart_item.quantity
+    acc += cur.priceInCents * cur.quantity
     return acc
   }, 0)
 
@@ -27,7 +27,7 @@ const Cart = () => {
       amount: item.priceInCents,
       currency: 'usd',
       name: item.title,
-      quantity: item.cart_item.quantity
+      quantity: item.quantity
     }
   })
 
@@ -79,42 +79,54 @@ const Cart = () => {
       <h2>Your Cart</h2>
 
       {cartItems.map(item => {
-        return (
-          <li className="level" key={item.id}>
-            <div className="level-left">
-              <figure className="image is-64x64 level-item">
-                <img src={item.imageUrl} />
-              </figure>
-              <strong className="level-item">{item.title}</strong>
-            </div>
-            <div className="level-right">
-              <p className="level-item">
-                x{'  '}
-                <input
-                  type="number"
-                  className="input is-rounded"
-                  value={item.cart_item.quantity}
-                  onChange={evt => {
-                    dispatch(
-                      updateCartThunk(user.id, item.id, +evt.target.value)
-                    )
+        if (!item.orderId) {
+          return (
+            <li className="level" key={item.product.id}>
+              <div className="level-left">
+                <figure className="image is-64x64 level-item">
+                  <img src={item.product.imageUrl} />
+                </figure>
+                <strong className="level-item">{item.product.title}</strong>
+              </div>
+              <div className="level-right">
+                <p className="level-item">
+                  x{'  '}
+                  <input
+                    type="number"
+                    className="input is-rounded"
+                    value={item.quantity}
+                    onChange={evt => {
+                      console.log(
+                        'upd',
+                        user.id,
+                        item.productId,
+                        evt.target.value
+                      )
+                      dispatch(
+                        updateCartThunk(
+                          user.id,
+                          item.productId,
+                          +evt.target.value
+                        )
+                      )
+                    }}
+                  />
+                </p>
+                <p className="level-item">
+                  ${dollarsInDollars(item.priceInCents)}
+                </p>
+                <span
+                  className="icon button"
+                  onClick={() => {
+                    dispatch(removeFromCartThunk(user.id, item.product.id))
                   }}
-                />
-              </p>
-              <p className="level-item">
-                ${dollarsInDollars(item.cart_item.priceInCents)}
-              </p>
-              <span
-                className="icon button"
-                onClick={() => {
-                  dispatch(removeFromCartThunk(user.id, item.id))
-                }}
-              >
-                <i className="fas fa-trash" />
-              </span>
-            </div>
-          </li>
-        )
+                >
+                  <i className="fas fa-trash" />
+                </span>
+              </div>
+            </li>
+          )
+        } else return ''
       })}
       <div className="level">
         <div className="level-left" />

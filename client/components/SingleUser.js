@@ -3,14 +3,17 @@ import {connect} from 'react-redux'
 import {Redirect} from 'react-router'
 import {
   getUserThunk,
-  adminDeleteUser,
+  adminDeleteUserThunk,
   getOtherUserThunk,
   getReviewsByUserThunk
 } from '../store/'
-import EditUserButton from './EditUserButton'
+
 import AdminPanel from './AdminPanel'
 import Cart from './Cart'
 import SingleReview from './SingleReview'
+
+import UpdateUserForm from './UpdateUserForm'
+import {Signup, Login} from './auth-form'
 import UserOrders from './UserOrders'
 
 const SingleUser = props => {
@@ -42,30 +45,16 @@ const SingleUser = props => {
             !isSameUser &&
             !isAdmin && <Redirect to={`/users/${user.id || route}`} />
           )}
-          <div className="email">
-            <h4 className="">User email: </h4>
-            <p>{user.email}</p>
-            <EditUserButton isSameUser={isSameUser} source="email" />
-          </div>
-          <div className="user-shipping-address">
-            <h4>Shipping address:</h4>
-            <p>{user.shippingAddress}</p>
-            <EditUserButton isSameUser={isSameUser} source="shippingAddress" />
-          </div>
-          <div className="user-billing-address">
-            <h4>Billing address:</h4>
-            <p>{user.billingAddress}</p>
-            <EditUserButton isSameUser={isSameUser} source="billingAddress" />
-          </div>
-          <div className="user-credit-card-short">
-            <h4>Current credit card:</h4>
-            <p>
-              {user.creditCard
-                ? `XXXX-XXXX-XXXX-${user.creditCard.slice(-4)}`
-                : 'No Credit card associated with this account'}
-            </p>
-            <EditUserButton isSameUser={isSameUser} source="creditCard" />
-          </div>
+          {user.email ? (
+            <UpdateUserForm user={user} isSameUser={isSameUser} />
+          ) : (
+            <div className="box">
+              <h2>Save your cart by signing up or logging in</h2>
+              <Signup />
+              <Login />
+            </div>
+          )}
+
           {isAdmin && (
             <div className="delete-user-button box">
               <button
@@ -111,7 +100,7 @@ export default connect(
   {
     getUserThunk,
     getOtherUserThunk,
-    adminDeleteUser,
+    adminDeleteUserThunk,
     getReviewsByUserThunk
   }
 )(SingleUser)
