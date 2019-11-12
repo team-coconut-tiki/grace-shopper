@@ -45,9 +45,9 @@ router.post('/:userId/:productId', async (req, res, next) => {
         quantity: 1,
         priceInCents: req.body.priceInCents
       })
-      newCart.setProduct(req.params.productId)
-      newCart.setUser(req.params.userId)
-
+      await newCart.setProduct(req.params.productId)
+      await newCart.setUser(req.params.userId)
+      await CartItem.findByPk(newCart.id)
       res.json(newCart)
     }
   } catch (err) {
