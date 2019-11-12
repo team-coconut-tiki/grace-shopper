@@ -42,7 +42,7 @@ const Navbar = ({handleClick, isLoggedIn}) => {
                     <span className="icon">
                       <i className="fas fa-shopping-cart" />
                     </span>
-                    <p>{cartItems.length > 0 ? cartItems.length : '0'} Items</p>
+                    {/* <p>{cartItems.length > 0 ? cartItems.length : '0'} Items</p> */}
                   </Link>
                   <a
                     href="#"
@@ -62,7 +62,7 @@ const Navbar = ({handleClick, isLoggedIn}) => {
                     <span className="icon">
                       <i className="fas fa-shopping-cart" />
                     </span>
-                    <p>{cartItems.length > 0 ? cartItems.length : '0'} Items</p>
+                    {/* <p>{cartItems.length > 0 ? cartItems.length : '0'} Items</p> */}
                   </Link>
                   <Link className="button is-rounded" to="/signup">
                     Sign Up
