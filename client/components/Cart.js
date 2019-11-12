@@ -100,12 +100,6 @@ const Cart = () => {
                     className="input is-rounded"
                     value={item.quantity}
                     onChange={evt => {
-                      console.log(
-                        'upd',
-                        user.id,
-                        item.productId,
-                        evt.target.value
-                      )
                       dispatch(
                         updateCartThunk(
                           user.id,
