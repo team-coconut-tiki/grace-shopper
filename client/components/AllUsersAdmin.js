@@ -5,7 +5,8 @@ import {useSelector, useDispatch} from 'react-redux'
 import {
   getUsersThunk,
   adminDeleteUserThunk,
-  switchAdminStatus
+  switchAdminStatus,
+  resetPassword
 } from '../store/allUsersAdmin'
 
 const AllUsersAdmin = props => {
@@ -35,16 +36,25 @@ const AllUsersAdmin = props => {
                 return (
                   <li key={user.id} className="columns">
                     <span className="column">
-                      {user.email}
+                      {`${user.email} `}
                       <Link to={`/users/${user.id}`}>
                         <i className="fas fa-user-edit" />
                       </Link>
                     </span>
                     <span className="column">
-                      reset<i className="fas fa-key" />
+                      {'reset '}
+                      <button
+                        type="button"
+                        disabled={user.passwordReset}
+                        onClick={() => {
+                          dispatch(resetPassword(user.id))
+                        }}
+                      >
+                        <i className="fas fa-key" />
+                      </button>
                     </span>
                     <span className="column">
-                      {user.orders ? user.orders.length : 0} order(s)
+                      {user.orders ? user.orders.length : 0} {'order(s) '}
                       <Link to={`/users/${user.id}/orders`}>
                         <i className="fas fa-truck" />
                       </Link>
@@ -67,7 +77,7 @@ const AllUsersAdmin = props => {
                       </div>
                     </span>
                     <span className="column">
-                      delete
+                      {'delete '}
                       <a
                         onClick={() => {
                           if (user.isAdmin)

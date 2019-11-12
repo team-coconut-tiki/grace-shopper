@@ -23,7 +23,7 @@ const initialState = {
  */
 export const getCarts = carts => ({type: GET_ALL_CARTS, carts})
 export const getUserCart = products => ({type: GET_USER_CART, products})
-export const addToCart = item => ({type: ADD_TO_CART, item})
+export const addToCart = carts => ({type: ADD_TO_CART, carts})
 export const clearCart = () => ({type: CLEAR_CART})
 export const removeFromCart = productId => ({
   type: REMOVE_FROM_CART,
@@ -61,7 +61,7 @@ export const addToCartThunk = (userId, productId, price) => async dispatch => {
       priceInCents: price
     })
     const cart = await axios.get(`/api/users/${userId}/cart`)
-    dispatch(addToCart(cart.data.products))
+    dispatch(addToCart(cart.data))
   } catch (err) {
     console.error(err)
   }
@@ -105,7 +105,7 @@ export default function(state = initialState, action) {
         currentCarts: action.products
       }
     case ADD_TO_CART:
-      return {...state, currentCarts: action.item}
+      return {...state, currentCarts: action.carts}
     case CLEAR_CART:
       return {...state, currentCarts: []}
     case REMOVE_FROM_CART:

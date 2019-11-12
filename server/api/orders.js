@@ -12,11 +12,22 @@ router.get('/', async (req, res, next) => {
   }
 })
 
+//updates order from admin view
+router.put('/:id', async (req, res, next) => {
+  try {
+    const updatedOrder = await Order.findByPk(req.params.id, {})
+    updatedOrder.update({status: req.body.status})
+    res.json(updatedOrder)
+  } catch (err) {
+    next(err)
+  }
+})
+
 //get order by id
 router.get('/:id', async (req, res, next) => {
   try {
     const order = await Order.findByPk(req.params.id, {
-      include: [{model: User, include: [Product]}]
+      include: [{model: CartItem, include: [Product]}, {model: User}]
     })
     res.json(order)
   } catch (error) {
