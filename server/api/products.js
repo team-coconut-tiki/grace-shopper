@@ -3,22 +3,16 @@ const {Product, Category} = require('../db/models')
 module.exports = router
 
 router.get('/page/:page', async (req, res, next) => {
+  // example http request route:
+  // /api/products/page/1?category=Coconuts&order=[["priceInCents","asc"]]
   const limit = 10
   const cat = req.query.category
-
   const order = req.query.order ? JSON.parse(req.query.order) : null
-  // const price = req.query.price
-  const whereCase = {}
-  // if (price) {
-  // whereCase.priceInCents = price
-  // }
-  console.log(order)
   try {
     const products = await Product.findAll({
       include: [{model: Category, where: {type: cat}}],
       limit: limit,
       order: order,
-      // where: whereCase,
       offset: (req.params.page - 1) * limit
     })
     res.json(products)

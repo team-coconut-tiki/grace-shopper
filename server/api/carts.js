@@ -59,15 +59,17 @@ router.delete('/:userId/:productId', async (req, res, next) => {
 //update cart item
 router.put('/:userId/:productId', async (req, res, next) => {
   try {
-    const thisCart = await CartItem.findOne({
-      where: {
-        userId: req.params.userId,
-        productId: req.params.productId,
-        orderId: null //delete only item in active cart
-      }
-    })
-    await thisCart.update(req.body)
-    res.json(thisCart)
+    if (req.user.id === +req.params.userId) {
+      const thisCart = await CartItem.findOne({
+        where: {
+          userId: req.user.id,
+          productId: req.params.productId,
+          orderId: null //delete only item in active cart
+        }
+      })
+      await thisCart.update(req.body)
+      res.json(thisCart)
+    } else res.status(401).end()
   } catch (err) {
     next(err)
   }
