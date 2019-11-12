@@ -2,6 +2,28 @@ const router = require('express').Router()
 const {User, Order, Product} = require('../db/models')
 module.exports = router
 
+router.get('/page/:page', async (req, res, next) => {
+  // example http request route:
+  // /api/users/page/1?order="createdAt"&isAdmin="true"
+  // /api/users/page/1?order="fullName"&isAdmin="false"&
+  const limit = 10
+  // const status = req.query.status ? req.query.status : null // for orders
+  const order = req.query.order ? JSON.parse(req.query.order) : null
+  const isAdmin = req.query.isAdmin ? req.query.isAdmin === 'true' : null
+  try {
+    const users = await User.findAll({
+      include: [{model: Order}],
+      limit: limit,
+      order: order,
+      where: {isAdmin},
+      offset: (req.params.page - 1) * limit
+    })
+    res.json(users)
+  } catch (err) {
+    next(err)
+  }
+})
+
 router.get('/', async (req, res, next) => {
   try {
     const users = await User.findAll({
