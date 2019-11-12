@@ -42,14 +42,14 @@ const ProductNav = props => {
           </span>Rating
         </li> */}
         <li>
-          <Link to="/product/page/1?order=[['title','ASC']]">
+          <Link to="/products/page/1?order=[['title','ASC']]">
             <span className="icon">
               <i className="fas fa-sort-alpha-down" />
             </span>A-Z
           </Link>
         </li>
         <li>
-          <Link to="/product/page/1?order=[['priceInCents','ASC']]">
+          <Link to="/products/page/1?order=[['priceInCents','ASC']]">
             <span className="icon">
               <i className="fas fa-dollar-sign" />
             </span>Price (Low to High)
