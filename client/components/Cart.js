@@ -56,7 +56,7 @@ const Cart = () => {
 
   return (
     <div>
-      <h2>Your Cart</h2>
+      <h2 className="title is-2">Your Cart</h2>
 
       {cartItems.map(item => {
         if (!item.orderId) {
