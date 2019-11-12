@@ -1,8 +1,11 @@
 import React from 'react'
+import {productsPage} from '../store'
+import {useSelector} from 'react-redux'
 import {Link} from 'react-router-dom'
 
 const ProductNav = props => {
   // const query = props.query
+  const pageNumber = useSelector(state => state.productsPage.pageNumber)
   return (
     <div className="container box">
       <ul className="has-text-centered">
@@ -20,7 +23,7 @@ const ProductNav = props => {
                 className={`button is-rounded is-fullwidth is-success cat ${
                   /*activeCat*/ ''
                 }`}
-                to={`/products/?category=${category.type}`}
+                to={`/products/page/${pageNumber}?category=${category.type}`}
               >
                 {category.type}
               </Link>

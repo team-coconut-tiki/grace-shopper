@@ -36,92 +36,77 @@ async function seed() {
       title: 'Dwarf Coconut',
       priceInCents: 700,
       description: 'it is a tiny coconut',
-      quantity: 3
+      inventory: 3
     }),
     Product.create({
       title: 'Tall Coconut',
       priceInCents: 7200,
       description: 'it is soooo tall. How is the weather up there?',
-      quantity: 100
+      inventory: 100
     }),
     Product.create({
       title: 'Hybrid Coconut',
       priceInCents: 12700,
       description: 'This coconut runs on gas AND electricity!',
-      quantity: 3
+      inventory: 3
     }),
     Product.create({
       title: 'Malayan Yellow Dwarf Coconut',
       priceInCents: 500,
       description:
         'extremely high yielding, and best grown in tropical locations',
-      quantity: 30
+      inventory: 30
     }),
     Product.create({
       title: 'Dwarf Orange Coconut',
       priceInCents: 700,
       description: 'Ever wondered what a coconut that is orange tastes like?',
-      quantity: 13
+      inventory: 13
     }),
     Product.create({
       title: 'Maypan Coconut',
       priceInCents: 9000,
       description:
         'This coconut is from Jamaica and is also known as a "sturdy coconut".',
-      quantity: 24
+      inventory: 24
     }),
     Product.create({
       title: 'King Coconut',
       priceInCents: 70000,
       description: 'King of all coconut!',
-      quantity: 1
+      inventory: 1
     }),
     Product.create({
       title: 'Fiji Dwarf Coconut',
       priceInCents: 100,
       description: 'So smol, this coconut',
-      quantity: 90
+      inventory: 90
     }),
     Product.create({
       title: 'Macapuno Coconut',
       priceInCents: 7600,
       description: 'aka kopyor coconut, is a dwarf mutant tree. AHH!',
-      quantity: 300
+      inventory: 300
     }),
     Product.create({
       title: 'East Coast Tall Coconut',
       priceInCents: 1000,
       description: "Hey, I'm coconut, 'ere!",
-      quantity: 30
+      inventory: 30
     }),
     Product.create({
       title: 'West Coast Tall Coconut',
       priceInCents: 1000,
       description: 'dude... where is my coconut??',
-      quantity: 30
+      inventory: 30
     }),
     Product.create({
       title: 'Golden Malay Coconut',
       priceInCents: 2500,
       description: 'like a normal coconut, but golden',
-      quantity: 1200
+      inventory: 1200
     })
   ])
-
-  for (let i = 0; i < 15; i++) {
-    await User.create({
-      email: faker.internet.email(),
-      password: faker.internet.password(),
-      fullName: faker.name.findName(),
-      shippingAddress: faker.fake(
-        '{{address.streetName}}, {{address.city}}, {{address.state}}, {{address.zipCode}}'
-      ),
-      billingAddress: faker.fake(
-        '{{address.streetName}}, {{address.city}}, {{address.state}}, {{address.zipCode}}'
-      ),
-      creditCard: '4242 4242 4242 4242'
-    })
-  }
 
   const reviews = await Promise.all([
     Review.create({
@@ -170,7 +155,7 @@ async function seed() {
     title: 'extra Coconut',
     priceInCents: 2500,
     description: 'like a normal coconut, but extra (like, with categories)',
-    quantity: 1200
+    inventory: 1200
   })
 
   await extraCoconut.addCategories([1, 2, 3]) //add by ID only, in an array
@@ -179,17 +164,6 @@ async function seed() {
     await products[i].addCategory(4) // add by ID only
   }
 
-  // carts: looks like there are two methods to get this to happen in production without throwing an error:
-  // 1: get product by product id, productid, and userid. straight up CartItem.create() the row with this information.
-  // I'm using this method because I couldn't get method 2 to work
-  //
-  // 2: user.addProduct({productId});
-  // const newCart CartItem.find({where: {
-  //   productId, userId
-  // }})
-  // newCart.update({
-  //quantity, price pulled from product
-  // })
   const extraUser = await User.create({
     email: faker.internet.email(),
     password: faker.internet.password(),
@@ -214,36 +188,59 @@ async function seed() {
   //   priceInCents: 500
   // })
 
-  await CartItem.create({
-    productId: 1,
-    userId: 1,
+  const newCart = await CartItem.create({
     quantity: 100,
     priceInCents: 100 //prices won't be accurate, because... they were on sale! ...or marked up
   })
-  await CartItem.create({
-    productId: 2,
-    userId: 4,
-    quantity: 3,
-    priceInCents: 4000
-  })
-  await CartItem.create({
-    productId: 3,
-    userId: 1,
-    quantity: 12,
-    priceInCents: 300
-  })
-  await CartItem.create({
-    productId: 7,
-    userId: 11,
-    quantity: 1,
-    priceInCents: 1499
-  })
-  await CartItem.create({
-    productId: 11,
-    userId: 8,
-    quantity: 3,
-    priceInCents: 699
-  })
+  await newCart.setProduct(6)
+  await newCart.setUser(3)
+  // await newCart.setOrder(1)
+
+  // await CartItem.findByPk(1, {include: [{model: User}, {model: Product}]})
+
+  // console.log(newCart.__proto__)
+  // const new2Cart = await CartItem.create({
+  //   // userId: 1,
+  //   // productId: 2,
+  //   quantity: 100,
+  //   priceInCents: 100 //prices won't be accurate, because... they were on sale! ...or marked up
+  // })
+
+  // magic methods:
+  // getProduct
+  // setProduct
+  // createProduct
+  // getUser
+  // setUser
+  // createUser
+  // getOrder
+  // setOrder
+  // createOrder
+
+  // await CartItem.create({
+  //   productId: 2,
+  //   userId: 4,
+  //   quantity: 3,
+  //   priceInCents: 4000
+  // })
+  // await CartItem.create({
+  //   productId: 3,
+  //   userId: 1,
+  //   quantity: 12,
+  //   priceInCents: 300
+  // })
+  // await CartItem.create({
+  //   productId: 7,
+  //   userId: 11,
+  //   quantity: 1,
+  //   priceInCents: 1499
+  // })
+  // await CartItem.create({
+  //   productId: 11,
+  //   userId: 8,
+  //   quantity: 3,
+  //   priceInCents: 699
+  // })
 
   //get order for user 1
   const activeCarts = await CartItem.findAll({

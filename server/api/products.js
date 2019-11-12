@@ -5,17 +5,27 @@ module.exports = router
 router.get('/page/:page', async (req, res, next) => {
   // example http request route:
   // /api/products/page/1?category=Coconuts&order=[["priceInCents","asc"]]
+
   const limit = 10
   const cat = req.query.category
-  const order = req.query.order ? JSON.parse(req.query.order) : null
+  // nned to split the order to replace single-quotes with double quotes
+  const order = req.query.order
+    ? JSON.parse(req.query.order.split("'").join('"'))
+    : null
+  const whereCase = cat ? {type: cat} : null
   try {
-    const products = await Product.findAll({
-      include: [{model: Category, where: {type: cat}}],
+    const obj = {}
+    const pages = await Product.findAll({
+      include: [{model: Category, where: whereCase}]
+    })
+    obj.pages = Math.ceil(pages.length / limit)
+    obj.products = await Product.findAll({
+      include: [{model: Category, where: whereCase}],
       limit: limit,
       order: order,
       offset: (req.params.page - 1) * limit
     })
-    res.json(products)
+    res.json(obj)
   } catch (err) {
     next(err)
   }
@@ -33,7 +43,7 @@ router.get('/', async (req, res, next) => {
         'title',
         'description',
         'priceInCents',
-        'quantity',
+        'inventory',
         'imageUrl'
       ]
     })
@@ -49,7 +59,7 @@ router.post('/', async (req, res, next) => {
       title: req.body.title,
       description: req.body.description,
       priceInCents: +req.body.priceInCents,
-      quantity: +req.body.quantity,
+      inventory: +req.body.inventory,
       imageUrl: req.body.imageUrl
     })
     req.body.categories.forEach(async category => {
