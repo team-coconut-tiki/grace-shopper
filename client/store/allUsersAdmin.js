@@ -4,11 +4,13 @@ import axios from 'axios'
 const GET_ALL_USERS = 'GET_ALL_USERS'
 const DELETE_USER = 'DELETE_USER'
 const ADMIN_STATUS = 'ADMIN_STATUS'
+const PASSWORD_RESET = 'PASSWORD_RESET'
 
 //action creators
 const getUsers = users => ({type: GET_ALL_USERS, users})
 const adminDeleteUser = id => ({type: DELETE_USER, id})
 const adminStatus = user => ({type: ADMIN_STATUS, user})
+const passwordReset = user => ({type: PASSWORD_RESET, user})
 
 //thunk creators
 export const getUsersThunk = () => async dispatch => {
@@ -32,12 +34,22 @@ export const adminDeleteUserThunk = userId => async dispatch => {
 export const switchAdminStatus = userId => async dispatch => {
   try {
     const {data} = await axios.get(`/api/users/${userId}`)
-    // console.log('THUNK DATA', data)
     data.isAdmin = !data.isAdmin
     await axios.put(`/api/users/${userId}`, {isAdmin: data.isAdmin})
     dispatch(adminStatus(data))
   } catch (error) {
     console.error(error)
+  }
+}
+
+export const resetPassword = userId => async dispatch => {
+  try {
+    const {data} = await axios.get(`/api/users/${userId}`)
+    data.passwordReset = !data.passwordReset
+    await axios.put(`/api/users/${userId}`, {passwordReset: data.passwordReset})
+    dispatch(passwordReset(data))
+  } catch (error) {
+    console.error('Error resetting password', error)
   }
 }
 
@@ -57,6 +69,17 @@ export default function(state = initialState, action) {
         allUsers: state.allUsers.filter(user => action.id !== user.id)
       }
     case ADMIN_STATUS:
+      return {
+        ...state,
+        allUsers: state.allUsers.map(user => {
+          if (user.id === action.user.id) {
+            return action.user
+          } else {
+            return user
+          }
+        })
+      }
+    case PASSWORD_RESET:
       return {
         ...state,
         allUsers: state.allUsers.map(user => {
