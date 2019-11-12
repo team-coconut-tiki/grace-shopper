@@ -44,14 +44,7 @@ const AllProducts = props => {
       } else {
         pageStateQuery = ''
       }
-      const location = (
-        route +
-        (props.location.search
-          ? props.location.search
-          : '?' + pageState.query.split('?')[1])
-      )
-        .split('%27')
-        .join('"')
+      const location = route + pageStateQuery
       dispatch(getProductsPerPageThunk(location))
       props.history.push(location)
     },
