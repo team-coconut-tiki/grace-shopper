@@ -4,7 +4,6 @@ import {
   fetchUserCart,
   removeFromCartThunk,
   updateCartThunk,
-  updateSessionCartThunk,
   createOrderThunk,
   checkoutThunk
 } from '../store'
@@ -17,27 +16,27 @@ const Cart = () => {
   const cartItems = useSelector(state => state.carts.currentCarts)
   const sessionId = useSelector(state => state.stripe.sessionId)
 
-  const subtotal = cartItems
-    ? cartItems.reduce((acc, cur) => {
-        acc += cur.priceInCents * cur.quantity
-        return acc
-      }, 0)
-    : 0
+  const subtotal = cartItems.reduce((acc, cur) => {
+    acc += cur.priceInCents * cur.quantity
+    return acc
+  }, 0)
 
-  const lineItems = cartItems
-    ? cartItems.map(item => {
-        return {
-          amount: item.priceInCents,
-          currency: 'usd',
-          name: item.title,
-          quantity: item.quantity
-        }
-      })
-    : []
+  const lineItems = cartItems.map(item => {
+    return {
+      amount: item.priceInCents,
+      currency: 'usd',
+      name: item.title,
+      quantity: item.quantity
+    }
+  })
 
-  useEffect(() => {
-    dispatch(checkoutThunk(lineItems))
-  }, [])
+  useEffect(
+    () => {
+      console.log('in the front end', lineItems)
+      dispatch(checkoutThunk(lineItems))
+    },
+    [lineItems]
+  )
 
   useEffect(
     () => {
@@ -46,20 +45,10 @@ const Cart = () => {
     [user]
   )
 
-  useEffect(
-    () => {
-      // dispatch(updateSessionCartThunk(sessionId, lineItems))
-    },
-    [cartItems.length]
-  )
-
-  //CHANGE
-
-  //stripe checkout
   function completeOrder(event) {
     event.preventDefault()
+    console.log('session id', sessionId)
 
-    // dispatch(updateSessionCartThunk(sessionId, lineItems))
     dispatch(createOrderThunk(user.id, {subtotal: subtotal}))
 
     stripe
@@ -67,11 +56,7 @@ const Cart = () => {
         sessionId: sessionId
       })
       .then(function(result) {
-        // If `redirectToCheckout` fails due to a browser or network
-        // error, display the localized error message to your customer
-        // using `result.error.message`.
-        // console.log(result)
-        console.log('payment completed')
+        console.log('payment completed', result)
       })
       .catch(err => {
         console.error(err)
