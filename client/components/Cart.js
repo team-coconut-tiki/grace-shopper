@@ -21,6 +21,7 @@ const Cart = () => {
     acc += cur.priceInCents * cur.quantity
     return acc
   }, 0)
+  console.log('sup', subtotal)
 
   const lineItems = cartItems.map(item => {
     return {
@@ -135,7 +136,9 @@ const Cart = () => {
           <p className="level-item">
             <strong>Subtotal:</strong>
           </p>
-          {/* <p className="level-item">${dollarsInDollars(subtotal)}</p> */}
+          <p className="level-item">
+            ${subtotal ? dollarsInDollars(subtotal) : 'n/a'}
+          </p>
         </div>
       </div>
       <div className="level">
