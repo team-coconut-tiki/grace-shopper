@@ -107,16 +107,8 @@ router.put('/:id', async (req, res, next) => {
 
 router.post('/', async (req, res, next) => {
   try {
-    // const user = await User.findByPk(req.params.id)
-    // if (user) {
-    //   throw new Error('User already exists!')
-    // }
-
-    //body should be {}
-    // console.log('in post route')
     const newUser = await User.create(req.body)
     req.login(newUser, err => (err ? next(err) : res.json(newUser)))
-    console.log('after creating new user')
   } catch (err) {
     next(err)
   }

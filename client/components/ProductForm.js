@@ -79,7 +79,6 @@ const ProductForm = props => {
     } else {
       setForm({...form, [evt.target.name]: evt.target.value})
     }
-    // console.log('form', form)
   }
 
   const handleSubmit = evt => {
