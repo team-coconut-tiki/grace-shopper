@@ -63,7 +63,9 @@ const createApp = () => {
   app.use(passport.initialize())
   app.use(passport.session())
 
+  //COOKIES
   app.use((req, res, next) => {
+    console.log('req.session', req.session)
     next()
   })
 

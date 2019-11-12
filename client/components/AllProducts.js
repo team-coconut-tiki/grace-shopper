@@ -1,7 +1,12 @@
 import React, {useEffect} from 'react'
 import {useDispatch, useSelector} from 'react-redux'
 import {Link} from 'react-router-dom'
-import {getAllProducts, getAllCategories} from '../store'
+import {
+  getAllProducts,
+  getAllCategories,
+  addToCartThunk,
+  createUserThunk
+} from '../store'
 import ProductCard from './ProductCard'
 import ProductNav from './ProductNav'
 import queryString from 'query-string'
@@ -11,13 +16,22 @@ const AllProducts = props => {
   const products = useSelector(state => state.allProducts.products)
   const categories = useSelector(state => state.categories.list)
 
+  const user = useSelector(state => state.currentUser)
+
   const query = queryString.parse(props.location.search)
 
-  // console.log('q', Object.keys(query))
+  // console.log('q', query)
   useEffect(() => {
     dispatch(getAllProducts())
     dispatch(getAllCategories())
   }, []) //equivalent to componentDidMount
+
+  function addToCart(product) {
+    if (!user.id) {
+      dispatch(createUserThunk({}))
+    }
+    dispatch(addToCartThunk(user.id, product.id, product.priceInCents))
+  }
 
   return (
     <div className="columns">
@@ -26,7 +40,8 @@ const AllProducts = props => {
       </div>
       <div className="container box column">
         <h1 className="title">
-          {Object.keys(query).length ? 'Results' : 'All Products'}
+          {query.category ? 'Results' : 'All Products'}
+          {/* fix later */}
         </h1>
         <div className="columns is-mobile is-multiline">
           {products ? (
@@ -35,7 +50,7 @@ const AllProducts = props => {
                 category => category.type
               )
               if (
-                !Object.keys(query).length ||
+                !query.category ||
                 mappedProductCategories.includes(query.category)
               ) {
                 accu.push(

@@ -37,7 +37,7 @@ const Cart = () => {
 
   useEffect(
     () => {
-      dispatch(fetchUserCart(user.id))
+      user.id && dispatch(fetchUserCart(user.id))
     },
     [user]
   )

@@ -1,16 +1,19 @@
-import React, {useEffect, useState} from 'react'
+import React, {useEffect} from 'react'
 import PropTypes from 'prop-types'
 import {connect, useSelector, useDispatch} from 'react-redux'
 import {Link} from 'react-router-dom'
 import {logout, clearCart, fetchUserCart} from '../store'
-import {totalItems} from '../../Utilities'
 
 const Navbar = ({handleClick, isLoggedIn}) => {
   const dispatch = useDispatch()
   const cartItems = useSelector(state => state.carts.currentCarts)
   const user = useSelector(state => state.currentUser)
-  let numInCart
 
+  useEffect(() => {
+    user.id > 0 && dispatch(fetchUserCart(user.id))
+  }, [user.id])
+  
+//for fun
   useEffect(
     () => {
       numInCart = cartItems.reduce((acc, cur) => {
@@ -22,14 +25,6 @@ const Navbar = ({handleClick, isLoggedIn}) => {
     [cartItems]
   )
 
-  useEffect(
-    () => {
-      user.id > 0
-        ? dispatch(fetchUserCart(user.id))
-        : console.log('no user yet')
-    },
-    [user.id]
-  )
   return (
     <section className="hero">
       <div className="hero-body">
@@ -70,12 +65,7 @@ const Navbar = ({handleClick, isLoggedIn}) => {
                     <span className="icon">
                       <i className="fas fa-shopping-cart" />
                     </span>
-                    <p>
-                      {cartItems.length > 0
-                        ? totalItems(cartItems, 'quantity')
-                        : '0'}{' '}
-                      Items
-                    </p>
+                    <p>{cartItems.length > 0 ? cartItems.length : '0'} Items</p>
                   </Link>
                   <Link className="button" to="/signup">
                     Sign Up
