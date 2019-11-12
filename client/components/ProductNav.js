@@ -1,10 +1,11 @@
-import React from 'react'
+import React, {useState} from 'react'
 import {productsPage} from '../store'
 import {useSelector} from 'react-redux'
-import {Link} from 'react-router-dom'
+import {Link, withRouter} from 'react-router-dom'
 
 const ProductNav = props => {
-  // const query = props.query
+  const [azDirection, setAzDirection] = useState('asc')
+  const [priceDirection, setPriceDirection] = useState('asc')
   const pageNumber = useSelector(state => state.productsPage.pageNumber)
   return (
     <div className="container box">
@@ -45,17 +46,37 @@ const ProductNav = props => {
           </span>Rating
         </li> */}
         <li>
-          <Link to="/products/page/1?order=[['title','ASC']]">
-            <span className="icon">
-              <i className="fas fa-sort-alpha-down" />
-            </span>A-Z
+          <Link to={`/products/page/1?order=[["title","${azDirection}"]]`}>
+            <button
+              onClick={() => {
+                azDirection === 'asc'
+                  ? setAzDirection('desc')
+                  : setAzDirection('asc')
+              }}
+            >
+              <span className="icon">
+                <i className="fas fa-sort-alpha-down" />
+              </span>
+              {azDirection === 'asc' ? 'A-Z' : 'Z-A'}
+            </button>
           </Link>
         </li>
         <li>
-          <Link to="/products/page/1?order=[['priceInCents','ASC']]">
-            <span className="icon">
-              <i className="fas fa-dollar-sign" />
-            </span>Price (Low to High)
+          <Link
+            to={`/products/page/1?order=[["priceInCents","${priceDirection}"]]`}
+          >
+            <button
+              onClick={() => {
+                priceDirection === 'asc'
+                  ? setPriceDirection('desc')
+                  : setPriceDirection('asc')
+              }}
+            >
+              <span className="icon">
+                <i className="fas fa-dollar-sign" />
+              </span>Price{' '}
+              {priceDirection === 'asc' ? '(Low to High)' : '(High to Low)'}
+            </button>
           </Link>
         </li>
       </ul>
@@ -63,4 +84,4 @@ const ProductNav = props => {
   )
 }
 
-export default ProductNav
+export default withRouter(ProductNav)

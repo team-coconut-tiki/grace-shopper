@@ -40,7 +40,7 @@ const AllProducts = props => {
       if (props.location.search) {
         pageStateQuery = props.location.search
       } else if (pageState.query.split('?')[1]) {
-        pageStateQuery = pageState.query.split('?')[1]
+        pageStateQuery = '?' + pageState.query.split('?')[1]
       } else {
         pageStateQuery = ''
       }
