@@ -35,43 +35,46 @@ const SingleProduct = props => {
   }
 
   return (
-    <div id="single-product" className="container box">
-      <figure className="image product-image">
-        <img src={thisProduct.imageUrl} />
-      </figure>
-
-      <div className="title is-5">{thisProduct.title}</div>
-      <div>Price: ${thisProduct.priceInCents / 100}</div>
-      <div>
-        Availability: {thisProduct.inventory > 0 ? 'Available' : 'Unavailable'}
+    <div id="single-product" className="container box columns">
+      <div className="column is-one-third">
+        <figure className="image product-image">
+          <img src={thisProduct.imageUrl} />
+        </figure>
+        <div className="title is-5">{thisProduct.title}</div>
+        <div>Price: ${thisProduct.priceInCents / 100}</div>
+        <div>{thisProduct.inventory > 0 ? 'Available' : 'Unavailable'}</div>
+        {thisProduct.inventory > 0 && (
+          <button
+            type="button"
+            className="button is-success is-rounded cat"
+            onClick={addToCart}
+          >
+            Add to cart
+          </button>
+        )}
       </div>
-      {thisProduct.inventory > 0 && (
-        <button
-          type="button"
-          className="button is-success is-rounded"
-          onClick={addToCart}
-        >
-          Add to cart
-        </button>
-      )}
-
-      <p>Description: {thisProduct.description}</p>
-      <p>
-        Categories:{' '}
-        {thisProduct.categories
-          ? thisProduct.categories
-              .map(category => {
-                return category.type
-              })
-              .join(', ')
-          : 'none'}
-      </p>
-
-      <div>
-        {reviews &&
-          reviews.map(review => (
-            <SingleReview key={review.id} review={review} />
-          ))}
+      <div className="column">
+        <p>
+          <strong>Description:</strong> {thisProduct.description}
+        </p>
+        <p>
+          <strong>Categories:</strong>{' '}
+          {thisProduct.categories
+            ? thisProduct.categories
+                .map(category => {
+                  return category.type
+                })
+                .join(', ')
+            : 'none'}
+        </p>
+        <hr />
+        <div>
+          <h4 className="subtitle">Reviews</h4>
+          {reviews &&
+            reviews.map(review => (
+              <SingleReview key={review.id} review={review} />
+            ))}
+        </div>
       </div>
     </div>
   )

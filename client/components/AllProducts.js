@@ -129,9 +129,9 @@ is-offset-one-quarter"
           marginPagesDisplayed={2}
           pageRangeDisplayed={5}
           onPageChange={handlePageChange}
-          containerClassName="pagination"
+          containerClassName="pagination box"
           subContainerClassName="pages"
-          activeClassName="active"
+          activeClassName="active button"
           initialPage={+route - 1}
         />
       </div>

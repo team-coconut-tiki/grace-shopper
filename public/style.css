@@ -55,3 +55,7 @@ form div {
 .pages {
   padding: 10px;
 }
+
+.review-user {
+  text-align: right;
+}

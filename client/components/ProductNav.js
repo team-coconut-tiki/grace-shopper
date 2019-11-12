@@ -78,7 +78,6 @@ const ProductNav = props => {
                 <i className="fas fa-dollar-sign" />
               </span>
               <p>
-                Price
                 {priceDirection === 'asc' ? '(Low to High)' : '(High to Low)'}
               </p>
             </button>
