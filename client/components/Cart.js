@@ -21,7 +21,6 @@ const Cart = () => {
     acc += cur.priceInCents * cur.quantity
     return acc
   }, 0)
-  console.log('sup', subtotal)
 
   const lineItems = cartItems.map(item => {
     return {
