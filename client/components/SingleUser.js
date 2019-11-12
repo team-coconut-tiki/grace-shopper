@@ -12,7 +12,7 @@ import AdminPanel from './AdminPanel'
 import Cart from './Cart'
 import SingleReview from './SingleReview'
 import UpdateUserForm from './UpdateUserForm'
-import {Signup} from './auth-form'
+import {Signup, Login} from './auth-form'
 
 const SingleUser = props => {
   const route = props.match.params.id //url of page
@@ -46,7 +46,11 @@ const SingleUser = props => {
           {user.email ? (
             <UpdateUserForm user={user} isSameUser={isSameUser} />
           ) : (
-            <Signup />
+            <div className="box">
+              <h2>Save your cart by signing up or logging in</h2>
+              <Signup />
+              <Login />
+            </div>
           )}
 
           {isAdmin && (
