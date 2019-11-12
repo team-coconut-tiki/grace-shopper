@@ -27,7 +27,6 @@ router.get('/:id', async (req, res, next) => {
 //update order status by user
 router.put('/users/:userId', async (req, res, next) => {
   try {
-    console.log('IN THE ROUTE', req.body)
     const updatedOrder = await Order.update(
       {status: req.body.status},
       {

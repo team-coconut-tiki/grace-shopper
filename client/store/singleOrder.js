@@ -38,7 +38,6 @@ export const createOrderThunk = (userId, subtotal) => {
 export const updateOrderPaidThunk = (userId, status) => {
   return async dispatch => {
     try {
-      console.log('in the thunk, statuses', status)
       await axios.put(`/api/orders/users/${userId}`, status)
       dispatch(updateOrderPaid())
     } catch (err) {

@@ -6,6 +6,9 @@ import {useDispatch, useSelector} from 'react-redux'
 const Success = () => {
   const dispatch = useDispatch()
   const user = useSelector(state => state.currentUser)
+  const cartItems = useSelector(state => state.carts.currentCarts)
+
+  console.log(cartItems)
 
   useEffect(
     () => {
