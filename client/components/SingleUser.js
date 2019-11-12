@@ -11,6 +11,7 @@ import EditUserButton from './EditUserButton'
 import AdminPanel from './AdminPanel'
 import Cart from './Cart'
 import SingleReview from './SingleReview'
+import UserOrders from './UserOrders'
 
 const SingleUser = props => {
   const route = props.match.params.id //url of page
@@ -87,7 +88,9 @@ const SingleUser = props => {
             </div>
           )}
         </div>
-        <div className="column">{isAdmin ? <AdminPanel /> : <Cart />}</div>
+        <div className="column">
+          {isAdmin ? <AdminPanel /> : <UserOrders userId={route} />}
+        </div>
       </div>
       <div className="user-reviews box">
         {reviews &&
