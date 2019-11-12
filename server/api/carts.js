@@ -39,16 +39,17 @@ router.post('/:userId/:productId', async (req, res, next) => {
       await existingCart.update({
         quantity: existingCart.quantity + 1
       })
-      res.json(existingCart)
+      const addedToCart = await CartItem.findByPk(existingCart.id)
+      res.json(addedToCart)
     } else {
       const newCart = await CartItem.create({
         quantity: 1,
         priceInCents: req.body.priceInCents
       })
-      newCart.setProduct(req.params.productId)
-      newCart.setUser(req.params.userId)
-
-      res.json(newCart)
+      await newCart.setProduct(req.params.productId)
+      await newCart.setUser(req.params.userId)
+      const addedToCart = await CartItem.findByPk(newCart.id)
+      res.json(addedToCart)
     }
   } catch (err) {
     next(err)
