@@ -107,6 +107,7 @@ const Cart = () => {
                           +evt.target.value
                         )
                       )
+                      dispatch(fetchUserCart(user.id))
                     }}
                   />
                 </p>
