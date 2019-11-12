@@ -6,10 +6,16 @@ import {useDispatch, useSelector} from 'react-redux'
 const Success = () => {
   const dispatch = useDispatch()
   const user = useSelector(state => state.currentUser)
+  const cartItems = useSelector(state => state.carts.currentCarts)
 
-  useEffect(() => {
-    dispatch(updateOrderPaidThunk(user.id, {status: 'paid'}))
-  })
+  console.log(cartItems)
+
+  useEffect(
+    () => {
+      user.id && dispatch(updateOrderPaidThunk(user.id, {status: 'paid'}))
+    },
+    [user]
+  )
 
   return (
     <div>

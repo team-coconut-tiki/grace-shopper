@@ -9,24 +9,13 @@ const Navbar = ({handleClick, isLoggedIn}) => {
   const cartItems = useSelector(state => state.carts.currentCarts)
   const user = useSelector(state => state.currentUser)
 
+  console.log('navbar cart items', cartItems)
+
   useEffect(
     () => {
       user.id > 0 && dispatch(fetchUserCart(user.id))
     },
     [user.id]
-  )
-
-  let numInCart
-  //for fun
-  useEffect(
-    () => {
-      numInCart = cartItems.reduce((acc, cur) => {
-        acc += cur.cart_item.quantity
-        return acc
-      }, 0)
-      // console.log('numInCart', numInCart)
-    },
-    [cartItems]
   )
 
   return (
