@@ -116,20 +116,25 @@ const AllProducts = props => {
           </div>
         </div>
       </div>
-      <ReactPaginate
-        previousLabel="previous"
-        nextLabel="next"
-        breakLabel="..."
-        breakClassName="break-me"
-        pageCount={pageState.numOfPages}
-        marginPagesDisplayed={2}
-        pageRangeDisplayed={5}
-        onPageChange={handlePageChange}
-        containerClassName="pagination"
-        subContainerClassName="pages pagination"
-        activeClassName="active"
-        initialPage={+route - 1}
-      />
+      <div
+        className="column is-half
+is-offset-one-quarter"
+      >
+        <ReactPaginate
+          previousLabel="previous"
+          nextLabel="next"
+          breakLabel="..."
+          breakClassName="break-me"
+          pageCount={pageState.numOfPages}
+          marginPagesDisplayed={2}
+          pageRangeDisplayed={5}
+          onPageChange={handlePageChange}
+          containerClassName="pagination"
+          subContainerClassName="pages"
+          activeClassName="active"
+          initialPage={+route - 1}
+        />
+      </div>
     </>
   )
 }

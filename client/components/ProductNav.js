@@ -53,11 +53,12 @@ const ProductNav = props => {
                   ? setAzDirection('desc')
                   : setAzDirection('asc')
               }}
+              className="button is-rounded is-fullwidth is-info cat"
             >
               <span className="icon">
                 <i className="fas fa-sort-alpha-down" />
               </span>
-              {azDirection === 'asc' ? 'A-Z' : 'Z-A'}
+              <p>{azDirection === 'asc' ? 'A-Z' : 'Z-A'}</p>
             </button>
           </Link>
         </li>
@@ -71,11 +72,15 @@ const ProductNav = props => {
                   ? setPriceDirection('desc')
                   : setPriceDirection('asc')
               }}
+              className="button is-rounded is-fullwidth is-info cat"
             >
               <span className="icon">
                 <i className="fas fa-dollar-sign" />
-              </span>Price{' '}
-              {priceDirection === 'asc' ? '(Low to High)' : '(High to Low)'}
+              </span>
+              <p>
+                Price
+                {priceDirection === 'asc' ? '(Low to High)' : '(High to Low)'}
+              </p>
             </button>
           </Link>
         </li>

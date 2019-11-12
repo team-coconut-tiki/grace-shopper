@@ -45,3 +45,13 @@ form div {
   margin: 10px 0px;
   font-weight: bold;
 }
+
+.pagination {
+  display: flex;
+  align-content: center;
+  justify-content: center;
+}
+
+.pages {
+  padding: 10px;
+}
