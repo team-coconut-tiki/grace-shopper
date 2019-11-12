@@ -139,7 +139,9 @@ const Cart = () => {
           <p className="level-item">
             <strong>Subtotal:</strong>
           </p>
-          <p className="level-item">$</p>
+          <p className="level-item">
+            ${subtotal ? dollarsInDollars(subtotal) : 'n/a'}
+          </p>
         </div>
       </div>
       <div className="level">
