@@ -1,4 +1,4 @@
-// import React from 'react'
+// import React from 'react' //future feature!
 // import {useDispatch} from 'react-redux'
 // import {updateUserThunk} from '../store/currentUser'
 

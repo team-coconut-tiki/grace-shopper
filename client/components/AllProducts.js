@@ -26,7 +26,6 @@ const AllProducts = props => {
     ? '?' + props.location.search.split('?')[1]
     : ''
   const route = props.match.params.id ? props.match.params.id : 1
-  console.log(route)
   let pageStateQuery
   if (props.location.search) {
     pageStateQuery = props.location.search
@@ -97,39 +96,30 @@ const AllProducts = props => {
                 return accu
               }, [])
             ) : (
-              // products.reduce((acc, product) => {
-              // const mappedProductCategories = product.categories.map(
-              //   category => category.type
-              // )
-              // if (!query || mappedProductCategories.includes(query.category)) {
-              //   acc.push(
-              //     <div className="column is-one-fifth" key={product.id}>
-              //       <Link to={`/products/${product.id}`} key={product.id}>
-              //         <ProductCard key={product.id} product={product} />
-              //       </Link>
-              //     </div>
-              //     )
-              //   }
-              // }, [])
               <p>no products</p>
             )}
           </div>
         </div>
       </div>
-      <ReactPaginate
-        previousLabel="previous"
-        nextLabel="next"
-        breakLabel="..."
-        breakClassName="break-me"
-        pageCount={pageState.numOfPages}
-        marginPagesDisplayed={2}
-        pageRangeDisplayed={5}
-        onPageChange={handlePageChange}
-        containerClassName="footer"
-        subContainerClassName="pages pagination"
-        activeClassName="active"
-        initialPage={+route - 1}
-      />
+      <div
+        className="column is-half
+is-offset-one-quarter"
+      >
+        <ReactPaginate
+          previousLabel="previous"
+          nextLabel="next"
+          breakLabel="..."
+          breakClassName="break-me"
+          pageCount={pageState.numOfPages}
+          marginPagesDisplayed={2}
+          pageRangeDisplayed={5}
+          onPageChange={handlePageChange}
+          containerClassName="pagination box"
+          subContainerClassName="pages"
+          activeClassName="active button"
+          initialPage={+route - 1}
+        />
+      </div>
     </>
   )
 }

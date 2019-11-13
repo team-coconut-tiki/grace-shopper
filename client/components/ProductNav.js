@@ -1,16 +1,17 @@
 import React, {useState} from 'react'
-import {productsPage} from '../store'
+// import {productsPage} from '../store' //future feature
 import {useSelector} from 'react-redux'
 import {Link, withRouter} from 'react-router-dom'
 
 const ProductNav = props => {
   const [azDirection, setAzDirection] = useState('asc')
   const [priceDirection, setPriceDirection] = useState('asc')
-  const pageNumber = useSelector(state => state.productsPage.pageNumber)
+  // const pageNumber = useSelector(state => state.productsPage.pageNumber)  //future feature
   return (
     <div className="container box">
       <ul className="has-text-centered">
         {props.categories.map(category => {
+          // future feature
           // let activeCat = ''
           // if (
           //   query.category === category.type ||
@@ -53,11 +54,12 @@ const ProductNav = props => {
                   ? setAzDirection('desc')
                   : setAzDirection('asc')
               }}
+              className="button is-rounded is-fullwidth is-info cat"
             >
               <span className="icon">
                 <i className="fas fa-sort-alpha-down" />
               </span>
-              {azDirection === 'asc' ? 'A-Z' : 'Z-A'}
+              <p>{azDirection === 'asc' ? 'A-Z' : 'Z-A'}</p>
             </button>
           </Link>
         </li>
@@ -71,11 +73,14 @@ const ProductNav = props => {
                   ? setPriceDirection('desc')
                   : setPriceDirection('asc')
               }}
+              className="button is-rounded is-fullwidth is-info cat"
             >
               <span className="icon">
                 <i className="fas fa-dollar-sign" />
-              </span>Price{' '}
-              {priceDirection === 'asc' ? '(Low to High)' : '(High to Low)'}
+              </span>
+              <p>
+                {priceDirection === 'asc' ? '(Low to High)' : '(High to Low)'}
+              </p>
             </button>
           </Link>
         </li>

@@ -49,7 +49,7 @@ export const getAllCarts = () => async dispatch => {
 export const fetchUserCart = userId => async dispatch => {
   try {
     const res = await axios.get(`/api/users/${userId}/cart`)
-    dispatch(getUserCart(res.data)) //in each arr elem, 'cart_items' is cart row info
+    dispatch(getUserCart(res.data))
   } catch (err) {
     console.error(err)
   }

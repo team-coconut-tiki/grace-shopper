@@ -33,6 +33,7 @@ const Navbar = ({handleClick, isLoggedIn}) => {
         <div className="level">
           <div className="level-left">
             <button
+              className="no-border"
               type="button"
               onClick={() => {
                 dispatch(getProductsPerPageThunk(`1`, true, true))
@@ -87,7 +88,6 @@ const Navbar = ({handleClick, isLoggedIn}) => {
               )}
             </nav>
           </div>
-          {/* <hr /> */}
         </div>
       </div>
     </section>

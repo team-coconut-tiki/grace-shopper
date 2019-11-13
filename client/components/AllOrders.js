@@ -4,7 +4,7 @@ import {getOrdersThunk} from '../store/allOrders'
 import {Link} from 'react-router-dom'
 import {dollarsInDollars} from '../../Utilities'
 
-const AllOrders = props => {
+const AllOrders = () => {
   const dispatch = useDispatch()
   const orders = useSelector(state => state.allOrders.orders)
   useEffect(() => {
@@ -17,7 +17,8 @@ const AllOrders = props => {
         <h1 className="title">Orders</h1>
         <div className="columns title is-4">
           <div className="column">ID</div>
-          <div className="column">Email</div>
+          <div className="column">User ID</div>
+          <div className="column is-one-third">Email</div>
           <div className="column">Order Status</div>
           <div className="column">Subtotal</div>
         </div>
@@ -35,8 +36,11 @@ const AllOrders = props => {
                     </span>
                     <span className="column">
                       <Link to={`/users/${order.user.id}/orders`}>
-                        User ID: {order.user.id} Email: {order.user.email}
+                        User ID: {order.user.id}
                       </Link>
+                    </span>
+                    <span className="column is-one-third">
+                      Email: {order.user.email}
                     </span>
                     <span className="column">Status: {order.status}</span>
                     <span className="column">
