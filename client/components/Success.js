@@ -1,19 +1,13 @@
 import React, {useEffect} from 'react'
 import {Link} from 'react-router-dom'
-import {
-  updateUserOrderThunk,
-  changeInventoryThunk,
-  getUsersOrderThunk
-} from '../store'
+import {updateUserOrderThunk, getUsersOrderThunk} from '../store'
 import {useDispatch, useSelector} from 'react-redux'
 
 const Success = () => {
   const dispatch = useDispatch()
   const user = useSelector(state => state.currentUser)
-  const latestOrder = useSelector(state => state.singleOrder.latestOrder)
 
   const status = {prevStatus: 'open', nextStatus: 'paid'}
-  console.log(latestOrder)
 
   useEffect(
     () => {

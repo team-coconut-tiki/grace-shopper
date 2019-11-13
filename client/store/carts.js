@@ -85,7 +85,6 @@ export const updateCartThunk = (
     const {data} = await axios.put(`/api/carts/${userId}/${productId}`, {
       quantity: newQty
     })
-    console.log('update', data)
     dispatch(updateCart(data))
   } catch (error) {
     console.error(error)
@@ -112,18 +111,18 @@ export default function(state = initialState, action) {
       return {
         ...state,
         currentCarts: state.currentCarts.filter(cartRow => {
-          return cartRow.id !== action.productId
+          return cartRow.productId !== action.productId
         })
       }
     case UPDATE_CART:
       return {
         ...state,
-        currentCarts: state.currentCarts.map(cartRow => {
-          if (cartRow.productId === action.cart.productId) {
-            cartRow.quantity = action.quantity
-            return cartRow
+        currentCarts: state.currentCarts.map(cart => {
+          if (cart.productId === action.cart.productId) {
+            cart.quantity = action.cart.quantity
+            return cart
           } else {
-            return cartRow
+            return cart
           }
         })
       }

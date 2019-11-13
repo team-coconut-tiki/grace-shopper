@@ -29,23 +29,12 @@ const EditUserButton = props => {
       props.isSameUser
         ? await props.updateUserThunk(payload)
         : await props.updateOtherUserThunk(payload)
-      // console.log(user)
-      // console.log(props.otherUser)
+
       setRenderForm(false)
     } catch (err) {
       console.error(err)
     }
   }
-
-  // function useToggle (default) {
-  //   const [value, setValue] = React.useState(default)
-  //   return [value, () => setValue(!value)]
-  // }
-
-  // function useInput (default) {
-  //   const [value, setValue] = React.useState(default)
-  //   return { value: value, onChange: event => setValue(event.target.value) }
-  // }
 
   return (
     <div className="edit-user-button">

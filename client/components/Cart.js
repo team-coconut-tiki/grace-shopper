@@ -4,7 +4,6 @@ import {
   fetchUserCart,
   removeFromCartThunk,
   updateCartThunk,
-  updateSessionCartThunk,
   createOrderThunk,
   checkoutThunk
 } from '../store'
@@ -24,54 +23,33 @@ const Cart = () => {
       }, 0)
     : 0
 
-  const lineItems = cartItems
-    ? cartItems.map(item => {
-        return {
-          amount: item.priceInCents,
-          currency: 'usd',
-          name: item.title,
-          quantity: item.quantity
-        }
-      })
-    : []
-
-  useEffect(() => {
-    dispatch(checkoutThunk(lineItems))
-  }, [])
+  const lineItems = cartItems.map(item => {
+    return {
+      amount: item.priceInCents,
+      currency: 'usd',
+      name: item.product.title,
+      quantity: item.quantity
+    }
+  })
 
   useEffect(
     () => {
       user.id && dispatch(fetchUserCart(user.id))
+      dispatch(checkoutThunk(lineItems))
     },
     [user]
   )
 
-  useEffect(
-    () => {
-      // dispatch(updateSessionCartThunk(sessionId, lineItems))
-    },
-    [cartItems.length]
-  )
-
-  //CHANGE
-
-  //stripe checkout
   function completeOrder(event) {
     event.preventDefault()
 
-    // dispatch(updateSessionCartThunk(sessionId, lineItems))
     dispatch(createOrderThunk(user.id, {subtotal: subtotal}))
-
     stripe
       .redirectToCheckout({
         sessionId: sessionId
       })
       .then(function(result) {
-        // If `redirectToCheckout` fails due to a browser or network
-        // error, display the localized error message to your customer
-        // using `result.error.message`.
-        // console.log(result)
-        console.log('payment completed')
+        console.log('payment completed', result)
       })
       .catch(err => {
         console.error(err)
@@ -100,12 +78,6 @@ const Cart = () => {
                     className="input is-rounded"
                     value={item.quantity}
                     onChange={evt => {
-                      console.log(
-                        'upd',
-                        user.id,
-                        item.productId,
-                        evt.target.value
-                      )
                       dispatch(
                         updateCartThunk(
                           user.id,
@@ -113,6 +85,7 @@ const Cart = () => {
                           +evt.target.value
                         )
                       )
+                      dispatch(fetchUserCart(user.id))
                     }}
                   />
                 </p>
