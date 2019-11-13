@@ -6,7 +6,6 @@ import {
   fetchProduct,
   updateProductThunk
 } from '../store'
-import {Redirect} from 'react-router-dom'
 
 const ProductForm = props => {
   const dispatch = useDispatch()

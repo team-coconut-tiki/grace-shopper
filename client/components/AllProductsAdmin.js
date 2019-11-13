@@ -1,10 +1,10 @@
 import React, {useEffect} from 'react'
 import {useDispatch, useSelector} from 'react-redux'
-import {Link, Redirect} from 'react-router-dom'
+import {Link} from 'react-router-dom'
 import {getAllProducts, getAllCategories, deleteProductThunk} from '../store'
 import {dollarsInDollars} from '../../Utilities'
 
-const AllProductsAdmin = props => {
+const AllProductsAdmin = () => {
   const dispatch = useDispatch()
   const products = useSelector(state => state.allProducts.products)
 
