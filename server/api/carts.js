@@ -1,5 +1,5 @@
 const router = require('express').Router()
-const {CartItem, User, Product} = require('../db/models')
+const {CartItem, Product} = require('../db/models')
 
 router.get('/', async (req, res, next) => {
   try {
@@ -27,7 +27,7 @@ router.get('/:userId', async (req, res, next) => {
 //creates a new cart item
 router.post('/:userId/:productId', async (req, res, next) => {
   try {
-    // console.log(req.user) // no req.user when guest account 'created'
+    // no req.user when guest account 'created'
     const existingCart = await CartItem.findOne({
       where: {
         userId: req.params.userId,
@@ -86,7 +86,9 @@ router.put('/:userId/:productId', async (req, res, next) => {
       }
     })
     await thisCart.update(req.body)
-    const updatedCart = await CartItem.findByPk(thisCart.id)
+    const updatedCart = await CartItem.findByPk(thisCart.id, {
+      include: [{model: Product}]
+    })
     res.json(updatedCart)
     // } else res.status(401).end()
   } catch (err) {

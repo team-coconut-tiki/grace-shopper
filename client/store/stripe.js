@@ -29,8 +29,9 @@ export const deleteSessionCart = () => {
 export const checkoutThunk = lineItems => {
   return async dispatch => {
     try {
-      const res = await axios.post('/api/stripe', lineItems)
-      dispatch(checkoutItems(res.data.id))
+      const {data} = await axios.post('/api/stripe', lineItems)
+
+      dispatch(checkoutItems(data.id))
     } catch (err) {
       console.error(err)
     }
