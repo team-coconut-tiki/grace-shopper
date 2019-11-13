@@ -1,16 +1,17 @@
 import React, {useState} from 'react'
-import {productsPage} from '../store'
+// import {productsPage} from '../store' //future feature
 import {useSelector} from 'react-redux'
 import {Link, withRouter} from 'react-router-dom'
 
 const ProductNav = props => {
   const [azDirection, setAzDirection] = useState('asc')
   const [priceDirection, setPriceDirection] = useState('asc')
-  const pageNumber = useSelector(state => state.productsPage.pageNumber)
+  // const pageNumber = useSelector(state => state.productsPage.pageNumber)  //future feature
   return (
     <div className="container box">
       <ul className="has-text-centered">
         {props.categories.map(category => {
+          // future feature
           // let activeCat = ''
           // if (
           //   query.category === category.type ||

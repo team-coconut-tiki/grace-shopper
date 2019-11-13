@@ -9,7 +9,6 @@ import {
 } from '../store/'
 
 import AdminPanel from './AdminPanel'
-import Cart from './Cart'
 import SingleReview from './SingleReview'
 
 import UpdateUserForm from './UpdateUserForm'

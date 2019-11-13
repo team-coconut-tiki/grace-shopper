@@ -4,7 +4,7 @@ import {getOrdersThunk} from '../store/allOrders'
 import {Link} from 'react-router-dom'
 import {dollarsInDollars} from '../../Utilities'
 
-const AllOrders = props => {
+const AllOrders = () => {
   const dispatch = useDispatch()
   const orders = useSelector(state => state.allOrders.orders)
   useEffect(() => {

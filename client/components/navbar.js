@@ -88,7 +88,6 @@ const Navbar = ({handleClick, isLoggedIn}) => {
               )}
             </nav>
           </div>
-          {/* <hr /> */}
         </div>
       </div>
     </section>

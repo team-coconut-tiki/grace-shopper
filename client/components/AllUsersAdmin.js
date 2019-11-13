@@ -9,7 +9,7 @@ import {
   resetPassword
 } from '../store/allUsersAdmin'
 
-const AllUsersAdmin = props => {
+const AllUsersAdmin = () => {
   const allUsers = useSelector(state => state.allUsersAdmin.allUsers)
   const dispatch = useDispatch()
 
