@@ -2,7 +2,12 @@ import React, {useEffect} from 'react'
 import PropTypes from 'prop-types'
 import {connect, useSelector, useDispatch} from 'react-redux'
 import {Link} from 'react-router-dom'
-import {logout, clearCart, fetchUserCart} from '../store'
+import {
+  logout,
+  clearCart,
+  fetchUserCart,
+  getProductsPerPageThunk
+} from '../store'
 
 const Navbar = ({handleClick, isLoggedIn}) => {
   const dispatch = useDispatch()
@@ -27,12 +32,20 @@ const Navbar = ({handleClick, isLoggedIn}) => {
       <div className="hero-body">
         <div className="level">
           <div className="level-left">
-            <Link className="button is-white is-large" to="/">
-              <figure className="image is-128x128">
-                <img src="/coconut.png" />
-              </figure>
-              <h1 className="title">Coconuts!</h1>
-            </Link>
+            <button
+              className="no-border"
+              type="button"
+              onClick={() => {
+                dispatch(getProductsPerPageThunk(`1`, true, true))
+              }}
+            >
+              <Link className="button is-white is-large" to="/1">
+                <figure className="image is-128x128">
+                  <img src="/coconut.png" />
+                </figure>
+                <h1 className="title">Coconuts!</h1>
+              </Link>
+            </button>
           </div>
           <div className="level-right">
             <nav>

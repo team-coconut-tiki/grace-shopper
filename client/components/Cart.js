@@ -16,10 +16,12 @@ const Cart = () => {
   const cartItems = useSelector(state => state.carts.currentCarts)
   const sessionId = useSelector(state => state.stripe.sessionId)
 
-  const subtotal = cartItems.reduce((acc, cur) => {
-    acc += cur.priceInCents * cur.quantity
-    return acc
-  }, 0)
+  const subtotal = cartItems
+    ? cartItems.reduce((acc, cur) => {
+        acc += cur.priceInCents * cur.quantity
+        return acc
+      }, 0)
+    : 0
 
   const lineItems = cartItems.map(item => {
     return {
