@@ -31,6 +31,16 @@ async function seed() {
     })
   }
 
+  function randomCategoryNum() {
+    let num = Math.floor(Math.random() * 8)
+    return num === 4 ? randomCategoryNum() : num
+  }
+
+  function randomPriceNum() {
+    let num = Math.floor(Math.random() * (999999 - 99)) + 99
+    return num
+  }
+
   const products = await Promise.all([
     Product.create({
       title: 'Dwarf Coconut',
@@ -160,8 +170,19 @@ async function seed() {
 
   await extraCoconut.addCategories([1, 2, 3]) //add by ID only, in an array
 
-  for (let i = 0; i < products.length; i++) {
+  for (let i = 0; i < 12; i++) {
     await products[i].addCategory(4) // add by ID only
+  }
+
+  for (let i = 13; i < 100; i++) {
+    const thisProduct = await Product.create({
+      title: faker.fake('{{commerce.productAdjective}} {{commerce.product}}'),
+      priceInCents: randomPriceNum(),
+      description: faker.lorem.paragraph(),
+      inventory: faker.random.number(),
+      imageUrl: faker.image.imageUrl()
+    })
+    thisProduct.addCategory(randomCategoryNum())
   }
 
   const extraUser = await User.create({

@@ -9,7 +9,7 @@ router.get('/page/:page', async (req, res, next) => {
   try {
     const limit = 10
     const cat = req.query.category ? req.query.category : null
-    // nned to split the order to replace single-quotes with double quotes
+    // need to split the order to replace single-quotes with double quotes
     const order = req.query.order ? JSON.parse(req.query.order) : null
     const changed = !req.query.pages
     const whereCase = cat ? {type: cat} : null
