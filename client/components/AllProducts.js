@@ -26,9 +26,9 @@ const AllProducts = props => {
     ? '?' + props.location.search.split('?')[1]
     : ''
   const route = props.match.params.id ? props.match.params.id : 1
+  console.log(route)
   let pageStateQuery
   if (props.location.search) {
-    // hard-coded query
     pageStateQuery = props.location.search
   } else {
     pageStateQuery = ''
@@ -38,23 +38,23 @@ const AllProducts = props => {
   useEffect(() => {
     dispatch(getAllProducts())
     dispatch(getAllCategories())
-    dispatch(getProductsPerPageThunk(location, true))
+    dispatch(getProductsPerPageThunk(location))
   }, []) //equivalent to componentDidMount
 
   useEffect(
     () => {
       // set the location equal to the route and query
       // take any auto-changed quotes and make sure api request uses quotes
-      dispatch(getProductsPerPageThunk(location, false))
+      dispatch(getProductsPerPageThunk(location, true))
       props.history.push(location)
     },
     [props.location.pathname, props.location.search]
   )
 
   function handlePageChange(data) {
-    data.selected++
-    const location = data.selected + locationQuery
-    dispatch(getProductsPerPageThunk(location, false))
+    const page = data.selected + 1
+    const location = page + locationQuery
+    dispatch(getProductsPerPageThunk(location, true))
     props.history.push(location)
   }
 

@@ -24,9 +24,7 @@ const ProductNav = props => {
                 className={`button is-rounded is-fullwidth is-success cat ${
                   /*activeCat*/ ''
                 }`}
-                to={`/products/page/${pageNumber}?category=${
-                  category.type
-                }&changed=true`}
+                to={`/products/page/1?category=${category.type}`}
               >
                 {category.type}
               </Link>
@@ -48,9 +46,7 @@ const ProductNav = props => {
           </span>Rating
         </li> */}
         <li>
-          <Link
-            to={`/products/page/1?order=[["title","${azDirection}"]]&changed=true`}
-          >
+          <Link to={`/products/page/1?order=[["title","${azDirection}"]]`}>
             <button
               onClick={() => {
                 azDirection === 'asc'
@@ -67,7 +63,7 @@ const ProductNav = props => {
         </li>
         <li>
           <Link
-            to={`/products/page/1?order=[["priceInCents","${priceDirection}"]]&changed=true`}
+            to={`/products/page/1?order=[["priceInCents","${priceDirection}"]]`}
           >
             <button
               onClick={() => {
