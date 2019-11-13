@@ -8,7 +8,7 @@ import {
   checkoutThunk
 } from '../store'
 import {dollarsInDollars} from '../../Utilities'
-var stripe = Stripe('pk_test_pReitL4ywW7aWvUlEbjYeiFO00sZCjLWB7')
+var stripe = Stripe(process.env.STRIPE_SECRET)
 
 const Cart = () => {
   const dispatch = useDispatch()

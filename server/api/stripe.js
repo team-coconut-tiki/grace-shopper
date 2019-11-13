@@ -7,8 +7,8 @@ router.post('/', async (req, res, next) => {
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ['card'],
       line_items: req.body,
-      success_url: 'http://localhost:8080/success',
-      cancel_url: 'http://localhost:8080/cancel'
+      success_url: 'http://secret-anchorage-02278.herokuapp.com/success',
+      cancel_url: 'http://secret-anchorage-02278.herokuapp.com/cancel'
     })
     res.json(session)
   } catch (error) {
