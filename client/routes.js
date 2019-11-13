@@ -58,6 +58,7 @@ class Routes extends Component {
             <Route path="/product-form/" component={ProductForm} />
             <Route path="/all-products-admin" component={AllProductsAdmin} />
             <Route path="/new-category-form" component={NewCategoryForm} />
+            <Route path="/:id" component={AllProducts} />
             <Route path="/" component={AllProducts} />
           </Switch>
         )}
@@ -69,6 +70,7 @@ class Routes extends Component {
         {isLoggedIn && (
           <Switch>
             {/* Routes placed here are only available after logging in */}
+            <Route path="/:id" component={AllProducts} />
             <Route path="/" component={AllProducts} />
           </Switch>
         )}

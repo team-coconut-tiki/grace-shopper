@@ -26,35 +26,35 @@ const AllProducts = props => {
     ? '?' + props.location.search.split('?')[1]
     : ''
   const route = props.match.params.id ? props.match.params.id : 1
+  console.log(route)
+  let pageStateQuery
+  if (props.location.search) {
+    pageStateQuery = props.location.search
+  } else {
+    pageStateQuery = ''
+  }
+  const location = route + pageStateQuery
 
   useEffect(() => {
     dispatch(getAllProducts())
     dispatch(getAllCategories())
+    dispatch(getProductsPerPageThunk(location))
   }, []) //equivalent to componentDidMount
 
   useEffect(
     () => {
       // set the location equal to the route and query
       // take any auto-changed quotes and make sure api request uses quotes
-      let pageStateQuery
-      if (props.location.search) {
-        pageStateQuery = props.location.search
-      } else if (pageState.query.split('?')[1]) {
-        pageStateQuery = '?' + pageState.query.split('?')[1]
-      } else {
-        pageStateQuery = ''
-      }
-      const location = route + pageStateQuery
-      dispatch(getProductsPerPageThunk(location))
+      dispatch(getProductsPerPageThunk(location, true))
       props.history.push(location)
     },
     [props.location.pathname, props.location.search]
   )
 
   function handlePageChange(data) {
-    data.selected++
-    const location = data.selected + locationQuery
-    dispatch(getProductsPerPageThunk(location))
+    const page = data.selected + 1
+    const location = page + locationQuery
+    dispatch(getProductsPerPageThunk(location, true))
     props.history.push(location)
   }
 
@@ -125,7 +125,7 @@ const AllProducts = props => {
         marginPagesDisplayed={2}
         pageRangeDisplayed={5}
         onPageChange={handlePageChange}
-        containerClassName="pagination"
+        containerClassName="footer"
         subContainerClassName="pages pagination"
         activeClassName="active"
         initialPage={+route - 1}

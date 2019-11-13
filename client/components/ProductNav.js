@@ -24,7 +24,7 @@ const ProductNav = props => {
                 className={`button is-rounded is-fullwidth is-success cat ${
                   /*activeCat*/ ''
                 }`}
-                to={`/products/page/${pageNumber}?category=${category.type}`}
+                to={`/products/page/1?category=${category.type}`}
               >
                 {category.type}
               </Link>

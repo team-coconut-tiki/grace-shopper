@@ -6,19 +6,23 @@ router.get('/page/:page', async (req, res, next) => {
   // example http request route:
   // /api/products/page/1?category=Coconuts&order=[["priceInCents","asc"]]
 
-  const limit = 10
-  const cat = req.query.category
-  // nned to split the order to replace single-quotes with double quotes
-  const order = req.query.order
-    ? JSON.parse(req.query.order.split("'").join('"'))
-    : null
-  const whereCase = cat ? {type: cat} : null
   try {
+    const limit = 10
+    const cat = req.query.category ? req.query.category : null
+    // nned to split the order to replace single-quotes with double quotes
+    const order = req.query.order ? JSON.parse(req.query.order) : null
+    const changed = !req.query.pages
+    const whereCase = cat ? {type: cat} : null
     const obj = {}
-    const pages = await Product.findAll({
-      include: [{model: Category, where: whereCase}]
-    })
-    obj.pages = Math.ceil(pages.length / limit)
+
+    if (changed) {
+      let pages = await Product.findAll({
+        include: [{model: Category, where: whereCase}]
+      })
+      obj.pages = Math.ceil(pages.length / limit)
+    } else {
+      obj.pages = req.query.pages
+    }
     obj.products = await Product.findAll({
       include: [{model: Category, where: whereCase}],
       limit: limit,
