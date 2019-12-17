@@ -3,7 +3,6 @@ import {
   addToCartThunk,
   fetchProduct,
   createUserThunk,
-  checkoutThunk,
   getReviewsByProductThunk
 } from '../store'
 import {useSelector, useDispatch} from 'react-redux'
@@ -14,7 +13,6 @@ const SingleProduct = props => {
   const thisProduct = useSelector(state => state.singleProduct.selectedProduct)
 
   const user = useSelector(state => state.currentUser)
-  const cartItems = useSelector(state => state.carts.currentCarts)
   const reviews = useSelector(state => state.allReviews)
 
   const thisProductId = +props.match.params.id
@@ -36,42 +34,47 @@ const SingleProduct = props => {
     dispatch(addToCartThunk(user.id, thisProduct.id, thisProduct.priceInCents))
   }
 
-  // console.log(reviews)
   return (
-    <div id="single-product" className="container box">
-      {/* <div>Breadcrumb placeholder</div> */}
-      <figure className="image product-image">
-        <img src={thisProduct.imageUrl} />
-      </figure>
-
-      <div className="title is-5">{thisProduct.title}</div>
-      <div>Price: ${thisProduct.priceInCents / 100}</div>
-      <button
-        type="button"
-        className="button is-success is-rounded"
-        onClick={addToCart}
-      >
-        Add to cart
-      </button>
-      {/* <div>product tile placeholder</div> */}
-
-      <p>Description: {thisProduct.description}</p>
-      <p>
-        Categories:{' '}
-        {thisProduct.categories
-          ? thisProduct.categories
-              .map(category => {
-                return category.type
-              })
-              .join(', ')
-          : 'none'}
-      </p>
-
-      <div>
-        {reviews &&
-          reviews.map(review => (
-            <SingleReview key={review.id} review={review} />
-          ))}
+    <div id="single-product" className="container box columns">
+      <div className="column is-one-third">
+        <figure className="image product-image">
+          <img src={thisProduct.imageUrl} />
+        </figure>
+        <div className="title is-5">{thisProduct.title}</div>
+        <div>Price: ${thisProduct.priceInCents / 100}</div>
+        <div>{thisProduct.inventory > 0 ? 'Available' : 'Unavailable'}</div>
+        {thisProduct.inventory > 0 && (
+          <button
+            type="button"
+            className="button is-success is-rounded cat"
+            onClick={addToCart}
+          >
+            Add to cart
+          </button>
+        )}
+      </div>
+      <div className="column">
+        <p>
+          <strong>Description:</strong> {thisProduct.description}
+        </p>
+        <p>
+          <strong>Categories:</strong>{' '}
+          {thisProduct.categories
+            ? thisProduct.categories
+                .map(category => {
+                  return category.type
+                })
+                .join(', ')
+            : 'none'}
+        </p>
+        <hr />
+        <div>
+          <h4 className="subtitle">Reviews</h4>
+          {reviews &&
+            reviews.map(review => (
+              <SingleReview key={review.id} review={review} />
+            ))}
+        </div>
       </div>
     </div>
   )

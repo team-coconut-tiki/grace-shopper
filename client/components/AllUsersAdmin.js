@@ -5,10 +5,11 @@ import {useSelector, useDispatch} from 'react-redux'
 import {
   getUsersThunk,
   adminDeleteUserThunk,
-  switchAdminStatus
+  switchAdminStatus,
+  resetPassword
 } from '../store/allUsersAdmin'
 
-const AllUsersAdmin = props => {
+const AllUsersAdmin = () => {
   const allUsers = useSelector(state => state.allUsersAdmin.allUsers)
   const dispatch = useDispatch()
 
@@ -21,7 +22,7 @@ const AllUsersAdmin = props => {
       <div className="container box column">
         <h1 className="title">Users</h1>
         <div className="columns title is-4">
-          <div className="column">Edit User Info</div>
+          <div className="column  is-one-third">Edit User Info</div>
           <div className="column">Reset Password</div>
           <div className="column">Orders</div>
           <div className="column">Admin Status</div>
@@ -34,17 +35,26 @@ const AllUsersAdmin = props => {
             : allUsers.map(user => {
                 return (
                   <li key={user.id} className="columns">
-                    <span className="column">
-                      {user.email}
+                    <span className="column is-one-third">
                       <Link to={`/users/${user.id}`}>
                         <i className="fas fa-user-edit" />
                       </Link>
+                      {` ${user.email}`}
                     </span>
                     <span className="column">
-                      reset<i className="fas fa-key" />
+                      {'reset '}
+                      <button
+                        type="button"
+                        disabled={user.passwordReset}
+                        onClick={() => {
+                          dispatch(resetPassword(user.id))
+                        }}
+                      >
+                        <i className="fas fa-key" />
+                      </button>
                     </span>
                     <span className="column">
-                      {user.orders ? user.orders.length : 0} order(s)
+                      {user.orders ? user.orders.length : 0} {'order(s) '}
                       <Link to={`/users/${user.id}/orders`}>
                         <i className="fas fa-truck" />
                       </Link>
@@ -67,7 +77,7 @@ const AllUsersAdmin = props => {
                       </div>
                     </span>
                     <span className="column">
-                      delete
+                      {'delete '}
                       <a
                         onClick={() => {
                           if (user.isAdmin)

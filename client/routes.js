@@ -16,7 +16,9 @@ import {
   AllProductsAdmin,
   NewCategoryForm,
   UserOrders,
-  Success
+  Success,
+  Cancel,
+  UpdatePasswordForm
 } from './components'
 import {me} from './store'
 
@@ -29,13 +31,15 @@ class Routes extends Component {
   }
 
   render() {
-    const {isLoggedIn, isAdmin} = this.props
+    const {isLoggedIn, isAdmin, passwordReset} = this.props
 
     return (
       <Switch>
         {/* Routes placed here are available to all visitors */}
+
         <Route path="/login" component={Login} />
         <Route path="/signup" component={Signup} />
+        <Route path="/products/page/:id" component={AllProducts} />
         <Route path="/products/:id" component={SingleProduct} />
         <Route path="/products" component={AllProducts} />
         <Route path="/users/:id/orders" component={UserOrders} />
@@ -43,6 +47,7 @@ class Routes extends Component {
         <Route path="/cart" component={Cart} />
         <Route path="/orders/:id" component={SingleOrder} />
         <Route path="/success" component={Success} />
+        <Route path="/cancel" component={Cancel} />
         <Route path="/auth/google" component={AllProducts} />
 
         {isAdmin && (
@@ -53,17 +58,24 @@ class Routes extends Component {
             <Route path="/product-form/" component={ProductForm} />
             <Route path="/all-products-admin" component={AllProductsAdmin} />
             <Route path="/new-category-form" component={NewCategoryForm} />
+            <Route path="/:id" component={AllProducts} />
             <Route path="/" component={AllProducts} />
           </Switch>
         )}
 
+        {/* {passwordReset && (
+        <Route path="/passwordreset" component={UpdatePasswordForm} />
+        )} */}
+
         {isLoggedIn && (
           <Switch>
             {/* Routes placed here are only available after logging in */}
+            <Route path="/:id" component={AllProducts} />
             <Route path="/" component={AllProducts} />
           </Switch>
         )}
         {/* Displays our Login component as a fallback */}
+        <Route path="/:id" component={AllProducts} />
         <Route path="/" component={AllProducts} />
         <Route component={AllProducts} />
       </Switch>

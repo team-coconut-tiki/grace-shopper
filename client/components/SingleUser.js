@@ -9,12 +9,10 @@ import {
 } from '../store/'
 
 import AdminPanel from './AdminPanel'
-import Cart from './Cart'
 import SingleReview from './SingleReview'
 
 import UpdateUserForm from './UpdateUserForm'
 import {Signup, Login} from './auth-form'
-=======
 import UserOrders from './UserOrders'
 
 const SingleUser = props => {

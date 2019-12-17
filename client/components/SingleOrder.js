@@ -65,22 +65,22 @@ const SingleOrder = props => {
           <hr />
           {!order.user
             ? 'no user for order'
-            : order.user.products.map(product => {
+            : order.cart_items.map(cart => {
                 return (
-                  <li key={product.id} className="columns">
+                  <li key={cart.id} className="columns">
                     <span className="column">
                       {!order.user.isAdmin ? '' : 'Title: '}
-                      {product.title}
+                      {cart.product.title}
                     </span>
                     <span className="column">
-                      Quantity: {product.cart_item.quantity}
+                      Quantity: {cart.product.inventory}
                     </span>
                     <span className="column">
-                      Price: ${dollarsInDollars(product.cart_item.priceInCents)}
+                      Price: ${dollarsInDollars(cart.product.priceInCents)}
                     </span>
                     <span className="column">
                       <img
-                        src={product.imageUrl}
+                        src={cart.product.imageUrl}
                         className="image product-image"
                       />
                     </span>

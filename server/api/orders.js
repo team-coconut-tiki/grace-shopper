@@ -12,13 +12,39 @@ router.get('/', async (req, res, next) => {
   }
 })
 
+//updates order from admin view
+router.put('/:id', async (req, res, next) => {
+  try {
+    const updatedOrder = await Order.findByPk(req.params.id, {})
+    updatedOrder.update({status: req.body.status})
+    res.json(updatedOrder)
+  } catch (err) {
+    next(err)
+  }
+})
+
 //get order by id
 router.get('/:id', async (req, res, next) => {
   try {
     const order = await Order.findByPk(req.params.id, {
-      include: [{model: User, include: [Product]}]
+      include: [{model: CartItem, include: [Product]}, {model: User}]
     })
     res.json(order)
+  } catch (error) {
+    next(error)
+  }
+})
+
+//get user's orders
+router.get('/users/:id', async (req, res, next) => {
+  try {
+    const orders = await Order.findAll({
+      where: {
+        userId: req.params.id
+      },
+      order: [['createdAt', 'DESC']]
+    })
+    res.json(orders)
   } catch (error) {
     next(error)
   }
@@ -28,11 +54,11 @@ router.get('/:id', async (req, res, next) => {
 router.put('/users/:userId', async (req, res, next) => {
   try {
     const updatedOrder = await Order.update(
-      {status: req.body.status},
+      {status: req.body.nextStatus},
       {
         where: {
           userId: req.params.userId,
-          status: 'open'
+          status: req.body.prevStatus
         }
       }
     )
@@ -46,7 +72,10 @@ router.put('/users/:userId', async (req, res, next) => {
 router.post('/users/:userId', async (req, res, next) => {
   try {
     const currentCart = await CartItem.findAll({
-      where: {userId: req.params.userId}
+      where: {
+        userId: req.params.userId,
+        orderId: null
+      }
     })
     const newOrder = await Order.create({status: 'open'})
     newOrder.update({

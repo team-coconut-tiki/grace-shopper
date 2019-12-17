@@ -53,22 +53,22 @@ router.get('/admin', async (req, res, next) => {
 //find all of a user's carts
 router.get('/:id/cart', async (req, res, next) => {
   try {
-    const user = await User.findByPk(req.params.id, {
-      include: [
-        {
-          model: Product,
-          through: {model: CartItem}
-        }
-      ] //give us the cart as 'products', including past orders
+    // if (req.user.id === req.params.id) {
+    const user = await CartItem.findAll({
+      where: {
+        userId: req.params.id,
+        orderId: null
+      },
+      include: [{model: Product}]
     })
 
-    console.log('in the route', user)
     if (!user) {
       let err = new Error('No user found')
       err.status = 404
       throw err
     }
     res.json(user)
+    // } else res.status(401).end()
   } catch (err) {
     next(err)
   }
@@ -107,16 +107,8 @@ router.put('/:id', async (req, res, next) => {
 
 router.post('/', async (req, res, next) => {
   try {
-    // const user = await User.findByPk(req.params.id)
-    // if (user) {
-    //   throw new Error('User already exists!')
-    // }
-
-    //body should be {}
-    // console.log('in post route')
     const newUser = await User.create(req.body)
     req.login(newUser, err => (err ? next(err) : res.json(newUser)))
-    console.log('after creating new user')
   } catch (err) {
     next(err)
   }

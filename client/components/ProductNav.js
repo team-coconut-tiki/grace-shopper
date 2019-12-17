@@ -1,12 +1,17 @@
-import React from 'react'
-import {Link} from 'react-router-dom'
+import React, {useState} from 'react'
+// import {productsPage} from '../store' //future feature
+import {useSelector} from 'react-redux'
+import {Link, withRouter} from 'react-router-dom'
 
 const ProductNav = props => {
-  // const query = props.query
+  const [azDirection, setAzDirection] = useState('asc')
+  const [priceDirection, setPriceDirection] = useState('asc')
+  // const pageNumber = useSelector(state => state.productsPage.pageNumber)  //future feature
   return (
     <div className="container box">
       <ul className="has-text-centered">
         {props.categories.map(category => {
+          // future feature
           // let activeCat = ''
           // if (
           //   query.category === category.type ||
@@ -20,7 +25,7 @@ const ProductNav = props => {
                 className={`button is-rounded is-fullwidth is-success cat ${
                   /*activeCat*/ ''
                 }`}
-                to={`/products/?category=${category.type}`}
+                to={`/products/page/1?category=${category.type}`}
               >
                 {category.type}
               </Link>
@@ -42,17 +47,41 @@ const ProductNav = props => {
           </span>Rating
         </li> */}
         <li>
-          <Link to="/products/page/1?order=[['title','ASC']]">
-            <span className="icon">
-              <i className="fas fa-sort-alpha-down" />
-            </span>A-Z
+          <Link to={`/products/page/1?order=[["title","${azDirection}"]]`}>
+            <button
+              onClick={() => {
+                azDirection === 'asc'
+                  ? setAzDirection('desc')
+                  : setAzDirection('asc')
+              }}
+              className="button is-rounded is-fullwidth is-info cat"
+            >
+              <span className="icon">
+                <i className="fas fa-sort-alpha-down" />
+              </span>
+              <p>{azDirection === 'asc' ? 'A-Z' : 'Z-A'}</p>
+            </button>
           </Link>
         </li>
         <li>
-          <Link to="/products/page/1?order=[['priceInCents','ASC']]">
-            <span className="icon">
-              <i className="fas fa-dollar-sign" />
-            </span>Price (Low to High)
+          <Link
+            to={`/products/page/1?order=[["priceInCents","${priceDirection}"]]`}
+          >
+            <button
+              onClick={() => {
+                priceDirection === 'asc'
+                  ? setPriceDirection('desc')
+                  : setPriceDirection('asc')
+              }}
+              className="button is-rounded is-fullwidth is-info cat"
+            >
+              <span className="icon">
+                <i className="fas fa-dollar-sign" />
+              </span>
+              <p>
+                {priceDirection === 'asc' ? '(Low to High)' : '(High to Low)'}
+              </p>
+            </button>
           </Link>
         </li>
       </ul>
@@ -60,4 +89,4 @@ const ProductNav = props => {
   )
 }
 
-export default ProductNav
+export default withRouter(ProductNav)

@@ -4,7 +4,6 @@ import {
   fetchUserCart,
   removeFromCartThunk,
   updateCartThunk,
-  updateSessionCartThunk,
   createOrderThunk,
   checkoutThunk
 } from '../store'
@@ -17,57 +16,40 @@ const Cart = () => {
   const cartItems = useSelector(state => state.carts.currentCarts)
   const sessionId = useSelector(state => state.stripe.sessionId)
 
-  const subtotal = cartItems.reduce((acc, cur) => {
-    acc += cur.cart_item.priceInCents * cur.cart_item.quantity
-    return acc
-  }, 0)
+  const subtotal = cartItems
+    ? cartItems.reduce((acc, cur) => {
+        acc += cur.priceInCents * cur.quantity
+        return acc
+      }, 0)
+    : 0
 
   const lineItems = cartItems.map(item => {
     return {
       amount: item.priceInCents,
       currency: 'usd',
-      name: item.title,
-      quantity: item.cart_item.quantity
+      name: item.product.title,
+      quantity: item.quantity
     }
   })
-
-  useEffect(() => {
-    dispatch(checkoutThunk(lineItems))
-  }, [])
 
   useEffect(
     () => {
       user.id && dispatch(fetchUserCart(user.id))
+      dispatch(checkoutThunk(lineItems))
     },
     [user]
   )
 
-  useEffect(
-    () => {
-      // dispatch(updateSessionCartThunk(sessionId, lineItems))
-    },
-    [cartItems.length]
-  )
-
-  //CHANGE
-
-  //stripe checkout
   function completeOrder(event) {
     event.preventDefault()
 
-    // dispatch(updateSessionCartThunk(sessionId, lineItems))
     dispatch(createOrderThunk(user.id, {subtotal: subtotal}))
-
     stripe
       .redirectToCheckout({
         sessionId: sessionId
       })
       .then(function(result) {
-        // If `redirectToCheckout` fails due to a browser or network
-        // error, display the localized error message to your customer
-        // using `result.error.message`.
-        // console.log(result)
-        console.log('payment completed')
+        console.log('payment completed', result)
       })
       .catch(err => {
         console.error(err)
@@ -76,17 +58,17 @@ const Cart = () => {
 
   return (
     <div>
-      <h2>Your Cart</h2>
+      <h2 className="title is-2">Your Cart</h2>
 
       {cartItems.map(item => {
-        if (!item.cart_item.orderId) {
+        if (!item.orderId) {
           return (
-            <li className="level" key={item.id}>
+            <li className="level" key={item.product.id}>
               <div className="level-left">
                 <figure className="image is-64x64 level-item">
-                  <img src={item.imageUrl} />
+                  <img src={item.product.imageUrl} />
                 </figure>
-                <strong className="level-item">{item.title}</strong>
+                <strong className="level-item">{item.product.title}</strong>
               </div>
               <div className="level-right">
                 <p className="level-item">
@@ -94,21 +76,26 @@ const Cart = () => {
                   <input
                     type="number"
                     className="input is-rounded"
-                    value={item.cart_item.quantity}
+                    value={item.quantity}
                     onChange={evt => {
                       dispatch(
-                        updateCartThunk(user.id, item.id, +evt.target.value)
+                        updateCartThunk(
+                          user.id,
+                          item.productId,
+                          +evt.target.value
+                        )
                       )
+                      dispatch(fetchUserCart(user.id))
                     }}
                   />
                 </p>
                 <p className="level-item">
-                  ${dollarsInDollars(item.cart_item.priceInCents)}
+                  ${dollarsInDollars(item.priceInCents)}
                 </p>
                 <span
                   className="icon button"
                   onClick={() => {
-                    dispatch(removeFromCartThunk(user.id, item.id))
+                    dispatch(removeFromCartThunk(user.id, item.product.id))
                   }}
                 >
                   <i className="fas fa-trash" />
@@ -125,7 +112,9 @@ const Cart = () => {
           <p className="level-item">
             <strong>Subtotal:</strong>
           </p>
-          <p className="level-item">${dollarsInDollars(subtotal)}</p>
+          <p className="level-item">
+            ${subtotal ? dollarsInDollars(subtotal) : 'n/a'}
+          </p>
         </div>
       </div>
       <div className="level">
