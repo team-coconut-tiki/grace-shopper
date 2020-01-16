@@ -6,7 +6,7 @@ Coconuts, Inc is an e-commerce site made in React, Redux, Express, Sequelize, an
 
 ## Demo
 
-[Check out our live app on Heroku](http://secret-anchorage-02278.herokuapp.com/)
+[Check out our live app on Heroku](http://coconutsforsale.herokuapp.com/)
 
 ## Start
 
